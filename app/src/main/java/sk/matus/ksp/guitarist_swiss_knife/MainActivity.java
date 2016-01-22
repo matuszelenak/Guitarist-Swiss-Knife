@@ -1,0 +1,29 @@
+package sk.matus.ksp.guitarist_swiss_knife;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+
+import sk.matus.ksp.guitarist_swiss_knife.MetronomeActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    public void startMetronome(View view){
+        Intent metronome_intent = new Intent(this, MetronomeActivity.class);
+        startActivity(metronome_intent);
+    }
+
+
+    public void startTunerActivity(View view){
+        Intent tunerIntent = new Intent(this, TunerActivity.class);
+        startActivity(tunerIntent);
+    }
+}
+
