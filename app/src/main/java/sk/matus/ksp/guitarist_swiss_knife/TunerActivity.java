@@ -9,18 +9,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ToggleButton;
 
+import org.jtransforms.fft.DoubleFFT_1D;
+
 import java.net.URL;
 
 public class TunerActivity extends AppCompatActivity {
 
-    int frequency = 44100;
+    //constants chosen so that the tradeoff between real-time performance and accuracy of FFT is optimal
+    int frequency = 11025;
     int channel_config = AudioFormat.CHANNEL_IN_MONO;
     int audio_encoding = AudioFormat.ENCODING_PCM_16BIT;
-    int blockSize = 1024;
+    int blockSize = 8192;
     private AudioRecord audioRecord;
     private ProcessAudio processTask;
     private boolean started = false;
     private VisualizationView visualizationView;
+    private DoubleFFT_1D fft = new DoubleFFT_1D(blockSize);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +33,13 @@ public class TunerActivity extends AppCompatActivity {
         setContentView(visualizationView);
     }
 
+    /*mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android*/
     private class ProcessAudio extends AsyncTask<Void, double[], Void> {
         @Override
         protected Void doInBackground(Void...params) {
             try{
                 int bufferSize = AudioRecord.getMinBufferSize(frequency,
                         channel_config, audio_encoding);
-                Log.i("TEST_BUFF_SIZE",Integer.toString(bufferSize));
                 audioRecord = new AudioRecord(
                         MediaRecorder.AudioSource.MIC, frequency,
                         channel_config, audio_encoding, bufferSize);
@@ -43,31 +47,20 @@ public class TunerActivity extends AppCompatActivity {
                 double[] toTransform = new double[blockSize];
 
                 audioRecord.startRecording();
-                int count = 0;
-                int maximum = Integer.MIN_VALUE;
-                int minimum = Integer.MAX_VALUE;
                 while (started) {
                     int bufferReadResult = audioRecord.read(buffer, 0, blockSize);
-                    if (count == 100){
-                        Log.i("TEST_REC",Integer.toString(bufferReadResult));
-                        count = 0;
-                    }
-
                     for (int i = 0; i < blockSize && i < bufferReadResult; i++) {
-                        toTransform[i] = (double) buffer[i] / 32768.0; // signed 16 bit
-                        maximum = Math.max(maximum,buffer[i]);
-                        minimum = Math.min(minimum, buffer[i]);
+                        toTransform[i] = (double) buffer[i] / 32768.0; // no idea what dark magic was this supposed to do
                     }
-                    count++;
-
+                    fft.realForward(toTransform);
+                    //normalising
+                    for (int i = 0; i<toTransform.length; i++){
+                        toTransform[i] = Math.abs(toTransform[i]/blockSize);
+                    }
                     publishProgress(toTransform);
-                    //break;
                 }
-                Log.i("MAX",Integer.toString(maximum));
-                Log.i("MIN",Integer.toString(minimum));
 
             }catch(Exception e){
-                Log.i("TEST_ERR","SHIT HAPPENED");
                 e.printStackTrace();
             }
             return null;
@@ -75,14 +68,22 @@ public class TunerActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(double[]... waves) {
-            Log.i("SUM",Double.toString(sum(waves[0])));
-            visualizationView.update(waves[0]);
+            visualizationView.updateWaves(waves[0]);
+            visualizationView.updateFreq(findPrevalentFreq(waves[0]));
         }
 
-        public double sum(double[] a){
-            double res = 0;
-            for (int i = 0; i < a.length; i++) res+=a[i];
-            return res;
+        /*Early naive way of figuring out current frequency from the spectrum
+        * TODO : make it more reliable*/
+        private int findPrevalentFreq(double[] freqlist){
+            double maximum = -1;
+            int index= -1;
+            for (int i = 0; i < freqlist.length; i++){
+                if (freqlist[i]>maximum){
+                    maximum = freqlist[i];
+                    index = i;
+                }
+            }
+            return (index*frequency/(blockSize*2));
         }
     }
 

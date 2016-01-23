@@ -1,82 +1,78 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.Arrays;
-import java.util.Random;
 
 /**
- * Created by whiskas on 22.1.2016.
+ * The class that is responsible for the UI of the tuner app component. The structure is inspired by some of the tutorials
+ * regarding the topic of high-performance canvas handling (e.g. for games)
  */
 public class VisualizationView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder sh;
-    MainThread _thread;
-    Rect rect;
-    Random r = new Random();
-    double[] data;
+    UpdateThread updateThread;
+    Rect canvasDimensions;
+    Paint wavePaint = new Paint();
+    double[] freqData;
+    int currentFreq = 0;
+
     public VisualizationView(Context context) {
         super(context);
         sh = getHolder();
         sh.addCallback(this);
+        wavePaint.setColor(Color.CYAN);
     }
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
         sh.unlockCanvasAndPost(canvas);
-        _thread = new MainThread(getHolder());
-        rect = holder.getSurfaceFrame();
-        _thread.setRunning(true);
-        _thread.start();
+        updateThread = new UpdateThread(getHolder());
+        canvasDimensions = holder.getSurfaceFrame();
+        updateThread.setRunning(true);
+        updateThread.start();
     }
 
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
+
     public void surfaceDestroyed(SurfaceHolder holder) {
-        _thread.setRunning(false);
+        updateThread.setRunning(false);
     }
 
+    /*Redrawing the content of canvas*/
     public void doDraw(Canvas canvas) {
-        if ((canvas==null) || (data==null)) return;
-        Log.i("DRAW", "Drawing");
-        //canvas.drawBitmap(Bitmap.createBitmap(rect.width(),rect.height(),Bitmap.Config.ARGB_8888),0,0,null);
-        canvas.drawColor(Color.DKGRAY);
-        for (int i = 0; i < data.length; i++) {
-            int x = i;
-            int downy =(int)(300 - data[i]*100);
-            int upy = 100;
-            canvas.drawCircle(x, downy, 30f, new Paint(Color.RED));
+        if ((canvas==null) || (freqData==null)) return;
+        canvas.drawColor(Color.BLACK);
+        canvas.drawText("Current frequency: "+currentFreq,50,50,wavePaint);
+        int yOffset = canvasDimensions.height()/2;
+        for (int i = 0; i < freqData.length; i+=4) {
+            int x = i/4;
+            int y =(int)(yOffset - freqData[i]*50000);
+            canvas.drawLine(x,500,x,y,wavePaint);
+            if (i%400==0) canvas.drawText(Integer.toString(i*11025/16384),x,yOffset+20,wavePaint);
         }
-
-        //canvas.drawText("WHYYYY", 400, 400, new Paint(Color.WHITE));
-        //Log.i("DRAW", "Drawing");
     }
 
-    public void update(double[] data){
-        //Log.i("UPDATE","Updated data in view");
-        this.data = Arrays.copyOf(data,data.length);
-        Log.i("SUM2",Double.toString(sum(this.data)));
+    public void updateWaves(double[] data){
+        this.freqData = Arrays.copyOf(data,data.length);
     }
 
-    public double sum(double[] a){
-        double res = 0;
-        for (int i = 0; i < a.length; i++) res+=a[i];
-        return res;
+    public void updateFreq(int freq){
+        this.currentFreq = freq;
     }
 
-    class MainThread extends Thread {
+    /* Thread that permanently updates the surfaceView component*/
+    class UpdateThread extends Thread {
 
         private SurfaceHolder surfaceHolder;
         private boolean runFlag = false;
 
-        public MainThread(SurfaceHolder surfaceHolder) {
+        public UpdateThread(SurfaceHolder surfaceHolder) {
             this.surfaceHolder = surfaceHolder;
         }
 
@@ -87,15 +83,13 @@ public class VisualizationView extends SurfaceView implements SurfaceHolder.Call
         @Override
         public void run() {
             Canvas c;
-            Log.i("RUN","Thread Running");
             while (this.runFlag) {
-
                 c = null;
                 try {
 
                     c = this.surfaceHolder.lockCanvas(null);
                     synchronized (this.surfaceHolder) {
-                        doDraw(c);
+                        doDraw(c);      //redraw the canvas
                     }
                 } finally {
 
