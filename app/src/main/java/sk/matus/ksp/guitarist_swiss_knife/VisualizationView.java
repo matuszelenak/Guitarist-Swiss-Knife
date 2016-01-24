@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.widget.EditText;
 
 import java.util.Arrays;
 
@@ -19,8 +20,11 @@ public class VisualizationView extends SurfaceView implements SurfaceHolder.Call
     UpdateThread updateThread;
     Rect canvasDimensions;
     Paint wavePaint = new Paint();
+    Paint freqPaint = new Paint();
     double[] freqData;
-    int currentFreq = 0;
+    double currentFreq = 0;
+    String currentTone = "";
+    String currentDirection = "";
 
     public VisualizationView(Context context) {
         super(context);
@@ -33,6 +37,8 @@ public class VisualizationView extends SurfaceView implements SurfaceHolder.Call
         sh.unlockCanvasAndPost(canvas);
         updateThread = new UpdateThread(getHolder());
         canvasDimensions = holder.getSurfaceFrame();
+        freqPaint.setColor(Color.CYAN);
+        freqPaint.setTextSize(40);
         updateThread.setRunning(true);
         updateThread.start();
     }
@@ -47,23 +53,48 @@ public class VisualizationView extends SurfaceView implements SurfaceHolder.Call
     /*Redrawing the content of canvas*/
     public void doDraw(Canvas canvas) {
         if ((canvas==null) || (freqData==null)) return;
-        canvas.drawColor(Color.BLACK);
-        canvas.drawText("Current frequency: "+currentFreq,50,50,wavePaint);
+        canvas.drawColor(Color.DKGRAY);
+        canvas.drawText("Current frequency: " + currentFreq + "Hz", 50, 50, freqPaint);
+        canvas.drawText(currentDirection+" "+currentTone,50,100,freqPaint);
+
+
         int yOffset = canvasDimensions.height()/2;
         for (int i = 0; i < freqData.length; i+=4) {
             int x = i/4;
             int y =(int)(yOffset - freqData[i]*50000);
-            canvas.drawLine(x,500,x,y,wavePaint);
+            canvas.drawLine(x,yOffset,x,y,wavePaint);
             if (i%400==0) canvas.drawText(Integer.toString(i*11025/16384),x,yOffset+20,wavePaint);
         }
+    }
+
+    private static void setTextSizeForWidth(Paint paint, float desiredWidth,
+                                            String text) {
+
+        final float testTextSize = 48f;
+
+        // Get the bounds of the text, using our testTextSize.
+        paint.setTextSize(testTextSize);
+        Rect bounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), bounds);
+
+        // Calculate the desired size as a proportion of our testTextSize.
+        float desiredTextSize = testTextSize * desiredWidth / bounds.width();
+
+        // Set the paint for that size.
+        paint.setTextSize(desiredTextSize);
     }
 
     public void updateWaves(double[] data){
         this.freqData = Arrays.copyOf(data,data.length);
     }
 
-    public void updateFreq(int freq){
+    public void updateFreq(double freq){
         this.currentFreq = freq;
+    }
+
+    public void updateTone(String tone, String tuningDirection){
+        this.currentTone = tone;
+        this.currentDirection = tuningDirection;
     }
 
     /* Thread that permanently updates the surfaceView component*/

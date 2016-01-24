@@ -5,7 +5,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="sk.matus.ksp.guitarist_swiss_knife.MainActivity">
+    tools:context="sk.matus.ksp.guitarist_swiss_knife.MainActivity"
+    android:background="#202020">
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -24,7 +25,6 @@
         android:id="@+id/tunerButton"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/button_start_metronome"
-        android:layout_toEndOf="@+id/button_start_metronome"
         android:layout_marginLeft="25dp"
         android:layout_marginStart="25dp"
         android:background="@android:mipmap/sym_def_app_icon"
