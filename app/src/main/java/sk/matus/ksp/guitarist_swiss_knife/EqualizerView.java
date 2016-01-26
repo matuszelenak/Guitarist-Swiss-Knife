@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.EditText;
@@ -15,7 +16,7 @@ import java.util.Arrays;
  * The class that is responsible for the UI of the tuner app component. The structure is inspired by some of the tutorials
  * regarding the topic of high-performance canvas handling (e.g. for games)
  */
-public class VisualizationView extends SurfaceView implements SurfaceHolder.Callback {
+public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder sh;
     UpdateThread updateThread;
     Rect canvasDimensions;
@@ -26,12 +27,27 @@ public class VisualizationView extends SurfaceView implements SurfaceHolder.Call
     String currentTone = "";
     String currentDirection = "";
 
-    public VisualizationView(Context context) {
+    public EqualizerView(Context context) {
         super(context);
         sh = getHolder();
         sh.addCallback(this);
         wavePaint.setColor(Color.CYAN);
     }
+
+    public EqualizerView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        sh = getHolder();
+        sh.addCallback(this);
+        wavePaint.setColor(Color.CYAN);
+    }
+
+    public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        sh = getHolder();
+        sh.addCallback(this);
+        wavePaint.setColor(Color.CYAN);
+    }
+
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
         sh.unlockCanvasAndPost(canvas);
@@ -54,34 +70,33 @@ public class VisualizationView extends SurfaceView implements SurfaceHolder.Call
     public void doDraw(Canvas canvas) {
         if ((canvas==null) || (freqData==null)) return;
         canvas.drawColor(Color.DKGRAY);
-        canvas.drawText("Current frequency: " + currentFreq + "Hz", 50, 50, freqPaint);
-        canvas.drawText(currentDirection+" "+currentTone,50,100,freqPaint);
+        drawEqualizer(canvas);
+        drawEstimation(canvas);
 
-
+        /*
         int yOffset = canvasDimensions.height()/2;
         for (int i = 0; i < freqData.length; i+=4) {
             int x = i/4;
             int y =(int)(yOffset - freqData[i]*50000);
             canvas.drawLine(x,yOffset,x,y,wavePaint);
-            if (i%400==0) canvas.drawText(Integer.toString(i*11025/16384),x,yOffset+20,wavePaint);
+            if (i%400==0) canvas.drawText(Integer.toString(i*11025  /16384),x,yOffset+20,wavePaint);
+        }*/
+    }
+
+    private void drawEqualizer(Canvas canvas){
+        int baseLineY = (int)(canvasDimensions.height()*0.8);
+        int freqOnScale = 0;
+
+        for (int i = 0, x=10;  i < freqData.length; i+=freqData.length/(canvasDimensions.width()-20), x++){
+            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*20000))*baseLineY/4);
+            canvas.drawLine(x,baseLineY,x,amplitudePeak,wavePaint);
         }
     }
 
-    private static void setTextSizeForWidth(Paint paint, float desiredWidth,
-                                            String text) {
-
-        final float testTextSize = 48f;
-
-        // Get the bounds of the text, using our testTextSize.
-        paint.setTextSize(testTextSize);
-        Rect bounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), bounds);
-
-        // Calculate the desired size as a proportion of our testTextSize.
-        float desiredTextSize = testTextSize * desiredWidth / bounds.width();
-
-        // Set the paint for that size.
-        paint.setTextSize(desiredTextSize);
+    private void drawEstimation(Canvas canvas){
+        int x = (int)(canvasDimensions.width()*0.1);
+        canvas.drawText(String.format("Current frequency is %.2f Hz",currentFreq),x,(int)(canvasDimensions.height()*0.05), freqPaint);
+        canvas.drawText(String.format("%s %s", currentDirection, currentTone), x, (int) (canvasDimensions.height() * 0.05)+freqPaint.getTextSize()+5,freqPaint);
     }
 
     public void updateWaves(double[] data){

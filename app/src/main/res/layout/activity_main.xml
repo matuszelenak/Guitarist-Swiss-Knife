@@ -29,4 +29,14 @@
         android:layout_marginStart="25dp"
         android:background="@android:mipmap/sym_def_app_icon"
         android:onClick="startTunerActivity" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/chordButton"
+        android:background="@android:mipmap/sym_def_app_icon"
+        android:onClick="startChordActivity"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

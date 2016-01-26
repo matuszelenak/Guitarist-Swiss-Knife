@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sk.matus.ksp.guitarist_swiss_knife">
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MetronomeActivity" />
-        <activity android:name=".TunerActivity"></activity>
+        <activity android:name=".TunerActivity" />
+        <activity android:name=".ChordActivity"></activity>
     </application>
 
 </manifest>

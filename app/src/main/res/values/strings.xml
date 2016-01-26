@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Guitarist-Swiss-Knife</string>
+    <color name="activity_background_color">#171717</color>
 </resources>

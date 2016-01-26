@@ -25,5 +25,10 @@ public class MainActivity extends AppCompatActivity {
         Intent tunerIntent = new Intent(this, TunerActivity.class);
         startActivity(tunerIntent);
     }
+
+    public void startChordActivity(View view){
+        Intent chordIntent = new Intent(this, ChordActivity.class);
+        startActivity(chordIntent);
+    }
 }
 

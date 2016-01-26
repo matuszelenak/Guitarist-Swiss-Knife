@@ -7,6 +7,11 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+import android.widget.ViewFlipper;
 
 import org.jtransforms.fft.DoubleFFT_1D;
 
@@ -23,19 +28,30 @@ public class TunerActivity extends AppCompatActivity {
     private AudioRecord audioRecord;
     private ProcessAudio processTask;
     private boolean started = false;
-    private VisualizationView visualizationView;
+    private EqualizerView equalizerView;
+    private GaugeView gaugeView;
     private DoubleFFT_1D fft = new DoubleFFT_1D(blockSize);
     private ToneScale toneScale;
-    private int measurementCount = 10;
     private int measurementNo = 0;
     private ArrayList<Double>gatheredMaxFreq = new ArrayList<>();
+    ViewFlipper viewFlipper;
+    private float lastX;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toneScale = new ToneScale(this);
-        visualizationView = new VisualizationView(this);
-        setContentView(visualizationView);
+
+        viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+        //equalizerView = (EqualizerView) findViewById(R.id.equalizerView);
+        //gaugeView = (GaugeView) findViewById(R.id.gaugView);
+        equalizerView = new EqualizerView(this);
+        equalizerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        setContentView(equalizerView);
+        //setContentView(R.layout.activity_tuner);
+        GaugeView gaugeView = new GaugeView(this);
     }
 
     /*mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
@@ -80,8 +96,13 @@ public class TunerActivity extends AppCompatActivity {
         * @params an array of doubles containing the block of FFT-processed samples*/
         @Override
         protected void onProgressUpdate(double[]... waves) {
-            visualizationView.updateWaves(waves[0]);
+            if (equalizerView == null){
+                Log.i("NULL","");
+                return;
+            }
+            equalizerView.updateWaves(waves[0]);
             double currentMax = findStrongestFreq(waves[0]);
+            int measurementCount = 10;
             if (measurementNo != measurementCount){
                 gatheredMaxFreq.add(currentMax);
                 measurementNo++;
@@ -89,9 +110,9 @@ public class TunerActivity extends AppCompatActivity {
             else
             {
                 double overallMax = findPrevalentFreq(gatheredMaxFreq);
-                visualizationView.updateFreq(overallMax);
-                Tuple<String,String> noteData = toneScale.extractNote(overallMax);
-                visualizationView.updateTone(noteData.x, noteData.y);
+                equalizerView.updateFreq(overallMax);
+                Tuple<String,String> noteData = toneScale.extractToneFromFrequency(overallMax);
+                equalizerView.updateTone(noteData.x, noteData.y);
                 gatheredMaxFreq = new ArrayList<>();
                 measurementNo = 1;
             }
@@ -144,6 +165,53 @@ public class TunerActivity extends AppCompatActivity {
             return sum/(double)groups.get(index).size();
         }
     }
+/*
+    public boolean onTouchEvent(MotionEvent touchevent) {
+        switch (touchevent.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                lastX = touchevent.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                float currentX = touchevent.getX();
+
+                // Handling left to right screen swap.
+                if (lastX < currentX) {
+
+                    // If there aren't any other children, just break.
+                    if (viewFlipper.getDisplayedChild() == 0)
+                        break;
+
+                    // Next screen comes in from left.
+                    viewFlipper.setInAnimation(this, R.anim.slide_in_from_left);
+                    // Current screen goes out from right.
+                    viewFlipper.setOutAnimation(this, R.anim.slide_out_to_right);
+
+                    // Display next screen.
+                    viewFlipper.showNext();
+                }
+
+                // Handling right to left screen swap.
+                if (lastX > currentX) {
+
+                    // If there is a child (to the left), kust break.
+                    if (viewFlipper.getDisplayedChild() == 1)
+                        break;
+
+                    // Next screen comes in from right.
+                    viewFlipper.setInAnimation(this, R.anim.slide_in_from_right);
+                    // Current screen goes out from left.
+                    viewFlipper.setOutAnimation(this, R.anim.slide_out_to_left);
+
+                    // Display previous screen.
+                    viewFlipper.showPrevious();
+                }
+                break;
+        }
+        return false;
+    }*/
+
+
 
     @Override
     public void onPause() {
