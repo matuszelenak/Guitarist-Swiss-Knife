@@ -59,9 +59,42 @@ public class ChordActivity extends AppCompatActivity {
         toneUtils = new ToneUtils(this.getResources());
         rootDialog = constructRootDialog();
         currentChord = new Chord(toneUtils);
-
         root = "C";
-        rootChooser.setText(root);
+        updateChord();
+    }
+
+        @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString("root",root);
+        savedInstanceState.putString("chord_type",currentChord.type);
+        savedInstanceState.putString("chord_sus",currentChord.sus);
+        savedInstanceState.putString("chord_augdim",currentChord.augdim);
+        savedInstanceState.putString("chord_fifth",currentChord.fifth);
+        savedInstanceState.putString("chord_seventh",currentChord.seventh);
+        savedInstanceState.putString("chord_ninth",currentChord.ninth);
+        savedInstanceState.putString("chord_eleventh",currentChord.eleventh);
+        savedInstanceState.putString("chord_thirteenth",currentChord.thirteenth);
+        savedInstanceState.putString("chord_add29",currentChord.add29);
+        savedInstanceState.putString("chord_add411", currentChord.add411);
+        savedInstanceState.putString("chord_add613", currentChord.add613);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        root = savedInstanceState.getString("root");
+        currentChord.type = savedInstanceState.getString("chord_type");
+        currentChord.sus = savedInstanceState.getString("chord_sus");
+        currentChord.augdim = savedInstanceState.getString("chord_augdim");
+        currentChord.fifth = savedInstanceState.getString("chord_fifth");
+        currentChord.seventh = savedInstanceState.getString("chord_seventh");
+        currentChord.ninth = savedInstanceState.getString("chord_ninth");
+        currentChord.eleventh = savedInstanceState.getString("chord_eleventh");
+        currentChord.thirteenth = savedInstanceState.getString("chord_thirteenth");
+        currentChord.add29 = savedInstanceState.getString("chord_add29");
+        currentChord.add411 = savedInstanceState.getString("chord_add411");
+        currentChord.add613 = savedInstanceState.getString("chord_add613");
         updateChord();
     }
 
@@ -72,6 +105,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     private void updateChord(){
+        rootChooser.setText(root);
         currentChord.setScale(toneUtils.getScaleTones(root));
         chordDisplay.setText(currentChord.getProgression(root));
         scaleDisplay.setText(toneUtils.getScaleText(root));
@@ -208,7 +242,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     public void setAdd613(View v){
-        currentChord.add613="";
+        currentChord.add613 = "";
         RadioButton rb = (RadioButton) findViewById(add613RG.getCheckedRadioButtonId());
         if (rb !=null) {
             currentChord.add613 = (String)(rb.getTag());
