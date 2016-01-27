@@ -7,10 +7,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.ViewFlipper;
 
 import org.jtransforms.fft.DoubleFFT_1D;
@@ -31,7 +28,7 @@ public class TunerActivity extends AppCompatActivity {
     private EqualizerView equalizerView;
     private GaugeView gaugeView;
     private DoubleFFT_1D fft = new DoubleFFT_1D(blockSize);
-    private ToneScale toneScale;
+    private ToneUtils toneUtils;
     private int measurementNo = 0;
     private ArrayList<Double>gatheredMaxFreq = new ArrayList<>();
     ViewFlipper viewFlipper;
@@ -41,7 +38,7 @@ public class TunerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        toneScale = new ToneScale(this);
+        toneUtils = new ToneUtils(this.getResources());
 
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         //equalizerView = (EqualizerView) findViewById(R.id.equalizerView);
@@ -111,7 +108,7 @@ public class TunerActivity extends AppCompatActivity {
             {
                 double overallMax = findPrevalentFreq(gatheredMaxFreq);
                 equalizerView.updateFreq(overallMax);
-                Tuple<String,String> noteData = toneScale.extractToneFromFrequency(overallMax);
+                Tuple<String,String> noteData = toneUtils.extractToneFromFrequency(overallMax);
                 equalizerView.updateTone(noteData.x, noteData.y);
                 gatheredMaxFreq = new ArrayList<>();
                 measurementNo = 1;

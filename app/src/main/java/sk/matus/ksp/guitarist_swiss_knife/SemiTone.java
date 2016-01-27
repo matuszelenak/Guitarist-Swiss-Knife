@@ -21,25 +21,6 @@ class SemiTone {
         return names;
     }
 
-    public ArrayList<String> getSortedNames(){
-        ArrayList<String> sorted = new ArrayList<>();
-        String[] order = new String[] {"","#","##","b","bb"};
-        for (String anOrder : order) {
-            Pattern r = Pattern.compile("^[ABCDEFG]".concat(anOrder).concat("$"));
-            for (String s : names){
-                Matcher m = r.matcher(s);
-                if (m.find()){
-                    sorted.add(s);
-                }
-            }
-        }
-        Log.i("NAMES", "RAW");
-        for (String s: names) Log.i("TN",s);
-        Log.i("NAMES","SORTED");
-        for (String s: sorted) Log.i("TN", s);
-        return sorted;
-    }
-
     public void addName(String name){
         if (name.contains("#") && name.contains("b")) return;
         if (name.contains("###") || name.contains("bbb")) return;

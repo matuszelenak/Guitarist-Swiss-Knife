@@ -1,6 +1,7 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.util.JsonReader;
 import android.util.Log;
 
@@ -15,15 +16,19 @@ import java.util.TreeMap;
  * This class should handle all the request regarding tones and their properties
  */
 
-public class ToneScale {
-    TreeMap<Double,String> allSemiTones = new TreeMap<>();
-    HashMap<Double,Tuple<Double,Double>>precisionIntervals = new HashMap<>();
-    ArrayList<SemiTone> semiTones = new ArrayList<>();
+public class ToneUtils {
+    private TreeMap<Double,String> allSemiTones = new TreeMap<>();
+    private HashMap<Double,Tuple<Double,Double>>precisionIntervals = new HashMap<>();
+    private ArrayList<SemiTone> semiTones = new ArrayList<>();
+    private ArrayList<SemiTone> currentScale = new ArrayList<>();
+    private String currentScaleAsString;
+    private String baseTones;
 
     /*
     * OnCreate a list containing the basic semiTones tones is read*/
-    public ToneScale(Context context){
-        InputStream io = context.getResources().openRawResource(R.raw.base_tones);
+    public ToneUtils(Resources res){
+        InputStream io = res.openRawResource(R.raw.base_tones);
+        baseTones = res.getString(R.string.base_tones);
         try {
             readJsonStream(io);
         }
@@ -46,7 +51,7 @@ public class ToneScale {
 
     private void readTonesArray(JsonReader reader) throws IOException{
         reader.beginArray();
-        String name = "";
+        String name;
         while (reader.hasNext()) {
             name = reader.nextString();
             semiTones.add(new SemiTone(name));
@@ -72,11 +77,6 @@ public class ToneScale {
             Tuple<Double,Double> margins = new Tuple<>(lowerMargin,upperMargin);
             precisionIntervals.put(frequency,margins);
             previousFrequency = frequency;
-            Log.i("TONE",frequency+name);
-        }
-
-        for(TreeMap.Entry<Double,String> entry : allSemiTones.entrySet()) {
-            Log.i(Double.toString(entry.getKey()),entry.getValue());
         }
     }
 
@@ -90,12 +90,6 @@ public class ToneScale {
                         ).getNames().get(0).concat(suffix[offset+2])
                 );
             }
-        }
-        for (SemiTone st : semiTones){
-            for (String name : st.getNames()){
-                Log.i("NAME",name);
-            }
-            Log.i("TONE_NAMES","NEW");
         }
     }
 
@@ -152,52 +146,39 @@ public class ToneScale {
         return semiTones;
     }
 
-    public ArrayList<String> constructStringScale(String root){
-        ArrayList<String>scale = new ArrayList<>();
-        ArrayList<Character>usedLetters = new ArrayList<>();
-        usedLetters.add(root.charAt(0));
-        scale.add(root);
+    private void constructScale(String root){
+        StringBuilder scaleBuilder = new StringBuilder();
+        currentScale = new ArrayList<>();
+        currentScale.add(semiTones.get(getSemiTonePosition(root)));
+        scaleBuilder.append(root).append(" ");
         int[] steps = new int[] {2,2,1,2,2,2,1};
-        int pos = getTonePosition(root);
-
-        for (int i = 0; i < 6; i++) {
-            Log.i("Step",Integer.toString(i));
-            int n = 0;
-            ArrayList<String>toneNames = semiTones.get(((pos + steps[i])%12+12)%12).getSortedNames();
-            while (n < toneNames.size() && usedLetters.contains(toneNames.get(n).charAt(0))){
-                n++;
+        int pos = getSemiTonePosition(root);
+        for (int i = 0, j=baseTones.indexOf(root.charAt(0))+1; i < 6; i++, j++) {
+            SemiTone nextSemiTone = semiTones.get(((pos + steps[i])%12+12)%12);
+            for (String nextToneName : nextSemiTone.getNames()){
+                if (nextToneName.contains(Character.toString(baseTones.charAt(j%baseTones.length())))){
+                    scaleBuilder.append(nextToneName).append(" ");
+                    currentScale.add(nextSemiTone);
+                    break;
+                }
             }
-            String next = toneNames.get(n);
-            usedLetters.add(next.charAt(0));
-            scale.add(next);
             pos += steps[i];
         }
-        scale.add(root);
-        return scale;
+        scaleBuilder.append(root);
+        currentScaleAsString = scaleBuilder.toString();
     }
 
-    public ArrayList<SemiTone> constructToneScale(String root){
-        ArrayList<SemiTone>scale = new ArrayList<>();
-        int[] steps = new int[] {2,2,1,2,2,2,1};
-        int pos = getTonePosition(root);
-        scale.add(semiTones.get(pos));
-        for (int i = 0; i < 6; i++) {
-            scale.add(semiTones.get(((pos + steps[i])%12+12)%12));
-            pos += steps[i];
-        }
-        return scale;
+    public String getScaleText(String root){
+        constructScale(root);
+        return currentScaleAsString;
     }
 
-    public String printScale(ArrayList<String>scale){
-        StringBuilder sb = new StringBuilder();
-        for (String s : scale){
-            sb.append(s);
-            sb.append(" ");
-        }
-        return sb.toString();
+    public ArrayList<SemiTone> getScaleTones(String root){
+        constructScale(root);
+        return currentScale;
     }
 
-    public int getTonePosition(String tone){
+    public int getSemiTonePosition(String tone){
         int i = 0;
         for (SemiTone semiTone : semiTones){
             if (semiTone.getNames().contains(tone)) break;
