@@ -46,12 +46,8 @@ public class Chord {
         flags.add(flag);
     }
 
-    public HashSet getFlags(){
-        return flags;
-    }
-
     public void assignFlagMeaning(Resources resources){
-        InputStream io = resources.openRawResource(R.raw.chord_flags);
+        InputStream io = resources.openRawResource(R.raw.chordFlags);
         try {
             readJsonStream(io);
         }
@@ -59,8 +55,6 @@ public class Chord {
             e.printStackTrace();
         }
     }
-
-
     public void readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
         try {
@@ -148,7 +142,6 @@ public class Chord {
     }
 
     private void collectTonesAlt(){
-        progression.add(scale.get(0));
         for (String flag : flags){
             progression.add(resolveFlag(flag));
         }

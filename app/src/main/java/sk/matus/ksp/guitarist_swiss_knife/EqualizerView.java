@@ -22,6 +22,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     Rect canvasDimensions;
     Paint wavePaint = new Paint();
     Paint freqPaint = new Paint();
+    int backgroundColor;
     double[] freqData;
     double currentFreq = 0;
     String currentTone = "";
@@ -29,23 +30,26 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
 
     public EqualizerView(Context context) {
         super(context);
-        sh = getHolder();
-        sh.addCallback(this);
-        wavePaint.setColor(Color.CYAN);
+        init(context);
     }
 
     public EqualizerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        sh = getHolder();
-        sh.addCallback(this);
-        wavePaint.setColor(Color.CYAN);
+        init(context);
     }
 
     public EqualizerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        init(context);
+    }
+
+    private void init(Context context){
         sh = getHolder();
         sh.addCallback(this);
-        wavePaint.setColor(Color.CYAN);
+        wavePaint.setColor(context.getResources().getColor(R.color.colorKSPGreen));
+        freqPaint.setColor(context.getResources().getColor(R.color.colorKSPGreen));
+        freqPaint.setTextSize(40);
+        backgroundColor = context.getResources().getColor(R.color.colorActivityBackground);
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
@@ -53,8 +57,6 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         sh.unlockCanvasAndPost(canvas);
         updateThread = new UpdateThread(getHolder());
         canvasDimensions = holder.getSurfaceFrame();
-        freqPaint.setColor(Color.CYAN);
-        freqPaint.setTextSize(40);
         updateThread.setRunning(true);
         updateThread.start();
     }
@@ -69,7 +71,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     /*Redrawing the content of canvas*/
     public void doDraw(Canvas canvas) {
         if ((canvas==null) || (freqData==null)) return;
-        canvas.drawColor(Color.DKGRAY);
+        canvas.drawColor(backgroundColor);
         drawEqualizer(canvas);
         drawEstimation(canvas);
 
@@ -85,10 +87,8 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
 
     private void drawEqualizer(Canvas canvas){
         int baseLineY = (int)(canvasDimensions.height()*0.8);
-        int freqOnScale = 0;
-
         for (int i = 0, x=10;  i < freqData.length; i+=freqData.length/(canvasDimensions.width()-20), x++){
-            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*20000))*baseLineY/4);
+            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*10000))*baseLineY/4);
             canvas.drawLine(x,baseLineY,x,amplitudePeak,wavePaint);
         }
     }

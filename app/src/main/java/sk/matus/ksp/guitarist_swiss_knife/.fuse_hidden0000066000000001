@@ -1,24 +1,21 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.app.Dialog;
-import android.content.res.Resources;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 
 public class ChordActivity extends AppCompatActivity {
 
@@ -40,7 +37,6 @@ public class ChordActivity extends AppCompatActivity {
     RadioGroup add613RG;
     ToneUtils toneUtils;
     String root;
-    DependencyScheme scheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,23 +62,6 @@ public class ChordActivity extends AppCompatActivity {
         currentChord = new Chord(toneUtils);
         root = "C";
         updateChord();
-        try{
-            scheme = loadDependencyScheme(this.getResources());
-            scheme.printDependencies();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        testScheme();
-    }
-
-    private void testScheme(){
-        HashSet<String>current = new HashSet<>();
-        current.add("13");
-        HashMap<String,Boolean> toChange = scheme.constructClosure(current);
-        for (HashMap.Entry<String,Boolean>e : toChange.entrySet()){
-            System.out.println(e.getKey() + " " + e.getValue());
-        }
     }
 
         @Override
@@ -133,61 +112,41 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
-    private DependencyScheme loadDependencyScheme(Resources resources) throws IOException{
-        DependencyScheme scheme = new DependencyScheme();
-
-        InputStream io = resources.openRawResource(R.raw.flag_dependencies);
-        JsonReader reader = new JsonReader(new InputStreamReader(io, "UTF-8"));
-        scheme.setDependencies(readDependencyArray(reader));
-        reader.close();
-        return scheme;
+    private void loadDependencies(Resources resources){
+        InputStream io = resources.openRawResource(R.raw.chordFlags);
+        try {
+            readJsonStream(io);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
-    private ArrayList<Dependency> readDependencyArray(JsonReader reader) throws IOException {
-        ArrayList<Dependency> dependencies = new ArrayList<>();
+    private void readJsonStream(InputStream in) throws IOException {
+        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+        try {
+            readDependencyArray(reader);
+        }
+        finally {
+            reader.close();
+        }
+    }
+
+    private void readDependencyArray(JsonReader reader){
         reader.beginArray();
         while(reader.hasNext()){
-            dependencies.add(readDependency(reader));
+            readDependency(reader);
         }
         reader.endArray();
-        return dependencies;
     }
 
-    private Dependency readDependency(JsonReader reader) throws IOException {
-        reader.beginObject();
-        ArrayList<DependencyValue> newValues = new ArrayList<>();
-        ArrayList<DependencyValue> currentValues = new ArrayList<>();
-        ArrayList<DependencyValue> resultValues = new ArrayList<>();
-        while (reader.hasNext()) {
-            String name = reader.nextName();
-            if (name.equals("new")) {
-                newValues = readValues(reader);
-            } else if (name.equals("current")) {
-                currentValues = readValues(reader);
-            } else if (name.equals("result")) {
-                resultValues = readValues(reader);
-            } else reader.skipValue();
-        }
-        reader.endObject();
-        return new Dependency(newValues, currentValues, resultValues);
-    }
-
-    private ArrayList<DependencyValue> readValues(JsonReader reader) throws IOException {
-        ArrayList<DependencyValue>values = new ArrayList<>();
-        reader.beginArray();
-        while (reader.hasNext()){
-            reader.beginArray();
-            boolean b = reader.nextBoolean();
-            String flag = reader.nextString();
-            reader.endArray();
-            values.add(new DependencyValue(b,flag));
-        }
-        reader.endArray();
-        return values;
+    private void readDependency(JsonReader reader){
+        
     }
     /*Given a button which triggered the change of chord
     recalculate the depending chord parameters*/
     private void resolveDependencies(RadioButton updatedButton){
+
     }
 
     private void setRoot(View v){
