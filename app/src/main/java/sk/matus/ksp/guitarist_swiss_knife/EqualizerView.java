@@ -13,7 +13,7 @@ import android.widget.EditText;
 import java.util.Arrays;
 
 /**
- * The class that is responsible for the UI of the tuner app component. The structure is inspired by some of the tutorials
+ * The class that is partially responsible for the UI of the tuner app component. The structure is inspired by some of the tutorials
  * regarding the topic of high-performance canvas handling (e.g. for games)
  */
 public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback {
@@ -43,6 +43,9 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         init(context);
     }
 
+    /*
+    * Method instantiates the necessary variables such as the drawing surface and paint objects.
+    * @param context A context to use for accessing resources*/
     private void init(Context context){
         sh = getHolder();
         sh.addCallback(this);
@@ -52,6 +55,8 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         backgroundColor = context.getResources().getColor(R.color.colorActivityBackground);
     }
 
+    /*
+    * Method that creates an updateThread for the canvas surface when it is created*/
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
         sh.unlockCanvasAndPost(canvas);
@@ -64,11 +69,14 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
+    /*
+    * Method that kills the updateThread when the canvas surface no longer exists*/
     public void surfaceDestroyed(SurfaceHolder holder) {
         updateThread.setRunning(false);
     }
 
-    /*Redrawing the content of canvas*/
+    /*Method that updates the content of the canvas.
+    * @param canvas A canvas to be drawn to*/
     public void doDraw(Canvas canvas) {
         if ((canvas==null) || (freqData==null)) return;
         canvas.drawColor(backgroundColor);
@@ -85,6 +93,10 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         }*/
     }
 
+    /*Method draws the visual representation of the recorded sound
+    * The visualisation is a graph where the y-axis is logarithmically scaled amplitude and x-axis is
+    * the frequency of the sound.
+    * @param canvas The canvas to be drawn to*/
     private void drawEqualizer(Canvas canvas){
         int baseLineY = (int)(canvasDimensions.height()*0.8);
         for (int i = 0, x=10;  i < freqData.length; i+=freqData.length/(canvasDimensions.width()-20), x++){
@@ -93,6 +105,9 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
+    /*
+    * Method draws the current prevalent frequency and a tone estimation for it
+    * @param canvas The canvas to be drawn to*/
     private void drawEstimation(Canvas canvas){
         int x = (int)(canvasDimensions.width()*0.1);
         canvas.drawText(String.format("Current frequency is %.2f Hz",currentFreq),x,(int)(canvasDimensions.height()*0.05), freqPaint);

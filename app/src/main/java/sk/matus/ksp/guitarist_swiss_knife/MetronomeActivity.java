@@ -10,6 +10,10 @@ import android.widget.ToggleButton;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/*
+* An activity that will act like a metronome. Enough said
+* This activity will be rebuilt from the ground up since it contains almost nothing
+* useful now*/
 public class MetronomeActivity extends AppCompatActivity {
 
 

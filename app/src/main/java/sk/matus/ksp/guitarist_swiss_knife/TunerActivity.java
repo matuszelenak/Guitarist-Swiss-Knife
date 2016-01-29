@@ -15,6 +15,10 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
+/*
+* The activity that records audio from the microphone in real time
+* and presents the user with visualisations of this audio*/
 public class TunerActivity extends AppCompatActivity {
 
     //constants chosen so that the tradeoff between real-time performance and accuracy of FFT is optimal
@@ -26,14 +30,12 @@ public class TunerActivity extends AppCompatActivity {
     private ProcessAudio processTask;
     private boolean started = false;
     private EqualizerView equalizerView;
-    private GaugeView gaugeView;
     private DoubleFFT_1D fft = new DoubleFFT_1D(blockSize);
     private ToneUtils toneUtils;
     private int measurementNo = 0;
     private ArrayList<Double>gatheredMaxFreq = new ArrayList<>();
     ViewFlipper viewFlipper;
     private float lastX;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +50,12 @@ public class TunerActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(equalizerView);
         //setContentView(R.layout.activity_tuner);
-        GaugeView gaugeView = new GaugeView(this);
     }
 
     /*mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
     *
-    * A background task that reads blocks of @blockSize audio samples at specified @sampleRate from the microphone input and performs FFT in order to determine frequency*/
+    * A background task that reads blocks of @blockSize audio samples at specified @sampleRate from the microphone input and performs FFT in order to determine frequency
+    */
     private class ProcessAudio extends AsyncTask<Void, double[], Void> {
         @Override
         protected Void doInBackground(Void...params) {
@@ -90,7 +92,7 @@ public class TunerActivity extends AppCompatActivity {
         * Method called after each block of samples has been read and processed with FFT. Updates the data and UI with current values.
         * The update to the UI is executed every @measurementCount-th the procedure is run - updating it every time results in fast
         * flickering of the UI elements and inconvenience of reading data out of it.
-        * @params an array of doubles containing the block of FFT-processed samples*/
+        * @params waves An array of doubles containing the block of FFT-processed samples*/
         @Override
         protected void onProgressUpdate(double[]... waves) {
             if (equalizerView == null){
@@ -116,8 +118,8 @@ public class TunerActivity extends AppCompatActivity {
         }
 
         /*Early naive way of figuring out current sampleRate from the spectrum
-        * @param an array of sampleRate amplitudes
-        * @return : the sampleRate with the highest amplitude
+        * @param freqList An array of sampleRate amplitudes
+        * @return The sampleRate with the highest amplitude
         * */
         private double findStrongestFreq(double[] freqList){
             double maximum = -1;
@@ -134,8 +136,8 @@ public class TunerActivity extends AppCompatActivity {
         /*
         * Finds the largest group of frequencies that are close to each other and returns their average.
         * The practical effect is, that occasional high-amplitude noises don't affect the result of the measurement
-        * @param : ArrayList of gathered frequencies to filter
-        * @return : the average from the largest group of similar frequencies*/
+        * @param frequencies ArrayList of gathered frequencies to filter
+        * @return The average from the largest group of similar frequencies*/
         private double findPrevalentFreq(ArrayList<Double> frequencies){
             Collections.sort(frequencies);
             ArrayList<ArrayList<Double>>groups = new ArrayList<>();

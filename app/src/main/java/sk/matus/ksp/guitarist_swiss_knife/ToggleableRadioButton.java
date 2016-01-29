@@ -6,7 +6,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 /**
- * Created by whiskas on 27.1.2016.
+ * A custom RadioButton that can be unchecked (even within a RadioGroup component)
  */
 public class ToggleableRadioButton extends RadioButton {
     public ToggleableRadioButton(Context context){

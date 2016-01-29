@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.JsonReader;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -66,16 +65,12 @@ public class ChordActivity extends AppCompatActivity {
         currentChord = new Chord(toneUtils);
         root = "C";
         updateChord();
-        try{
-            scheme = loadDependencyScheme(this.getResources());
-            scheme.printDependencies();
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
+        scheme = new DependencyScheme(this.getResources());
+        scheme.printDependencies();
         testScheme();
     }
 
+    /*A test method to debug the newly coded DependencyScheme*/
     private void testScheme(){
         HashSet<String>current = new HashSet<>();
         current.add("13");
@@ -85,7 +80,7 @@ public class ChordActivity extends AppCompatActivity {
         }
     }
 
-        @Override
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putString("root",root);
         savedInstanceState.putString("chord_type",currentChord.type);
@@ -120,10 +115,12 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-/*
-Whenever a radiobutton is clicked, it calls this method
-It performs it's action and then calls dependency resolver
-which takes the triggering button as parameter*/
+    /*
+    * Not yet implemented.
+    * Whenever a radioButton is clicked, it calls this method
+    * It performs it's action and then calls dependency resolver
+    * which takes the triggering button as parameter
+    * @param v View component that has changed*/
     private void setModifier(View v){
         RadioButton button = (RadioButton)v;
         if (button.isChecked()){
@@ -133,69 +130,22 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
-    private DependencyScheme loadDependencyScheme(Resources resources) throws IOException{
-        DependencyScheme scheme = new DependencyScheme();
-
-        InputStream io = resources.openRawResource(R.raw.flag_dependencies);
-        JsonReader reader = new JsonReader(new InputStreamReader(io, "UTF-8"));
-        scheme.setDependencies(readDependencyArray(reader));
-        reader.close();
-        return scheme;
-    }
-
-    private ArrayList<Dependency> readDependencyArray(JsonReader reader) throws IOException {
-        ArrayList<Dependency> dependencies = new ArrayList<>();
-        reader.beginArray();
-        while(reader.hasNext()){
-            dependencies.add(readDependency(reader));
-        }
-        reader.endArray();
-        return dependencies;
-    }
-
-    private Dependency readDependency(JsonReader reader) throws IOException {
-        reader.beginObject();
-        ArrayList<DependencyValue> newValues = new ArrayList<>();
-        ArrayList<DependencyValue> currentValues = new ArrayList<>();
-        ArrayList<DependencyValue> resultValues = new ArrayList<>();
-        while (reader.hasNext()) {
-            String name = reader.nextName();
-            if (name.equals("new")) {
-                newValues = readValues(reader);
-            } else if (name.equals("current")) {
-                currentValues = readValues(reader);
-            } else if (name.equals("result")) {
-                resultValues = readValues(reader);
-            } else reader.skipValue();
-        }
-        reader.endObject();
-        return new Dependency(newValues, currentValues, resultValues);
-    }
-
-    private ArrayList<DependencyValue> readValues(JsonReader reader) throws IOException {
-        ArrayList<DependencyValue>values = new ArrayList<>();
-        reader.beginArray();
-        while (reader.hasNext()){
-            reader.beginArray();
-            boolean b = reader.nextBoolean();
-            String flag = reader.nextString();
-            reader.endArray();
-            values.add(new DependencyValue(b,flag));
-        }
-        reader.endArray();
-        return values;
-    }
-    /*Given a button which triggered the change of chord
+    /*Not yet-implemented. Given a button which triggered the change of chord
     recalculate the depending chord parameters*/
     private void resolveDependencies(RadioButton updatedButton){
     }
 
+    /*
+    * A method called by the root choosing dialog that changes the root note
+    * @param v The View component (Button in this case) which triggered the change*/
     private void setRoot(View v){
         root = (String) v.getTag();
         updateChord();
         rootChooser.setText(root);
     }
 
+    /*
+    * A method that updates the scale, chord and the visual components that show them*/
     private void updateChord(){
         rootChooser.setText(root);
         currentChord.setScale(toneUtils.getScaleTones(root));
@@ -203,6 +153,8 @@ which takes the triggering button as parameter*/
         scaleDisplay.setText(toneUtils.getScaleText(root));
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setType(View v){
         currentChord.type="";
         RadioButton rb = (RadioButton) findViewById(typeRG.getCheckedRadioButtonId());
@@ -218,8 +170,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
-
-
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setFifth(View v){
         currentChord.fifth="";
         RadioButton rb = (RadioButton) findViewById(fifthRG.getCheckedRadioButtonId());
@@ -227,6 +179,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setSeventh(View v){
         currentChord.seventh="";
         RadioButton rb = (RadioButton) findViewById(seventhRG.getCheckedRadioButtonId());
@@ -234,6 +188,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAugDim(View v){
         switch (augDimRG.getCheckedRadioButtonId()){
             case R.id.buttonAug: {
@@ -263,6 +219,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setSus(View v){
         currentChord.sus="";
         RadioButton rb = (RadioButton) findViewById(susRG.getCheckedRadioButtonId());
@@ -278,6 +236,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setNinth(View v){
         currentChord.ninth="";
         RadioButton rb = (RadioButton) findViewById(ninthRG.getCheckedRadioButtonId());
@@ -291,6 +251,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setEleventh(View v){
         currentChord.eleventh="";
         RadioButton rb = (RadioButton) findViewById(eleventhRG.getCheckedRadioButtonId());
@@ -304,6 +266,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setThirteenth(View v){
         currentChord.thirteenth="";
         RadioButton rb = (RadioButton) findViewById(thirteenthRG.getCheckedRadioButtonId());
@@ -317,6 +281,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd29(View v){
         currentChord.add29="";
         RadioButton rb = (RadioButton) findViewById(add29RG.getCheckedRadioButtonId());
@@ -326,6 +292,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    *of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd411(View v){
         currentChord.add411="";
         RadioButton rb = (RadioButton) findViewById(add411RG.getCheckedRadioButtonId());
@@ -335,6 +303,8 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*One of the many methods that handles the change of components withing one group
+    * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd613(View v){
         currentChord.add613 = "";
         RadioButton rb = (RadioButton) findViewById(add613RG.getCheckedRadioButtonId());
@@ -344,6 +314,9 @@ which takes the triggering button as parameter*/
         updateChord();
     }
 
+    /*
+    * A method to construct a dialog window in which the user can choose the root note of the chord
+    * @return A dialog window for choosing the root note*/
     private Dialog constructRootDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -377,6 +350,10 @@ which takes the triggering button as parameter*/
         return dialog;
     }
 
+    /*
+    * Triggered when the user clicks on the rootChooser radio button. Fires up the root choosing dialog
+    * @param v The View component that has been clicked
+    */
     public void chooseRoot(View v){
         rootDialog.show();
     }
