@@ -1,7 +1,7 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 /**
- * A helper class for pair-like objects
+ * A helper class for pair-like objects.
  */
 public class Tuple<X, Y> {
     public X x;

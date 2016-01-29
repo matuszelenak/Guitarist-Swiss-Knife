@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class represents the atomic part of the octave - a semitone.
+ * This class represents the atomic part of the tone scale - a semitone.
  */
 class SemiTone {
     SemiTone higher;

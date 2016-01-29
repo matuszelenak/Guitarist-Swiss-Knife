@@ -2,22 +2,17 @@ package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.res.Resources;
 import android.util.JsonReader;
-import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 /**
- * This class is a representation of the musical chord
+ * This class is a representation of the musical chord.
  */
 public class Chord {
-    ArrayList<SemiTone>scale;
-    ToneUtils toneUtils;
     String type = "Major";
     String fifth = "5";
     String seventh = "";
@@ -29,13 +24,34 @@ public class Chord {
     String add29 = "";
     String add411 = "";
     String add613 = "";
+    /**
+     * A list that holds the musical scale from which the chord progression is to be derived.
+     */
+    ArrayList<SemiTone>scale;
+    /**
+     * An instance of ToneUtils class for resolving tone related queries.
+     */
+    ToneUtils toneUtils;
+    /**
+     * This HashMap should contain the tones that are currently present in the chord.
+     * */
     HashMap<SemiTone,Boolean>chord = new HashMap<>();
+    /**
+     * Set containing the flags that modify the tones in the chord.
+     */
     private HashSet<String>flags = new HashSet<>();
+    /**
+     * This HashMap should contain the tone progresion that is currently present in the chord.
+     * */
     HashSet<SemiTone> progression = new HashSet<>();
+    /**
+     * HashMap that assigns a meaning to each flag. The meaning is basically a complex index
+     * into complete progression of 12 semitones.
+     */
     private HashMap<String,Double>flagMeaning = new HashMap<>();
 
     /**
-    * @param toneUtils The ToneUtils class. The Chord flag uses this instance to
+    * @param toneUtils The ToneUtils class. The Chord uses this instance to
     * resolve any requests regarding the tone operations*/
     public Chord(ToneUtils toneUtils){
         this.toneUtils = toneUtils;
@@ -75,7 +91,7 @@ public class Chord {
     }
 
     /**
-    * This method starts the actual reading of the JSON file.
+    * This method starts the actual reading of the flag JSON file.
     * @param in Input stream from which to read json file*/
     public void readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));

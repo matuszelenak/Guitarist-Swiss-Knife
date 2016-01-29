@@ -17,14 +17,33 @@ import java.util.TreeMap;
  */
 
 public class ToneUtils {
+    /**
+     * This balanced tree contains the full range of tones from C0 to B8
+     * as values with their frequencies as keys
+     */
     private TreeMap<Double,String> allSemiTones = new TreeMap<>();
+    /**
+     * For each frequency found in allSemiTones, this HashMap contains an interval
+     * with bounds lower and higher than said frequency.
+     * If another frequency falls into this interval, it is considered to be the
+     * tone with the frequency the interval was derived from.
+     */
     private HashMap<Double,Tuple<Double,Double>>precisionIntervals = new HashMap<>();
+    /**
+     * Contains the full range of semitones found in one octave (From "C" to "B")
+     */
     private ArrayList<SemiTone> semiTones = new ArrayList<>();
+    /**
+     * Contains the progression of SemiTones that form the current scale.
+     */
     private ArrayList<SemiTone> currentScale = new ArrayList<>();
+    /**
+     * Describes the same scale as the currentScale variable but is a string instead.
+     */
     private String currentScaleAsString;
 
     /**
-    * OnCreate a list containing the basic semiTones tones is read
+    * Constructor reads a list containing the semiTones
     * @param res Resources to be read from*/
     public ToneUtils(Resources res){
         InputStream io = res.openRawResource(R.raw.base_tones);
@@ -86,8 +105,8 @@ public class ToneUtils {
     }
 
     /**This method calculates alternative names for all of the semitones.
-    * It does so by either lifting the lower semitones with # flag
-    * or by lowering the higher semitones with b flag*/
+    * It does so by either lifting the lower semitones with # flag[s]
+    * or by lowering the higher semitones with b flag[s]*/
     private void generateAlternativeNames(){
         String[] suffix = new String[] {"##","#","","b","bb"};
         for (int i = 0; i < semiTones.size(); i++) {
@@ -102,8 +121,8 @@ public class ToneUtils {
     }
 
     /**
-     * Binds the semiTones in the semiTone array together: each semitone will now know,
-    * which semitone is higher and lower than itself*/
+     * * Binds the semiTones in the semiTone array together: each semitone will know,
+     * which semitone is higher and lower than itself*/
     private void bindTones(){
         for (int i = 0; i < semiTones.size(); i++){
             semiTones.get(i).setHigher(semiTones.get(((i + 1) % 12 + 12) % 12));
@@ -206,7 +225,7 @@ public class ToneUtils {
     }
 
     /**
-    * Methot resolves the String representation of a tone into its position in the octave.
+    * Method resolves the String representation of a tone into its position in the octave.
     * @param tone The tone to be analysed
     * @return The position of the supplied tone in the semitTone array*/
     public int getSemiTonePosition(String tone){

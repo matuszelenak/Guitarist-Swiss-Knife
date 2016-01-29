@@ -12,7 +12,6 @@ public class ToggleableRadioButton extends RadioButton {
     public ToggleableRadioButton(Context context){
         super(context);
     }
-
     public ToggleableRadioButton(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -21,6 +20,11 @@ public class ToggleableRadioButton extends RadioButton {
         super(context, attrs, defStyle);
     }
 
+    /**
+     * This method takes care of the case when the ToggleableRadioButton is a child to a RadioGroup.
+     * Since RadioGroup only allows one of its children to be checked, unchecking this button
+     * equals the action of clearing the entire group.
+     */
     @Override
     public void toggle() {
         if(isChecked()) {

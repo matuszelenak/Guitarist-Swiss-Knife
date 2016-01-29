@@ -13,19 +13,40 @@ import android.widget.EditText;
 import java.util.Arrays;
 
 /**
- * The class that is partially responsible for the UI of the tuner app component. The structure is inspired by some of the tutorials
+ * A visual component class which extends the system-default SurfaceView.
+ * It visualizes the input sound as an equalizer in real time.
+ * This class is a part of the UI of the tuner activity. The structure is inspired by some of the tutorials
  * regarding the topic of high-performance canvas handling (e.g. for games)
  */
 public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder sh;
+    /**
+     * A thread that continuously updates the SurfaceView with current values.
+     */
     UpdateThread updateThread;
+    /**
+     * A variable that holds the dimensions of the SurfaceView canvas so that it
+     * doesn't have to be queried each time.
+     */
     Rect canvasDimensions;
     Paint wavePaint = new Paint();
     Paint freqPaint = new Paint();
     int backgroundColor;
+    /**
+     * An array containing the current block of samples processed by FFT.
+     */
     double[] freqData;
+    /**
+     * Self-descriptive, contains the current frequency taken from freqData
+     */
     double currentFreq = 0;
+    /**
+     * Contains the string representation of the tone which corresponds to currentFreq
+     */
     String currentTone = "";
+    /**
+     * Contains the information about the currentTone being either higher, lower or precisely at currentFreq.
+     */
     String currentDirection = "";
 
     public EqualizerView(Context context) {
@@ -95,7 +116,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     /**
-    *Method draws the visual representation of the recorded sound.
+    * Method draws the visual representation of the recorded sound.
     * The visualisation is a graph where the y-axis is logarithmically scaled amplitude and x-axis is
     * the frequency of the sound.
     * @param canvas The canvas to be drawn to*/
@@ -113,17 +134,30 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     private void drawEstimation(Canvas canvas){
         int x = (int)(canvasDimensions.width()*0.1);
         canvas.drawText(String.format("Current frequency is %.2f Hz",currentFreq),x,(int)(canvasDimensions.height()*0.05), freqPaint);
-        canvas.drawText(String.format("%s %s", currentDirection, currentTone), x, (int) (canvasDimensions.height() * 0.05)+freqPaint.getTextSize()+5,freqPaint);
+        canvas.drawText(String.format("%s %s", currentDirection, currentTone), x, (int) (canvasDimensions.height() * 0.05) + freqPaint.getTextSize() + 5, freqPaint);
     }
 
+    /**
+     * Method updates its current freqData with a new block.
+     * @param data the new block of data to use
+     */
     public void updateWaves(double[] data){
         this.freqData = Arrays.copyOf(data,data.length);
     }
 
+    /**
+     * Method updates its currenFreq with a new value.
+     * @param freq the new frequency to use.
+     */
     public void updateFreq(double freq){
         this.currentFreq = freq;
     }
 
+    /**
+     * Method that updates the currentTone and currentDirection with up-to-date data.
+     * @param tone
+     * @param tuningDirection
+     */
     public void updateTone(String tone, String tuningDirection){
         this.currentTone = tone;
         this.currentDirection = tuningDirection;

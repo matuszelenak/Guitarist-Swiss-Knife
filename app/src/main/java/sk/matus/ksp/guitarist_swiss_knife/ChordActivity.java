@@ -8,7 +8,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;;
+import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,8 +35,19 @@ public class ChordActivity extends AppCompatActivity {
     RadioGroup add29RG;
     RadioGroup add411RG;
     RadioGroup add613RG;
+    /**
+     * An instance of ToneUtils class for resolving tone related queries.
+     */
     ToneUtils toneUtils;
-    String root;
+    /*
+    * Describes the root note of the scale (and consequently the chord
+    * On default set to "C", can be altered by the root choosing dialog*/
+    String root = "C";
+    /**
+     * An instance of DependencyScheme class which describes what the consistent
+     * state of the UI and the chord should be like whenever the user triggers a
+     * change through UI components.
+     */
     DependencyScheme scheme;
 
     @Override
@@ -61,14 +72,14 @@ public class ChordActivity extends AppCompatActivity {
         toneUtils = new ToneUtils(this.getResources());
         rootDialog = constructRootDialog();
         currentChord = new Chord(toneUtils);
-        root = "C";
         updateChord();
         scheme = new DependencyScheme(this.getResources());
         scheme.printDependencies();
         testScheme();
     }
 
-    /**A test method to debug the newly coded DependencyScheme.*/
+    /**
+     * A test method to debug the newly coded DependencyScheme.*/
     private void testScheme(){
         HashSet<String>current = new HashSet<>();
         current.add("13");
@@ -115,7 +126,7 @@ public class ChordActivity extends AppCompatActivity {
 
     /**
     * Not yet implemented.
-    * Whenever a radioButton is clicked, it calls this method
+    * Whenever a radioButton is clicked, it calls this method.
     * It performs it's action and then calls dependency resolver
     * which takes the triggering button as parameter
     * @param v View component that has changed*/
@@ -130,13 +141,15 @@ public class ChordActivity extends AppCompatActivity {
 
     /**
      * Not yet-implemented. Given a button which triggered the change of chord
-    recalculate the depending chord parameters*/
+     * recalculate the state of UI components and the chord into the correct
+     * and consistent state
+     * @param updatedButton The RadioButton which triggered the change*/
     private void resolveDependencies(RadioButton updatedButton){
     }
 
     /**
-    * A method called by the root choosing dialog that changes the root note.
-    * @param v The View component (Button in this case) which triggered the change*/
+    * A method called by the root choosing dialog which changes the root tone.
+    * @param v The View component (RadioButton in this case) which triggered the change*/
     private void setRoot(View v){
         root = (String) v.getTag();
         updateChord();
@@ -153,7 +166,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-     * One of the many methods that handles the change of components withing one group
+     * One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setType(View v){
         currentChord.type="";
@@ -171,7 +184,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-     * One of the many methods that handles the change of components withing one group
+     * One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setFifth(View v){
         currentChord.fifth="";
@@ -181,7 +194,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-     * One of the many methods that handles the change of components withing one group
+     * One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setSeventh(View v){
         currentChord.seventh="";
@@ -190,7 +203,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAugDim(View v){
         switch (augDimRG.getCheckedRadioButtonId()){
@@ -221,7 +234,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setSus(View v){
         currentChord.sus="";
@@ -238,7 +251,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setNinth(View v){
         currentChord.ninth="";
@@ -253,7 +266,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setEleventh(View v){
         currentChord.eleventh="";
@@ -268,7 +281,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setThirteenth(View v){
         currentChord.thirteenth="";
@@ -283,7 +296,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd29(View v){
         currentChord.add29="";
@@ -294,7 +307,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     *of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd411(View v){
         currentChord.add411="";
@@ -305,7 +318,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /**One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components within one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd613(View v){
         currentChord.add613 = "";
@@ -317,8 +330,8 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * A method to construct a dialog window in which the user can choose the root note of the chord.
-    * @return A dialog window for choosing the root note*/
+    * A method to construct a dialog window in which the user can choose the root tone of the chord.
+    * @return A dialog window for choosing the root tone*/
     private Dialog constructRootDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -353,7 +366,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * Triggered when the user clicks on the rootChooser radio button. Fires up the root choosing dialog
+    * Method triggered when the user clicks on the rootChooser radio button. Fires up the root choosing dialog
     * @param v The View component that has been clicked
     */
     public void chooseRoot(View v){

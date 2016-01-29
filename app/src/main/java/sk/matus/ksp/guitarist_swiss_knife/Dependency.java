@@ -14,15 +14,15 @@ public class Dependency {
 	ArrayList<DependencyTerm>resultValues = new ArrayList<>();
 
     /**
-    * @param n list of terms that become true due to user's action.
-    * @param c list of terms that are true currently.
-    * @param r list of terms that should be true if the union of the preceeding two sets holds true.*/
-	public Dependency(ArrayList<DependencyTerm>n,
-					  ArrayList<DependencyTerm>c,
-					  ArrayList<DependencyTerm>r){
-		newValues = n;
-		currentValues = c;
-		resultValues = r;
+    * @param newValues list of terms that become true due to user's action.
+    * @param currentValues list of terms that are true currently.
+    * @param resultValues list of terms that should be true if the union of the preceeding two sets holds true.*/
+	public Dependency(ArrayList<DependencyTerm>newValues,
+					  ArrayList<DependencyTerm>currentValues,
+					  ArrayList<DependencyTerm>resultValues){
+		this.newValues = newValues;
+		this.currentValues = currentValues;
+		this.resultValues = resultValues;
 	}
 
     /**
@@ -56,7 +56,7 @@ public class Dependency {
 	}
 
     /**
-     * @return String representation of the dependency in a form [newTerms + currentTerms] ==> [resultTerms].*/
+     * @return String representation of the dependency in the form [newTerms + currentTerms] ==> [resultTerms].*/
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();

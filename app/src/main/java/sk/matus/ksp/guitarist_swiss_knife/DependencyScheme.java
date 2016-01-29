@@ -2,7 +2,6 @@ package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.res.Resources;
 import android.util.JsonReader;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,10 +13,13 @@ import java.util.HashSet;
  * This class should handle all the actions associated with it's functional dependencies.
  */
 public class DependencyScheme {
+    /**
+     * A list of valid functional dependencies which is used for further calculations.
+     */
 	ArrayList<Dependency>dependencies = new ArrayList<>();
 
-    /**On Construction the dependency scheme loads the dependencies from the JSON file
-    * @param resources The Resources to read from*/
+    /**On construction the dependency scheme loads the dependencies from the JSON file
+    * @param resources The Resources to read JSON from*/
     public DependencyScheme(Resources resources){
         try{
             InputStream io = resources.openRawResource(R.raw.flag_dependencies);
@@ -30,13 +32,7 @@ public class DependencyScheme {
     }
 
     /**
-    * @param dependencies The list if dependencies to be handled by this class*/
-	public void setDependencies(ArrayList<Dependency> dependencies){
-		this.dependencies = dependencies;
-	}
-
-    /**
-    * Prints out all of the dependencies*/
+    * Prints out all of the dependencies to the console output. Used for debugging.*/
 	public void printDependencies(){
         for (Dependency d: dependencies){
             System.out.println(d);
@@ -75,7 +71,7 @@ public class DependencyScheme {
     }
 
     /**
-    * A helper method that verifies if a set is a subset of another set
+    * A helper method that verifies if a set is a subset of another set.
     * @param A The first set
     * @param B The second set
     * @return True if A is a subset of B, else otherwise*/
@@ -88,7 +84,7 @@ public class DependencyScheme {
     }
 
     /**
-    * Helper method to compare two sets for equality
+    * A helper method to compare two sets for equality.
     * @param A The first set
     * @param B The second set
     * @return True if the sets contain the same values, false otherwise*/
@@ -103,7 +99,7 @@ public class DependencyScheme {
     }
 
     /**
-    * A helper method that unites the content of two sets into one
+    * A helper method that unites the content of two sets into one.
     * @param A The first set
     * @param B The second set
     * @return The union of sets A and B*/
@@ -119,7 +115,7 @@ public class DependencyScheme {
     }
 
     /**
-     * Method reads Dependencies from JSON file
+     * Method reads Dependencies from JSON file.
      * @param reader The JSONReader to use for reading
      * @return An ArrayList of Dependencies*/
     private ArrayList<Dependency> readDependencyArray(JsonReader reader) throws IOException {
@@ -133,7 +129,7 @@ public class DependencyScheme {
     }
 
     /**
-     * Method reads Dependency from JSON file
+     * Method reads a single Dependency from JSON file.
      * @param reader The JSONReader to use for reading
      * @return read Dependency*/
     private Dependency readDependency(JsonReader reader) throws IOException {
