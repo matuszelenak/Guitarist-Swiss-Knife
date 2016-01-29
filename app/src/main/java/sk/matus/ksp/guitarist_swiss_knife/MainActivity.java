@@ -7,7 +7,7 @@ import android.view.View;
 
 import sk.matus.ksp.guitarist_swiss_knife.MetronomeActivity;
 
-/*
+/**
 * The Activity that appears on the start-up
 * Contains Image buttons that start individual subActivities of the app*/
 public class MainActivity extends AppCompatActivity {

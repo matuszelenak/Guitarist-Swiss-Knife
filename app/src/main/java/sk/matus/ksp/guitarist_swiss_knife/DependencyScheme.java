@@ -16,7 +16,7 @@ import java.util.HashSet;
 public class DependencyScheme {
 	ArrayList<Dependency>dependencies = new ArrayList<>();
 
-    /*On Construction the dependency scheme loads the dependencies from the JSON file
+    /**On Construction the dependency scheme loads the dependencies from the JSON file
     * @param resources The Resources to read from*/
     public DependencyScheme(Resources resources){
         try{
@@ -29,19 +29,21 @@ public class DependencyScheme {
         }
     }
 
-    /*@param dependencies The list if dependencies to be handled by this class*/
+    /**
+    * @param dependencies The list if dependencies to be handled by this class*/
 	public void setDependencies(ArrayList<Dependency> dependencies){
 		this.dependencies = dependencies;
 	}
 
-    /*Prints out all of the dependencies*/
+    /**
+    * Prints out all of the dependencies*/
 	public void printDependencies(){
         for (Dependency d: dependencies){
             System.out.println(d);
         }
     }
 
-    /*
+    /**
     * This function calculates the transitive closure of the current functional dependencies given the set of initial terms
     * that are true. It does so by iterating the dependencies and adding newly discovered terms.
     * The construction terminates when no new terms can be derived from the current set of terms.
@@ -72,7 +74,7 @@ public class DependencyScheme {
         return toChange;
     }
 
-    /*
+    /**
     * A helper method that verifies if a set is a subset of another set
     * @param A The first set
     * @param B The second set
@@ -85,7 +87,8 @@ public class DependencyScheme {
         return true;
     }
 
-    /*A helper method to compare two sets for equality
+    /**
+    * Helper method to compare two sets for equality
     * @param A The first set
     * @param B The second set
     * @return True if the sets contain the same values, false otherwise*/
@@ -99,7 +102,7 @@ public class DependencyScheme {
         return true;
     }
 
-    /*
+    /**
     * A helper method that unites the content of two sets into one
     * @param A The first set
     * @param B The second set
@@ -115,7 +118,10 @@ public class DependencyScheme {
         return result;
     }
 
-
+    /**
+     * Method reads Dependencies from JSON file
+     * @param reader The JSONReader to use for reading
+     * @return An ArrayList of Dependencies*/
     private ArrayList<Dependency> readDependencyArray(JsonReader reader) throws IOException {
         ArrayList<Dependency> dependencies = new ArrayList<>();
         reader.beginArray();
@@ -126,6 +132,10 @@ public class DependencyScheme {
         return dependencies;
     }
 
+    /**
+     * Method reads Dependency from JSON file
+     * @param reader The JSONReader to use for reading
+     * @return read Dependency*/
     private Dependency readDependency(JsonReader reader) throws IOException {
         reader.beginObject();
         ArrayList<DependencyTerm> newValues = new ArrayList<>();
@@ -144,9 +154,10 @@ public class DependencyScheme {
         reader.endObject();
         return new Dependency(newValues, currentValues, resultValues);
     }
-    /*
-    *
-    * @return */
+    /**
+    * Method reads DependencyTerms from JSON file
+     * @param reader The JSONReader to use for reading
+    * @return An ArrayList of DependencyTerms*/
     private ArrayList<DependencyTerm> readValues(JsonReader reader) throws IOException {
         ArrayList<DependencyTerm>values = new ArrayList<>();
         reader.beginArray();

@@ -43,7 +43,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         init(context);
     }
 
-    /*
+    /**
     * Method instantiates the necessary variables such as the drawing surface and paint objects.
     * @param context A context to use for accessing resources*/
     private void init(Context context){
@@ -55,7 +55,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         backgroundColor = context.getResources().getColor(R.color.colorActivityBackground);
     }
 
-    /*
+    /**
     * Method that creates an updateThread for the canvas surface when it is created*/
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
@@ -69,13 +69,14 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
     }
 
-    /*
+    /**
     * Method that kills the updateThread when the canvas surface no longer exists*/
     public void surfaceDestroyed(SurfaceHolder holder) {
         updateThread.setRunning(false);
     }
 
-    /*Method that updates the content of the canvas.
+    /**
+    * Method that updates the content of the canvas.
     * @param canvas A canvas to be drawn to*/
     public void doDraw(Canvas canvas) {
         if ((canvas==null) || (freqData==null)) return;
@@ -93,7 +94,8 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         }*/
     }
 
-    /*Method draws the visual representation of the recorded sound
+    /**
+    *Method draws the visual representation of the recorded sound
     * The visualisation is a graph where the y-axis is logarithmically scaled amplitude and x-axis is
     * the frequency of the sound.
     * @param canvas The canvas to be drawn to*/
@@ -105,7 +107,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    /*
+    /**
     * Method draws the current prevalent frequency and a tone estimation for it
     * @param canvas The canvas to be drawn to*/
     private void drawEstimation(Canvas canvas){
@@ -127,7 +129,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         this.currentDirection = tuningDirection;
     }
 
-    /* Thread that permanently updates the surfaceView component*/
+    /** Thread that permanently updates the surfaceView component*/
     class UpdateThread extends Thread {
 
         private SurfaceHolder surfaceHolder;

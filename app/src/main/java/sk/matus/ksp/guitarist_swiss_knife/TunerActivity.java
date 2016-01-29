@@ -52,9 +52,10 @@ public class TunerActivity extends AppCompatActivity {
         //setContentView(R.layout.activity_tuner);
     }
 
-    /*mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
+    /**
     *
     * A background task that reads blocks of @blockSize audio samples at specified @sampleRate from the microphone input and performs FFT in order to determine frequency
+    * mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
     */
     private class ProcessAudio extends AsyncTask<Void, double[], Void> {
         @Override
@@ -88,11 +89,11 @@ public class TunerActivity extends AppCompatActivity {
             return null;
         }
 
-        /*
+        /**
         * Method called after each block of samples has been read and processed with FFT. Updates the data and UI with current values.
         * The update to the UI is executed every @measurementCount-th the procedure is run - updating it every time results in fast
         * flickering of the UI elements and inconvenience of reading data out of it.
-        * @params waves An array of doubles containing the block of FFT-processed samples*/
+        * @param waves An array of doubles containing the block of FFT-processed samples*/
         @Override
         protected void onProgressUpdate(double[]... waves) {
             if (equalizerView == null){
@@ -117,7 +118,7 @@ public class TunerActivity extends AppCompatActivity {
             }
         }
 
-        /*Early naive way of figuring out current sampleRate from the spectrum
+        /**Early naive way of figuring out current sampleRate from the spectrum
         * @param freqList An array of sampleRate amplitudes
         * @return The sampleRate with the highest amplitude
         * */
@@ -133,7 +134,7 @@ public class TunerActivity extends AppCompatActivity {
             return (index* sampleRate /(blockSize*2));
         }
 
-        /*
+        /**
         * Finds the largest group of frequencies that are close to each other and returns their average.
         * The practical effect is, that occasional high-amplitude noises don't affect the result of the measurement
         * @param frequencies ArrayList of gathered frequencies to filter

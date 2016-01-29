@@ -34,33 +34,33 @@ public class Chord {
     HashSet<SemiTone> progression = new HashSet<>();
     private HashMap<String,Double>flagMeaning = new HashMap<>();
 
-    /*
+    /**
     * @param toneUtils The ToneUtils class. The Chord flag uses this instance to
     * resolve any requests regarding the tone operations*/
     public Chord(ToneUtils toneUtils){
         this.toneUtils = toneUtils;
     }
 
-    /*
+    /**
     * @param scale The scale from which the chord is to be derived*/
     public void setScale(ArrayList<SemiTone>scale){
         this.scale = scale;
     }
 
-    /*
+    /**
     * A not-yet implemented method that will add the flag to the set of current flags
     * @param flag A flag to be set*/
     public void setFlag(String flag){
         flags.add(flag);
     }
 
-    /*
+    /**
     * @return The set of current flags*/
     public HashSet getFlags(){
         return flags;
     }
 
-    /*
+    /**
     * The method loads flags with corresponding meaning (where meaning is the tone to alter in the chord)
     * from .json file.
     * @param resources The Resources class that should be used for loading the flags*/
@@ -74,7 +74,7 @@ public class Chord {
         }
     }
 
-    /*
+    /**
     * This method starts the actual reading of the JSON file.
     * @param in Input stream from which to read json file*/
     public void readJsonStream(InputStream in) throws IOException {
@@ -87,7 +87,7 @@ public class Chord {
         }
     }
 
-    /*
+    /**
     * Method reads the array of flags
     * @param reader Used JsonReader*/
     private void readFlagsArray(JsonReader reader) throws IOException{
@@ -98,7 +98,7 @@ public class Chord {
         reader.endArray();
     }
 
-    /*
+    /**
     * Method reads a single flag
     * @param reader Used JsonReader*/
     private void readFlag(JsonReader reader) throws IOException{
@@ -109,7 +109,7 @@ public class Chord {
         reader.endArray();
     }
 
-    /*
+    /**
     * This method iterates through the flags and adds
     * the tones to the chord according to them.
     * */
@@ -173,7 +173,8 @@ public class Chord {
         }
     }
 
-    /*Not yet implemented version of the collectTones() method that will do the
+    /**
+     * Not yet implemented version of the collectTones() method that will do the
     * same thing, but will be working on the dependency-resolving method and a dynamic
     * set of flags instead of hardcoded variables*/
     private void collectTonesAlt(){
@@ -183,7 +184,7 @@ public class Chord {
         }
     }
 
-    /*
+    /**
     * This method is supposed to resolve the flag to a SemiTone that the flag is supposed to add.
     * Each flag hs a meaning which is a double value. The integer part of this value represents
     * the position at the scale, the (value - integer part) represents the semitone shift if there is any
@@ -198,7 +199,7 @@ public class Chord {
         return scale.get(index);
     }
 
-    /*
+    /**
     * Iterates through the scale from which the chord is to be derived (starts at the
     * root note position) and appends the tones present in the chord to the resulting
     * string representation. This way the chord tones are printed out in the correct

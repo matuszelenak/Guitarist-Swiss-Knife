@@ -70,7 +70,7 @@ public class ChordActivity extends AppCompatActivity {
         testScheme();
     }
 
-    /*A test method to debug the newly coded DependencyScheme*/
+    /**A test method to debug the newly coded DependencyScheme*/
     private void testScheme(){
         HashSet<String>current = new HashSet<>();
         current.add("13");
@@ -115,7 +115,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*
+    /**
     * Not yet implemented.
     * Whenever a radioButton is clicked, it calls this method
     * It performs it's action and then calls dependency resolver
@@ -130,12 +130,13 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*Not yet-implemented. Given a button which triggered the change of chord
+    /**
+     * Not yet-implemented. Given a button which triggered the change of chord
     recalculate the depending chord parameters*/
     private void resolveDependencies(RadioButton updatedButton){
     }
 
-    /*
+    /**
     * A method called by the root choosing dialog that changes the root note
     * @param v The View component (Button in this case) which triggered the change*/
     private void setRoot(View v){
@@ -144,7 +145,7 @@ public class ChordActivity extends AppCompatActivity {
         rootChooser.setText(root);
     }
 
-    /*
+    /**
     * A method that updates the scale, chord and the visual components that show them*/
     private void updateChord(){
         rootChooser.setText(root);
@@ -153,7 +154,8 @@ public class ChordActivity extends AppCompatActivity {
         scaleDisplay.setText(toneUtils.getScaleText(root));
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**
+     * One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setType(View v){
         currentChord.type="";
@@ -170,7 +172,8 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**
+     * One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setFifth(View v){
         currentChord.fifth="";
@@ -179,7 +182,8 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**
+     * One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setSeventh(View v){
         currentChord.seventh="";
@@ -188,7 +192,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAugDim(View v){
         switch (augDimRG.getCheckedRadioButtonId()){
@@ -219,7 +223,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setSus(View v){
         currentChord.sus="";
@@ -236,7 +240,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setNinth(View v){
         currentChord.ninth="";
@@ -251,7 +255,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setEleventh(View v){
         currentChord.eleventh="";
@@ -266,7 +270,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setThirteenth(View v){
         currentChord.thirteenth="";
@@ -281,7 +285,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd29(View v){
         currentChord.add29="";
@@ -292,7 +296,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     *of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd411(View v){
         currentChord.add411="";
@@ -303,7 +307,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*One of the many methods that handles the change of components withing one group
+    /**One of the many methods that handles the change of components withing one group
     * of modifiers. Will be replaced once the DependencyScheme works properly.*/
     public void setAdd613(View v){
         currentChord.add613 = "";
@@ -314,7 +318,7 @@ public class ChordActivity extends AppCompatActivity {
         updateChord();
     }
 
-    /*
+    /**
     * A method to construct a dialog window in which the user can choose the root note of the chord
     * @return A dialog window for choosing the root note*/
     private Dialog constructRootDialog(){
@@ -350,7 +354,7 @@ public class ChordActivity extends AppCompatActivity {
         return dialog;
     }
 
-    /*
+    /**
     * Triggered when the user clicks on the rootChooser radio button. Fires up the root choosing dialog
     * @param v The View component that has been clicked
     */

@@ -23,7 +23,7 @@ public class ToneUtils {
     private ArrayList<SemiTone> currentScale = new ArrayList<>();
     private String currentScaleAsString;
 
-    /*
+    /**
     * OnCreate a list containing the basic semiTones tones is read
     * @param res Resources to be read from*/
     public ToneUtils(Resources res){
@@ -39,7 +39,7 @@ public class ToneUtils {
         bindTones();
     }
 
-    /*
+    /**
     * @param in InputStream from which to read the JSON file*/
     public void readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
@@ -51,7 +51,7 @@ public class ToneUtils {
         }
     }
 
-    /*
+    /**
     * A method to read a semitone array
     * @param reader The JsonReader to use for reading*/
     private void readTonesArray(JsonReader reader) throws IOException{
@@ -64,7 +64,7 @@ public class ToneUtils {
         reader.endArray();
     }
 
-    /*
+    /**
     * A procedure to expand the basic semiTones into full range of 8 octaves
     * Fills the balanced binary tree whose keys are frequencies and values are scientifical names of the tones.
     * In addition, it calculates the maximum precision margins (ranges in which the frequency is associated with the tone itself)
@@ -85,7 +85,7 @@ public class ToneUtils {
         }
     }
 
-    /*This method calculates alternative names for all of the semitones
+    /**This method calculates alternative names for all of the semitones
     * It does so by either lifting the lower semitones with # flag
     * or by lowering the higher semitones with b flag*/
     private void generateAlternativeNames(){
@@ -101,7 +101,8 @@ public class ToneUtils {
         }
     }
 
-    /*Binds the semiTones in the semiTone array together: each semitone will now know,
+    /**
+     * Binds the semiTones in the semiTone array together: each semitone will now know,
     * which semitone is higher and lower than itself*/
     private void bindTones(){
         for (int i = 0; i < semiTones.size(); i++){
@@ -110,7 +111,7 @@ public class ToneUtils {
         }
     }
 
-    /*Given a frequency, it tries to determine which valid tone is closest to it and whether the supplied frequency is undertuned or overtuned.
+    /**Given a frequency, it tries to determine which valid tone is closest to it and whether the supplied frequency is undertuned or overtuned.
     * @param frequency A frequency to be analysed.
     * @return A tuple in which the first element is the found tone and the second element is the direction.*/
     public Tuple<String, String> extractToneFromFrequency(double frequency){
@@ -153,13 +154,13 @@ public class ToneUtils {
         return result;
     }
 
-    /*
+    /**
     * @return An ArrayList of SemiTones in octave*/
     public ArrayList<SemiTone> getSemiTones() {
         return semiTones;
     }
 
-    /*
+    /**
     * This method constructs the harmonic scale starting from the root note.
     * The semitones in the scale obey the standard naming conventions (e.g. No letter is used more than once)
     * It stores the scale both as a list of SemiTone classes and as
@@ -188,7 +189,7 @@ public class ToneUtils {
         currentScaleAsString = scaleBuilder.toString();
     }
 
-    /*
+    /**
     * Given the root note (String) it constructs the scale and returns its string representation
     * @param root The root note of the scale*/
     public String getScaleText(String root){
@@ -196,7 +197,7 @@ public class ToneUtils {
         return currentScaleAsString;
     }
 
-    /*
+    /**
     * Given the root note (String) it constructs the scale and returns it as an Array of SemiTones
     * @param root The root note of the scale*/
     public ArrayList<SemiTone> getScaleTones(String root){
@@ -204,7 +205,7 @@ public class ToneUtils {
         return currentScale;
     }
 
-    /*
+    /**
     * Methot resolves the String representation of a tone into its position in the octave.
     * @param tone The tone to be analysed
     * @return The position of the supplied tone in the semitTone array*/

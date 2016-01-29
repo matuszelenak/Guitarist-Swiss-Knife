@@ -21,7 +21,7 @@ class SemiTone {
         return names;
     }
 
-    /*Method to add possible names for this semiTone
+    /**Method to add possible names for this semiTone
     * Rejects names with too many # or b
     * @param name A name to be processed and added*/
     public void addName(String name){
@@ -30,12 +30,12 @@ class SemiTone {
         if (!names.contains(name)) names.add(name);
     }
 
-    /*@return A Tone that is higher by one semitone*/
+    /**@return A Tone that is higher by one semitone*/
     public SemiTone getHigher() {
         return higher;
     }
 
-    /*@return A Tone that is lower by one semitone*/
+    /**@return A Tone that is lower by one semitone*/
     public SemiTone getLower() {
         return lower;
     }

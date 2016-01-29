@@ -6,7 +6,7 @@ package sk.matus.ksp.guitarist_swiss_knife;
 public class DependencyTerm {
 	boolean bool;
 	String statement;
-    /*
+    /**
     * Constructor uses the parameters to set it's internal state.
     * In effect the class represents a statement in either a normal or negated form.*/
 	DependencyTerm(boolean b, String statement){
@@ -14,7 +14,7 @@ public class DependencyTerm {
 		this.statement = statement;
     }
 
-    /*
+    /**
     * @return String representation of the therm*/
     @Override
     public String toString(){
