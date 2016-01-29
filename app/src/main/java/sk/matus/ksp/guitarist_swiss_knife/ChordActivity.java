@@ -1,24 +1,22 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.app.Dialog;
-import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import android.widget.TextView;;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+
+/**
+ * The activity that contains all of the chord related tools:Finding chords and finger layouts.
+ */
 public class ChordActivity extends AppCompatActivity {
 
     RadioButton rootChooser;
@@ -70,7 +68,7 @@ public class ChordActivity extends AppCompatActivity {
         testScheme();
     }
 
-    /**A test method to debug the newly coded DependencyScheme*/
+    /**A test method to debug the newly coded DependencyScheme.*/
     private void testScheme(){
         HashSet<String>current = new HashSet<>();
         current.add("13");
@@ -137,7 +135,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * A method called by the root choosing dialog that changes the root note
+    * A method called by the root choosing dialog that changes the root note.
     * @param v The View component (Button in this case) which triggered the change*/
     private void setRoot(View v){
         root = (String) v.getTag();
@@ -146,7 +144,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * A method that updates the scale, chord and the visual components that show them*/
+    * A method that updates the scale, chord and the visual components that show them.*/
     private void updateChord(){
         rootChooser.setText(root);
         currentChord.setScale(toneUtils.getScaleTones(root));
@@ -319,7 +317,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * A method to construct a dialog window in which the user can choose the root note of the chord
+    * A method to construct a dialog window in which the user can choose the root note of the chord.
     * @return A dialog window for choosing the root note*/
     private Dialog constructRootDialog(){
         final Dialog dialog = new Dialog(this);

@@ -95,7 +95,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     /**
-    *Method draws the visual representation of the recorded sound
+    *Method draws the visual representation of the recorded sound.
     * The visualisation is a graph where the y-axis is logarithmically scaled amplitude and x-axis is
     * the frequency of the sound.
     * @param canvas The canvas to be drawn to*/
@@ -108,7 +108,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     }
 
     /**
-    * Method draws the current prevalent frequency and a tone estimation for it
+    * Method draws the current prevalent frequency and a tone estimation for it.
     * @param canvas The canvas to be drawn to*/
     private void drawEstimation(Canvas canvas){
         int x = (int)(canvasDimensions.width()*0.1);
@@ -129,7 +129,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
         this.currentDirection = tuningDirection;
     }
 
-    /** Thread that permanently updates the surfaceView component*/
+    /** Thread that permanently updates the surfaceView component.*/
     class UpdateThread extends Thread {
 
         private SurfaceHolder surfaceHolder;

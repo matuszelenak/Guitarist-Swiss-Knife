@@ -42,20 +42,20 @@ public class Chord {
     }
 
     /**
-    * @param scale The scale from which the chord is to be derived*/
+    * @param scale The scale from which the chord is to be derived.*/
     public void setScale(ArrayList<SemiTone>scale){
         this.scale = scale;
     }
 
     /**
-    * A not-yet implemented method that will add the flag to the set of current flags
+    * A not-yet implemented method that will add the flag to the set of current flags.
     * @param flag A flag to be set*/
     public void setFlag(String flag){
         flags.add(flag);
     }
 
     /**
-    * @return The set of current flags*/
+    * @return The set of current flags.*/
     public HashSet getFlags(){
         return flags;
     }
@@ -88,7 +88,7 @@ public class Chord {
     }
 
     /**
-    * Method reads the array of flags
+    * Method reads the array of flags.
     * @param reader Used JsonReader*/
     private void readFlagsArray(JsonReader reader) throws IOException{
         reader.beginArray();
@@ -99,7 +99,7 @@ public class Chord {
     }
 
     /**
-    * Method reads a single flag
+    * Method reads a single flag.
     * @param reader Used JsonReader*/
     private void readFlag(JsonReader reader) throws IOException{
         reader.beginArray();
@@ -112,6 +112,7 @@ public class Chord {
     /**
     * This method iterates through the flags and adds
     * the tones to the chord according to them.
+     * Will be deprecated once DependencyScheme works properly.
     * */
     private void collectTones(){
         chord = new HashMap<>();
@@ -176,7 +177,7 @@ public class Chord {
     /**
      * Not yet implemented version of the collectTones() method that will do the
     * same thing, but will be working on the dependency-resolving method and a dynamic
-    * set of flags instead of hardcoded variables*/
+    * set of flags instead of hardcoded variables.*/
     private void collectTonesAlt(){
         progression.add(scale.get(0));
         for (String flag : flags){
@@ -186,7 +187,7 @@ public class Chord {
 
     /**
     * This method is supposed to resolve the flag to a SemiTone that the flag is supposed to add.
-    * Each flag hs a meaning which is a double value. The integer part of this value represents
+    * Each flag has a meaning which is a double value. The integer part of this value represents
     * the position at the scale, the (value - integer part) represents the semitone shift if there is any
     * (-0.5 = semitone lower, 0.5 = semitone higher, 0.0 no shift)
     * @param flag A flag to be processed

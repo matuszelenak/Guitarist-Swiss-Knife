@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-/*
+/**
 * The activity that records audio from the microphone in real time
 * and presents the user with visualisations of this audio*/
 public class TunerActivity extends AppCompatActivity {
@@ -43,17 +43,13 @@ public class TunerActivity extends AppCompatActivity {
         toneUtils = new ToneUtils(this.getResources());
 
         viewFlipper = (ViewFlipper) findViewById(R.id.viewFlipper);
-        //equalizerView = (EqualizerView) findViewById(R.id.equalizerView);
-        //gaugeView = (GaugeView) findViewById(R.id.gaugView);
         equalizerView = new EqualizerView(this);
         equalizerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         setContentView(equalizerView);
-        //setContentView(R.layout.activity_tuner);
     }
 
     /**
-    *
     * A background task that reads blocks of @blockSize audio samples at specified @sampleRate from the microphone input and performs FFT in order to determine frequency
     * mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
     */
@@ -136,7 +132,7 @@ public class TunerActivity extends AppCompatActivity {
 
         /**
         * Finds the largest group of frequencies that are close to each other and returns their average.
-        * The practical effect is, that occasional high-amplitude noises don't affect the result of the measurement
+        * The practical effect is, that occasional high-amplitude noises don't affect the result of the measurement.
         * @param frequencies ArrayList of gathered frequencies to filter
         * @return The average from the largest group of similar frequencies*/
         private double findPrevalentFreq(ArrayList<Double> frequencies){
@@ -165,53 +161,6 @@ public class TunerActivity extends AppCompatActivity {
             return sum/(double)groups.get(index).size();
         }
     }
-/*
-    public boolean onTouchEvent(MotionEvent touchevent) {
-        switch (touchevent.getAction()) {
-
-            case MotionEvent.ACTION_DOWN:
-                lastX = touchevent.getX();
-                break;
-            case MotionEvent.ACTION_UP:
-                float currentX = touchevent.getX();
-
-                // Handling left to right screen swap.
-                if (lastX < currentX) {
-
-                    // If there aren't any other children, just break.
-                    if (viewFlipper.getDisplayedChild() == 0)
-                        break;
-
-                    // Next screen comes in from left.
-                    viewFlipper.setInAnimation(this, R.anim.slide_in_from_left);
-                    // Current screen goes out from right.
-                    viewFlipper.setOutAnimation(this, R.anim.slide_out_to_right);
-
-                    // Display next screen.
-                    viewFlipper.showNext();
-                }
-
-                // Handling right to left screen swap.
-                if (lastX > currentX) {
-
-                    // If there is a child (to the left), kust break.
-                    if (viewFlipper.getDisplayedChild() == 1)
-                        break;
-
-                    // Next screen comes in from right.
-                    viewFlipper.setInAnimation(this, R.anim.slide_in_from_right);
-                    // Current screen goes out from left.
-                    viewFlipper.setOutAnimation(this, R.anim.slide_out_to_left);
-
-                    // Display previous screen.
-                    viewFlipper.showPrevious();
-                }
-                break;
-        }
-        return false;
-    }*/
-
-
 
     @Override
     public void onPause() {

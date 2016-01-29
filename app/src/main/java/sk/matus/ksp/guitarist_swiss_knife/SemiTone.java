@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * This class represents the atomic part of the octave - a semiTone
+ * This class represents the atomic part of the octave - a semitone.
  */
 class SemiTone {
     SemiTone higher;
@@ -21,7 +21,7 @@ class SemiTone {
         return names;
     }
 
-    /**Method to add possible names for this semiTone
+    /**Method to add possible names for this semitone.
     * Rejects names with too many # or b
     * @param name A name to be processed and added*/
     public void addName(String name){

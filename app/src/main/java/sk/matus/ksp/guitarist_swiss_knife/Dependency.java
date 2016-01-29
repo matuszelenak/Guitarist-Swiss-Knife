@@ -14,9 +14,9 @@ public class Dependency {
 	ArrayList<DependencyTerm>resultValues = new ArrayList<>();
 
     /**
-    * @param n list of terms that become true due to user's action
-    * @param c list of terms that are true currently
-    * @param r list of terms that should be true if the union of the preceeding two sets holds true*/
+    * @param n list of terms that become true due to user's action.
+    * @param c list of terms that are true currently.
+    * @param r list of terms that should be true if the union of the preceeding two sets holds true.*/
 	public Dependency(ArrayList<DependencyTerm>n,
 					  ArrayList<DependencyTerm>c,
 					  ArrayList<DependencyTerm>r){
@@ -26,7 +26,7 @@ public class Dependency {
 	}
 
     /**
-    * @return The set of user-modified terms*/
+    * @return The set of user-modified terms.*/
 	public HashMap<String,Boolean> getNewValues() {
 		HashMap<String,Boolean> result = new HashMap<>();
 		for (DependencyTerm dt : newValues){
@@ -36,7 +36,7 @@ public class Dependency {
 	}
 
     /**
-    * @return The set of currently true terms*/
+    * @return The set of currently true terms.*/
 	public HashMap<String,Boolean> getCurrentValues() {
 		HashMap<String,Boolean> result = new HashMap<>();
 		for (DependencyTerm dt : currentValues){
@@ -46,7 +46,7 @@ public class Dependency {
 	}
 
     /**
-     * @return The set of terms resulting from the dependency*/
+     * @return The set of terms resulting from the dependency.*/
 	public HashMap<String,Boolean> getResultValues() {
 		HashMap<String,Boolean> result = new HashMap<>();
 		for (DependencyTerm dt : resultValues){
@@ -56,7 +56,7 @@ public class Dependency {
 	}
 
     /**
-     * @return String representation of the dependency in a form [newTerms + currentTerms] ==> [resultTerms]*/
+     * @return String representation of the dependency in a form [newTerms + currentTerms] ==> [resultTerms].*/
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();

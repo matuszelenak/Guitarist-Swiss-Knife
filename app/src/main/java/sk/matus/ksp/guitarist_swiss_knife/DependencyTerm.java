@@ -15,7 +15,7 @@ public class DependencyTerm {
     }
 
     /**
-    * @return String representation of the therm*/
+    * @return String representation of the term.*/
     @Override
     public String toString(){
         StringBuilder sb = new StringBuilder();

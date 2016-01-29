@@ -65,7 +65,7 @@ public class ToneUtils {
     }
 
     /**
-    * A procedure to expand the basic semiTones into full range of 8 octaves
+    * A procedure to expand the basic semiTones into full range of 8 octaves.
     * Fills the balanced binary tree whose keys are frequencies and values are scientifical names of the tones.
     * In addition, it calculates the maximum precision margins (ranges in which the frequency is associated with the tone itself)
     * both for undertuned and overtuned frequency.*/
@@ -85,7 +85,7 @@ public class ToneUtils {
         }
     }
 
-    /**This method calculates alternative names for all of the semitones
+    /**This method calculates alternative names for all of the semitones.
     * It does so by either lifting the lower semitones with # flag
     * or by lowering the higher semitones with b flag*/
     private void generateAlternativeNames(){
@@ -190,7 +190,7 @@ public class ToneUtils {
     }
 
     /**
-    * Given the root note (String) it constructs the scale and returns its string representation
+    * Given the root note (String) it constructs the scale and returns its string representation.
     * @param root The root note of the scale*/
     public String getScaleText(String root){
         constructScale(root);
@@ -198,7 +198,7 @@ public class ToneUtils {
     }
 
     /**
-    * Given the root note (String) it constructs the scale and returns it as an Array of SemiTones
+    * Given the root note (String) it constructs the scale and returns it as an Array of SemiTones.
     * @param root The root note of the scale*/
     public ArrayList<SemiTone> getScaleTones(String root){
         constructScale(root);
