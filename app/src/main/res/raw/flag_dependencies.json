@@ -4,8 +4,37 @@
 			[true,"SUS2"]
 		],
 		"current":[
+			[false,"AUG"],
+			[false,"DIM"]
 		],
 		"result":[
+			[false,"MAJOR"],
+			[false,"MINOR"],
+			[true,"SUS2"]
+		]
+	},
+	{
+		"new":[
+			[true,"SUS2"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"],
+			[false,"MAJOR"],
+			[false,"MINOR"]
+		]
+	},
+	{
+		"new":[
+			[true,"SUS2"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"],
 			[false,"MAJOR"],
 			[false,"MINOR"]
 		]
@@ -15,8 +44,37 @@
 			[true,"SUS4"]
 		],
 		"current":[
+			[false,"AUG"],
+			[false,"DIM"]
 		],
 		"result":[
+			[false,"MAJOR"],
+			[false,"MINOR"],
+			[true,"SUS4"]
+		]
+	},
+	{
+		"new":[
+			[true,"SUS4"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"],
+			[false,"MAJOR"],
+			[false,"MINOR"]
+		]
+	},
+	{
+		"new":[
+			[true,"SUS4"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"],
 			[false,"MAJOR"],
 			[false,"MINOR"]
 		]
@@ -89,14 +147,114 @@
 	},
 	{
 		"new":[
-			[false,"DIM"],
 			[false,"AUG"]
 		],
 		"current":[
+			[false,"DIM"],
+			[true,"SUS2"]
 		],
 		"result":[
-			[true,"MINOR"],
-			[true,"5b"]
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"AUG"]
+		],
+		"current":[
+			[false,"DIM"],
+			[true,"SUS4"]
+		],
+		"result":[
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"DIM"]
+		],
+		"current":[
+			[false,"AUG"],
+			[true,"SUS2"]
+		],
+		"result":[
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"DIM"]
+		],
+		"current":[
+			[false,"AUG"],
+			[true,"SUS4"]
+		],
+		"result":[
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"AUG"]
+		],
+		"current":[
+			[false,"SUS2"],
+			[false,"SUS4"],
+			[false,"DIM"],
+			[false,"5b"],
+			[false,"MINOR"]
+		],
+		"result":[
+			[true,"MAJOR"],
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"DIM"]
+		],
+		"current":[
+			[false,"SUS2"],
+			[false,"SUS4"],
+			[false,"AUG"],
+			[false,"5#"],
+			[false,"MAJOR"]
+		],
+		"result":[
+			[true,"MAJOR"],
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"AUG"]
+		],
+		"current":[
+			[false,"SUS4"],
+			[false,"SUS2"],
+			[false,"DIM"],
+			[false,"5b"],
+			[false,"MINOR"]
+		],
+		"result":[
+			[true,"MAJOR"],
+			[true,"5"]
+		]
+	},
+	{
+		"new":[
+			[false,"DIM"]
+		],
+		"current":[
+			[false,"SUS4"],
+			[false,"SUS2"],
+			[false,"AUG"],
+			[false,"5#"],
+			[false,"MAJOR"]
+		],
+		"result":[
+			[true,"MAJOR"],
+			[true,"5"]
 		]
 	},
 	{
@@ -214,6 +372,162 @@
 		],
 		"result":[
 			[true,"11"]
+		]
+	},
+	{
+		"new":[
+			[true,"5#"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"]
+		]
+	},
+	{
+		"new":[
+			[true,"5"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"]
+		]
+	},
+	{
+		"new":[
+			[true,"5"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"]
+		]
+	},
+	{
+		"new":[
+			[true,"5b"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"]
+		]
+	},
+	{
+		"new":[
+			[false,"5#"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"]
+		]
+	},
+	{
+		"new":[
+			[false,"5b"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"]
+		]
+	},
+	{
+		"new":[
+			[false,"MAJOR"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"]
+		]
+	},
+	{
+		"new":[
+			[false,"MINOR"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"],
+			[false,"MINOR"],
+			[false,"MAJOR"]
+		]
+	},
+	{
+		"new":[
+			[true,"MINOR"]
+		],
+		"current":[
+			[true,"5b"]
+		],
+		"result":[
+			[true,"DIM"]
+		]
+	},
+	{
+		"new":[
+			[true,"5b"]
+		],
+		"current":[
+			[true,"MINOR"]
+		],
+		"result":[
+			[true,"DIM"]
+		]
+	},
+	{
+		"new":[
+			[true,"MAJOR"]
+		],
+		"current":[
+			[true,"5#"]
+		],
+		"result":[
+			[true,"AUG"]
+		]
+	},
+	{
+		"new":[
+			[true,"5#"]
+		],
+		"current":[
+			[true,"MAJOR"]
+		],
+		"result":[
+			[true,"AUG"]
+		]
+	},
+	{
+		"new":[
+			[true,"MAJOR"]
+		],
+		"current":[
+			[true,"DIM"]
+		],
+		"result":[
+			[false,"DIM"]
+		]
+	},
+	{
+		"new":[
+			[true,"MINOR"]
+		],
+		"current":[
+			[true,"AUG"]
+		],
+		"result":[
+			[false,"AUG"]
 		]
 	}
 ]

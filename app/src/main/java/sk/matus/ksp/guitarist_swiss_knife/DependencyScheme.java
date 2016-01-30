@@ -17,6 +17,7 @@ public class DependencyScheme {
      * A list of valid functional dependencies which is used for further calculations.
      */
 	ArrayList<Dependency>dependencies = new ArrayList<>();
+    HashMap<String,ToggleableRadioButton>buttonMapping = new HashMap<>();
 
     /**On construction the dependency scheme loads the dependencies from the JSON file
     * @param resources The Resources to read JSON from*/
@@ -24,6 +25,8 @@ public class DependencyScheme {
         try{
             InputStream io = resources.openRawResource(R.raw.flag_dependencies);
             JsonReader reader = new JsonReader(new InputStreamReader(io, "UTF-8"));
+            reader.setLenient(true);
+
             dependencies = readDependencyArray(reader);
             reader.close();
         }catch(IOException e){
@@ -39,35 +42,49 @@ public class DependencyScheme {
         }
     }
 
-    /**
-    * This function calculates the transitive closure of the current functional dependencies given the set of initial terms
-    * that are true. It does so by iterating the dependencies and adding newly discovered terms.
-    * The construction terminates when no new terms can be derived from the current set of terms.
-    * @param initialState The set of terms that are true before the calculation of the closure
-    * @return A set of terms that should hold true*/
-    public HashMap<String,Boolean> constructClosure(HashSet<String> initialState){
-        HashMap<String,Boolean>initState = new HashMap<>();
-        for (String s: initialState){
-            initState.put(s,true);
+    public void setModifierButtons(HashMap<String,ToggleableRadioButton>buttons){
+        buttonMapping = buttons;
+    }
+
+    public HashMap<String, ToggleableRadioButton> getButtonMapping() {
+        return buttonMapping;
+    }
+
+    private HashSet<DependencyTerm> getCurrentFlags(){
+        HashSet<DependencyTerm>result = new HashSet<>();
+        for (HashMap.Entry<String,ToggleableRadioButton>e : buttonMapping.entrySet()){
+            result.add(new DependencyTerm(e.getValue().isChecked(), e.getKey()));
         }
-        HashMap<String,Boolean>toChange = new HashMap<>();
-        HashMap<String,Boolean>oldToChange = new HashMap<>();
-        do {
-            oldToChange = toChange;
-            toChange = new HashMap<>();
-            for (HashMap.Entry<String,Boolean>e : oldToChange.entrySet()){
-                toChange.put(e.getKey(),e.getValue());
+        return result;
+    }
+
+    private void performButtonAction(DependencyTerm dt){
+        if (dt.bool){
+            if(!buttonMapping.get(dt.statement).isChecked()){
+                buttonMapping.get(dt.statement).performClick();
             }
-            for (Dependency dep : dependencies){
-                HashMap<String,Boolean>leftSide = uniteSets(initState,toChange);
-                if (!isSubset(uniteSets(dep.getNewValues(), dep.getCurrentValues()), leftSide)){
-                    System.out.print("Using dependency ");
-                    System.out.println(dep);
-                    toChange = uniteSets(toChange,dep.getResultValues());
+        }
+        else
+        {
+            if(buttonMapping.get(dt.statement).isChecked()){
+                buttonMapping.get(dt.statement).performClick();
+            }
+        }
+    }
+
+    public void deriveNew(HashSet<DependencyTerm>newValues){
+        HashSet<DependencyTerm>currentValues;
+        for (Dependency dependency : dependencies){
+            currentValues = getCurrentFlags();
+            for (DependencyTerm dt : newValues){
+                if (currentValues.contains(dt)) currentValues.remove(dt);
+            }
+            if (isSubset(dependency.newValues,newValues) && isSubset(dependency.currentValues,currentValues)){
+                for (DependencyTerm dt : dependency.resultValues){
+                    performButtonAction(dt);
                 }
             }
-        } while (!equalSets(toChange, oldToChange));
-        return toChange;
+        }
     }
 
     /**
@@ -75,43 +92,11 @@ public class DependencyScheme {
     * @param A The first set
     * @param B The second set
     * @return True if A is a subset of B, else otherwise*/
-    private boolean isSubset(HashMap<String,Boolean>A,HashMap<String,Boolean>B){
-        for (HashMap.Entry<String,Boolean>e : A.entrySet()){
-            if (!B.containsKey(e.getKey())) return false;
-            if (B.get(e.getKey())!=e.getValue()) return false;
+    private boolean isSubset(HashSet<DependencyTerm>A,HashSet<DependencyTerm>B){
+        for (DependencyTerm e : A){
+            if (!B.contains(e)) return false;
         }
         return true;
-    }
-
-    /**
-    * A helper method to compare two sets for equality.
-    * @param A The first set
-    * @param B The second set
-    * @return True if the sets contain the same values, false otherwise*/
-    private boolean equalSets(HashMap<String, Boolean> A, HashMap<String, Boolean> B){
-        for (HashMap.Entry<String,Boolean>e : A.entrySet()){
-            if (B.containsKey(e.getKey())) return false;
-        }
-        for (HashMap.Entry<String,Boolean>e : B.entrySet()){
-            if (A.containsKey(e.getKey())) return false;
-        }
-        return true;
-    }
-
-    /**
-    * A helper method that unites the content of two sets into one.
-    * @param A The first set
-    * @param B The second set
-    * @return The union of sets A and B*/
-    private HashMap<String,Boolean> uniteSets(HashMap<String,Boolean>A, HashMap<String,Boolean>B){
-        HashMap<String,Boolean>result = new HashMap<>();
-        for (HashMap.Entry<String,Boolean>e : A.entrySet()){
-            result.put(e.getKey(),e.getValue());
-        }
-        for (HashMap.Entry<String,Boolean>e : B.entrySet()){
-            if (!result.containsKey(e.getKey())) result.put(e.getKey(),e.getValue());
-        }
-        return result;
     }
 
     /**
@@ -134,18 +119,25 @@ public class DependencyScheme {
      * @return read Dependency*/
     private Dependency readDependency(JsonReader reader) throws IOException {
         reader.beginObject();
-        ArrayList<DependencyTerm> newValues = new ArrayList<>();
-        ArrayList<DependencyTerm> currentValues = new ArrayList<>();
-        ArrayList<DependencyTerm> resultValues = new ArrayList<>();
+        HashSet<DependencyTerm> newValues = new HashSet<>();
+        HashSet<DependencyTerm> currentValues = new HashSet<>();
+        HashSet<DependencyTerm> resultValues = new HashSet<>();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("new")) {
-                newValues = readValues(reader);
-            } else if (name.equals("current")) {
-                currentValues = readValues(reader);
-            } else if (name.equals("result")) {
-                resultValues = readValues(reader);
-            } else reader.skipValue();
+            switch (name) {
+                case "new":
+                    newValues = readValues(reader);
+                    break;
+                case "current":
+                    currentValues = readValues(reader);
+                    break;
+                case "result":
+                    resultValues = readValues(reader);
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
         }
         reader.endObject();
         return new Dependency(newValues, currentValues, resultValues);
@@ -154,8 +146,8 @@ public class DependencyScheme {
     * Method reads DependencyTerms from JSON file
      * @param reader The JSONReader to use for reading
     * @return An ArrayList of DependencyTerms*/
-    private ArrayList<DependencyTerm> readValues(JsonReader reader) throws IOException {
-        ArrayList<DependencyTerm>values = new ArrayList<>();
+    private HashSet<DependencyTerm> readValues(JsonReader reader) throws IOException {
+        HashSet<DependencyTerm>values = new HashSet<>();
         reader.beginArray();
         while (reader.hasNext()){
             reader.beginArray();

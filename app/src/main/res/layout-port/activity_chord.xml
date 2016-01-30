@@ -76,7 +76,6 @@
                 android:padding="10dp"
                 android:id="@+id/groupType"
                 android:clickable="true"
-                android:onClick="setType"
                 android:background="#303030"
                 android:layout_margin="5dp"
                 android:layout_gravity="top">
@@ -89,8 +88,8 @@
                     android:id="@+id/buttonMajor"
                     android:textColor="#ffffff"
                     android:checked="true"
-                    android:tag="Major"
-                    android:onClick="setType"/>
+                    android:tag="MAJOR"
+                    android:onClick="setModifier"/>
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -99,8 +98,8 @@
                     android:text="minor"
                     android:id="@+id/buttonMinor"
                     android:textColor="#ffffff"
-                    android:tag="minor"
-                    android:onClick="setType"/>
+                    android:tag="MINOR"
+                    android:onClick="setModifier"/>
             </RadioGroup>
             <RadioGroup
                 android:elevation="5dp"
@@ -119,8 +118,8 @@
                     android:text="sus2"
                     android:id="@+id/buttonSus2"
                     android:textColor="#ffffff"
-                    android:tag="sus2"
-                    android:onClick="setSus"/>
+                    android:tag="SUS2"
+                    android:onClick="setModifier"/>
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
@@ -128,8 +127,8 @@
                     android:text="sus4"
                     android:id="@+id/buttonSus4"
                     android:textColor="#ffffff"
-                    android:tag="sus4"
-                    android:onClick="setSus"/>
+                    android:tag="SUS4"
+                    android:onClick="setModifier"/>
             </RadioGroup>
 
             <RadioGroup
@@ -149,8 +148,8 @@
                     android:text="Aug"
                     android:id="@+id/buttonAug"
                     android:textColor="#ffffff"
-                    android:tag="Aug"
-                    android:onClick="setAugDim"/>
+                    android:tag="AUG"
+                    android:onClick="setModifier"/>
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
@@ -158,8 +157,8 @@
                     android:text="dim"
                     android:id="@+id/buttonDim"
                     android:textColor="#ffffff"
-                    android:tag="dim"
-                    android:onClick="setAugDim"/>
+                    android:tag="DIM"
+                    android:onClick="setModifier"/>
             </RadioGroup>
         </LinearLayout>
         <LinearLayout
@@ -173,7 +172,6 @@
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:id="@+id/group5"
-                android:onClick="setFifth"
                 android:background="#303030"
                 android:layout_margin="5dp">
 
@@ -185,7 +183,7 @@
                     android:id="@+id/button5sharp"
                     android:textColor="#ffffff"
                     android:tag="5#"
-                    android:onClick="setFifth"/>
+                    android:onClick="setModifier"/>
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
@@ -195,7 +193,7 @@
                     android:textColor="#ffffff"
                     android:checked="true"
                     android:tag="5"
-                    android:onClick="setFifth"/>
+                    android:onClick="setModifier"/>
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
@@ -204,7 +202,7 @@
                     android:id="@+id/button5flat"
                     android:textColor="#ffffff"
                     android:tag="5b"
-                    android:onClick="setFifth"/>
+                    android:onClick="setModifier"/>
             </RadioGroup>
 
             <RadioGroup
@@ -225,7 +223,7 @@
                     android:id="@+id/button7M"
                     android:textColor="#ffffff"
                     android:tag="7M"
-                    android:onClick="setSeventh"/>
+                    android:onClick="setModifier"/>
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
@@ -234,7 +232,7 @@
                     android:id="@+id/button7"
                     android:textColor="#ffffff"
                     android:tag="7"
-                    android:onClick="setSeventh"/>
+                    android:onClick="setModifier"/>
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
@@ -243,7 +241,7 @@
                     android:id="@+id/button6"
                     android:textColor="#ffffff"
                     android:tag="6"
-                    android:onClick="setSeventh"/>
+                    android:onClick="setModifier"/>
             </RadioGroup>
 
             <RadioGroup
@@ -264,7 +262,7 @@
                     android:id="@+id/button9sharp"
                     android:textColor="#ffffff"
                     android:tag="9#"
-                    android:onClick="setNinth" />
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -274,7 +272,7 @@
                     android:id="@+id/button9"
                     android:textColor="#ffffff"
                     android:tag="9"
-                    android:onClick="setNinth" />
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -284,7 +282,7 @@
                     android:id="@+id/button9Flat"
                     android:textColor="#ffffff"
                     android:tag="9b"
-                    android:onClick="setNinth" />
+                    android:onClick="setModifier" />
             </RadioGroup>
 
             <RadioGroup
@@ -305,7 +303,7 @@
                     android:id="@+id/button11sharp"
                     android:textColor="#ffffff"
                     android:tag="11#"
-                    android:onClick="setEleventh" />
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -315,7 +313,7 @@
                     android:id="@+id/button11"
                     android:textColor="#ffffff"
                     android:tag="11"
-                    android:onClick="setEleventh" />
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -325,7 +323,7 @@
                     android:id="@+id/button11Flat"
                     android:textColor="#ffffff"
                     android:tag="11b"
-                    android:onClick="setEleventh" />
+                    android:onClick="setModifier" />
             </RadioGroup>
 
             <RadioGroup
@@ -346,7 +344,7 @@
                     android:id="@+id/button13sharp"
                     android:textColor="#ffffff"
                     android:tag="13#"
-                    android:onClick="setThirteenth" />
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -356,7 +354,7 @@
                     android:id="@+id/button13"
                     android:textColor="#ffffff"
                     android:tag="13"
-                    android:onClick="setThirteenth" />
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
@@ -366,7 +364,7 @@
                     android:id="@+id/button13Flat"
                     android:textColor="#ffffff"
                     android:tag="13b"
-                    android:onClick="setThirteenth" />
+                    android:onClick="setModifier" />
             </RadioGroup>
         </LinearLayout>
         <LinearLayout
@@ -379,7 +377,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:id="@+id/groupAdd29"
+                android:id="@+id/groupADD29"
                 android:background="#303030"
                 android:layout_margin="5dp" >
 
@@ -388,20 +386,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="add2"
-                    android:id="@+id/buttonAdd2"
+                    android:id="@+id/buttonADD2"
                     android:textColor="#ffffff"
-                    android:tag="add2"
-                    android:onClick="setAdd29" />
+                    android:tag="ADD2"
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="add9"
-                    android:id="@+id/buttonAdd9"
+                    android:id="@+id/buttonADD9"
                     android:textColor="#ffffff"
-                    android:tag="add9"
-                    android:onClick="setAdd29" />
+                    android:tag="ADD9"
+                    android:onClick="setModifier" />
             </RadioGroup>
             <RadioGroup
                 android:elevation="5dp"
@@ -409,7 +407,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:id="@+id/groupAdd411"
+                android:id="@+id/groupADD411"
                 android:background="#303030"
                 android:layout_margin="5dp" >
 
@@ -418,20 +416,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="add4"
-                    android:id="@+id/buttonAdd4"
+                    android:id="@+id/buttonADD4"
                     android:textColor="#ffffff"
-                    android:tag="add4"
-                    android:onClick="setAdd411" />
+                    android:tag="ADD4"
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="add11"
-                    android:id="@+id/buttonAdd11"
+                    android:id="@+id/buttonADD11"
                     android:textColor="#ffffff"
-                    android:tag="add11"
-                    android:onClick="setAdd411" />
+                    android:tag="ADD11"
+                    android:onClick="setModifier" />
             </RadioGroup>
 
             <RadioGroup
@@ -440,7 +438,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:id="@+id/groupAdd613"
+                android:id="@+id/groupADD613"
                 android:background="#303030"
                 android:layout_margin="5dp" >
 
@@ -449,20 +447,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="add6"
-                    android:id="@+id/buttonAdd6"
+                    android:id="@+id/buttonADD6"
                     android:textColor="#ffffff"
-                    android:tag="add6"
-                    android:onClick="setAdd613" />
+                    android:tag="ADD6"
+                    android:onClick="setModifier" />
 
                 <sk.matus.ksp.guitarist_swiss_knife.ToggleableRadioButton
                     android:buttonTint="@color/colorKSPGreen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="add13"
-                    android:id="@+id/buttonAdd13"
+                    android:id="@+id/buttonADD13"
                     android:textColor="#ffffff"
-                    android:tag="add13"
-                    android:onClick="setAdd613" />
+                    android:tag="ADD13"
+                    android:onClick="setModifier" />
             </RadioGroup>
         </LinearLayout>
         <LinearLayout
