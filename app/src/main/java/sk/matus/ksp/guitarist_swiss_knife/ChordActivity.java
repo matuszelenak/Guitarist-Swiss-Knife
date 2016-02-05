@@ -42,6 +42,9 @@ public class ChordActivity extends AppCompatActivity {
     DependencyScheme scheme;
     HashMap<String,ToggleableRadioButton>buttonMapping;
 
+    GuitarNeck guitarNeck;
+    GuitarNeck.Fingering currentFingering;
+
     /**
     * Whenever a radioButton is clicked, it calls this method.
     * It performs it's action and then resolves dependencies
@@ -89,6 +92,8 @@ public class ChordActivity extends AppCompatActivity {
         }
         chordDisplay.setText(currentChord.getProgression(root));
         scaleDisplay.setText(toneUtils.getScaleText(root));
+        ArrayList<GuitarNeck.Fingering> f = guitarNeck.findFingerings(currentChord.getProgression());
+        if (f.isEmpty()) currentFingering = null; else currentFingering = f.get(0);
     }
 
     /**
@@ -135,6 +140,10 @@ public class ChordActivity extends AppCompatActivity {
         rootDialog.show();
     }
 
+    public void playChord(View v){
+        guitarNeck.strum(currentFingering);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +158,13 @@ public class ChordActivity extends AppCompatActivity {
         buttonMapping = extractButtons((ViewGroup) (findViewById(R.id.chordModifierContainer)));
         scheme = new DependencyScheme(this.getResources());
         scheme.setModifierButtons(buttonMapping);
+        guitarNeck = new GuitarNeck(this);
+        ArrayList<SemiTone>tuning = new ArrayList<>();
+        String[] names = new String[]{"E","A","D","G","B","E"};
+        for (int i = 0; i < 6; i++){
+            tuning.add(toneUtils.getSemiTones().get(toneUtils.getSemiTonePosition(names[i])));
+        }
+        guitarNeck.setTuning(tuning);
         updateChord();
     }
 

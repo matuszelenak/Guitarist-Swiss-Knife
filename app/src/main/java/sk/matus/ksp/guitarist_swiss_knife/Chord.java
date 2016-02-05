@@ -162,4 +162,7 @@ public class Chord {
         return sb.toString();
     }
 
+    public HashSet<SemiTone> getProgression() {
+        return progression;
+    }
 }

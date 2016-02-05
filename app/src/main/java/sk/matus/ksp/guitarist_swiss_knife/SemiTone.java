@@ -47,4 +47,9 @@ class SemiTone {
     public void setLower(SemiTone lower) {
         this.lower = lower;
     }
+
+    @Override
+    public String toString(){
+        return names.get(0);
+    }
 }

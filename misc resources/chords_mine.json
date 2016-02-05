@@ -1,0 +1,1696 @@
+{	"0":{
+		"names": ["A", "Amaj"],
+		"notes": ["C#", "E", "A"],
+		"fingerings": [[0, 0, 2, 2, 2, 0], [0, 4, null, 2, 5, 0], [5, 7, 7, 6, 5, 5], [null, 0, 2, 2, 2, 0], [null, 4, 7, null, null, 5]],
+	},
+	"1":{
+		"names": ["A #5", "Aaug"],
+		"notes": ["Db", "F", "A"],
+		"fingerings": [[null, 0, 3, 2, 2, 1], [null, 0, null, 2, 2, 1]],
+	},
+	"2":{
+		"names": ["A/Ab"],
+		"notes": ["Db", "E", "Ab", "A"],
+		"fingerings": [[null, 0, 2, 1, 2, 0]],
+	},
+	"3":{
+		"names": ["A/B"],
+		"notes": ["Db", "E", "A", "B"],
+		"fingerings": [[0, 0, 2, 4, 2, 0], [null, 0, 7, 6, 0, 0]],
+	},
+	"4":{
+		"names": ["A/D"],
+		"notes": ["Db", "D", "E", "A"],
+		"fingerings": [[null, 0, 0, 2, 2, 0], [null, null, 0, 2, 2, 0], [null, null, 0, 6, 5, 5], [null, null, 0, 9, 10, 9]],
+	},
+	"5":{
+		"names": ["A/G"],
+		"notes": ["Db", "E", "G", "A"],
+		"fingerings": [[3, null, 2, 2, 2, 0], [null, 0, 2, 0, 2, 0], [null, 0, 2, 2, 2, 3]],
+	},
+	"6":{
+		"names": ["A/Gb"],
+		"notes": ["Db", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 2, 2, 2, 2], [0, null, 4, 2, 2, 0], [2, null, 2, 2, 2, 0], [null, 0, 4, 2, 2, 0], [null, null, 2, 2, 2, 2]],
+	},
+	"7":{
+		"names": ["A5", "A(no 3rd)"],
+		"notes": ["E", "A"],
+		"fingerings": [[5, 7, 7, null, null, 5], [null, 0, 2, 2, null, 0], [5, 7, 7, null, null, 0]],
+	},
+	"8":{
+		"names": ["A6"],
+		"notes": ["Db", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 2, 2, 2, 2], [0, null, 4, 2, 2, 0], [2, null, 2, 2, 2, 0], [null, 0, 4, 2, 2, 0], [null, null, 2, 2, 2, 2]],
+	},
+	"9":{
+		"names": ["A6/7"],
+		"notes": ["Db", "E", "Gb", "G", "A"],
+		"fingerings": [[0, 0, 2, 0, 2, 2]],
+	},
+	"10":{
+		"names": ["A6/7 sus", "A6/7 sus4"],
+		"notes": ["D", "E", "Gb", "G", "A"],
+		"fingerings": [[5, 5, 4, 0, 3, 0], [null, 0, 2, 0, 3, 2]],
+	},
+	"11":{
+		"names": ["A7", "Adom 7"],
+		"notes": ["Db", "E", "G", "A"],
+		"fingerings": [[3, null, 2, 2, 2, 0], [null, 0, 2, 0, 2, 0], [null, 0, 2, 2, 2, 3]],
+	},
+	"12":{
+		"names": ["A7(#5)"],
+		"notes": ["Db", "F", "G", "A"],
+		"fingerings": [[1, 0, 3, 0, 2, 1]],
+	},
+	"13":{
+		"names": ["A7/add11", "A7/11"],
+		"notes": ["Db", "D", "E", "G", "A"],
+		"fingerings": [[null, 0, 0, 0, 2, 0]],
+	},
+	"14":{
+		"names": ["A7sus4"],
+		"notes": ["D", "E", "G", "A"],
+		"fingerings": [[null, 0, 2, 0, 3, 0], [null, 0, 2, 0, 3, 3], [null, 0, 2, 2, 3, 3], [5, null, 0, 0, 3, 0], [null, 0, 0, 0, null, 0]],
+	},
+	"15":{
+		"names": ["Aadd9", "A2"],
+		"notes": ["Db", "E", "A", "B"],
+		"fingerings": [[0, 0, 2, 4, 2, 0], [null, 0, 7, 6, 0, 0]],
+	},
+	"16":{
+		"names": ["Aaug/D"],
+		"notes": ["Db", "D", "F", "A"],
+		"fingerings": [[null, null, 0, 2, 2, 1]],
+	},
+	"17":{
+		"names": ["Aaug/G"],
+		"notes": ["Db", "F", "G", "A"],
+		"fingerings": [[1, 0, 3, 0, 2, 1]],
+	},
+	"18":{
+		"names": ["Ab", "Abmaj"],
+		"notes": ["C", "Eb", "Ab"],
+		"fingerings": [[4, 6, 6, 5, 4, 4]],
+	},
+	"19":{
+		"names": ["Ab #5", "Abaug"],
+		"notes": ["C", "E", "Ab"],
+		"fingerings": [[null, 3, 2, 1, 1, 0]],
+	},
+	"20":{
+		"names": ["Ab/A"],
+		"notes": ["C", "Eb", "Ab", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 4]],
+	},
+	"21":{
+		"names": ["Ab/F"],
+		"notes": ["C", "Eb", "F", "Ab"],
+		"fingerings": [[null, 8, 10, 8, 9, 8], [null, null, 1, 1, 1, 1]],
+	},
+	"22":{
+		"names": ["Ab/Gb"],
+		"notes": ["C", "Eb", "Gb", "Ab"],
+		"fingerings": [[null, null, 1, 1, 1, 2], [null, null, 4, 5, 4, 4]],
+	},
+	"23":{
+		"names": ["Ab5", "Ab(no 3rd)"],
+		"notes": ["Eb", "Ab"],
+		"fingerings": [[4, 6, 6, null, null, 4]],
+	},
+	"24":{
+		"names": ["Ab6"],
+		"notes": ["C", "Eb", "F", "Ab"],
+		"fingerings": [[null, 8, 10, 8, 9, 8], [null, null, 1, 1, 1, 1]],
+	},
+	"25":{
+		"names": ["Ab7", "Abdom 7"],
+		"notes": ["C", "Eb", "Gb", "Ab"],
+		"fingerings": [[null, null, 1, 1, 1, 2], [null, null, 4, 5, 4, 4]],
+	},
+	"26":{
+		"names": ["Abdim/E"],
+		"notes": ["D", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 0, 1, 0, 0], [0, 2, 2, 1, 3, 0], [null, 2, 0, 1, 3, 0], [null, null, 0, 1, 0, 0]],
+	},
+	"27":{
+		"names": ["Abdim/Eb"],
+		"notes": ["D", "Eb", "Ab", "B"],
+		"fingerings": [[null, null, 0, 4, 4, 4]],
+	},
+	"28":{
+		"names": ["Abdim/F"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"29":{
+		"names": ["Abdim7"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"30":{
+		"names": ["Abm"],
+		"notes": ["Eb", "Ab", "B"],
+		"fingerings": [[null, null, 6, 4, 4, 4]],
+	},
+	"31":{
+		"names": ["Abm/D"],
+		"notes": ["D", "Eb", "Ab", "B"],
+		"fingerings": [[null, null, 0, 4, 4, 4]],
+	},
+	"32":{
+		"names": ["Abm/E"],
+		"notes": ["Eb", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 1, 1, 0, 0], [0, null, 6, 4, 4, 0], [null, null, 1, 1, 0, 0]],
+	},
+	"33":{
+		"names": ["Abm/Gb"],
+		"notes": ["Eb", "Gb", "Ab", "B"],
+		"fingerings": [[null, null, 4, 4, 4, 4]],
+	},
+	"34":{
+		"names": ["Abm7"],
+		"notes": ["Eb", "Gb", "Ab", "B"],
+		"fingerings": [[null, null, 4, 4, 4, 4]],
+	},
+	"35":{
+		"names": ["Absus", "Absus4"],
+		"notes": ["Db", "Eb", "Ab"],
+		"fingerings": [[null, null, 6, 6, 4, 4]],
+	},
+	"36":{
+		"names": ["Absus2/F"],
+		"notes": ["Eb", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 4, 1]],
+	},
+	"37":{
+		"names": ["Adim/Ab"],
+		"notes": ["C", "Eb", "Ab", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 4]],
+	},
+	"38":{
+		"names": ["Adim/E"],
+		"notes": ["C", "Eb", "E", "A"],
+		"fingerings": [[0, 3, null, 2, 4, 0]],
+	},
+	"39":{
+		"names": ["Adim/F"],
+		"notes": ["C", "Eb", "F", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 1], [null, null, 3, 5, 4, 5]],
+	},
+	"40":{
+		"names": ["Adim/G"],
+		"notes": ["C", "Eb", "G", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 3]],
+	},
+	"41":{
+		"names": ["Adim/Gb"],
+		"notes": ["C", "Eb", "Gb", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 2]],
+	},
+	"42":{
+		"names": ["Adim7"],
+		"notes": ["C", "Eb", "Gb", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 2]],
+	},
+	"43":{
+		"names": ["Am"],
+		"notes": ["C", "E", "A"],
+		"fingerings": [[null, 0, 2, 2, 1, 0], [null, 0, 7, 5, 5, 5], [null, 3, 2, 2, 1, 0], [8, 12, null, null, null, 0]],
+	},
+	"44":{
+		"names": ["Am/B"],
+		"notes": ["C", "E", "A", "B"],
+		"fingerings": [[0, 0, 7, 5, 0, 0], [null, 3, 2, 2, 0, 0]],
+	},
+	"45":{
+		"names": ["Am/D"],
+		"notes": ["C", "D", "E", "A"],
+		"fingerings": [[null, null, 0, 2, 1, 0], [null, null, 0, 5, 5, 5]],
+	},
+	"46":{
+		"names": ["Am/Eb"],
+		"notes": ["C", "Eb", "E", "A"],
+		"fingerings": [[0, 3, null, 2, 4, 0]],
+	},
+	"47":{
+		"names": ["Am/F"],
+		"notes": ["C", "E", "F", "A"],
+		"fingerings": [[0, 0, 3, 2, 1, 0], [1, 3, 3, 2, 1, 0], [1, null, 2, 2, 1, 0], [null, null, 2, 2, 1, 1], [null, null, 3, 2, 1, 0]],
+	},
+	"48":{
+		"names": ["Am/G"],
+		"notes": ["C", "E", "G", "A"],
+		"fingerings": [[0, 0, 2, 0, 1, 3], [null, 0, 2, 0, 1, 0], [null, 0, 2, 2, 1, 3], [null, 0, 5, 5, 5, 8]],
+	},
+	"49":{
+		"names": ["Am/Gb"],
+		"notes": ["C", "E", "Gb", "A"],
+		"fingerings": [[null, 0, 2, 2, 1, 2], [null, null, 2, 2, 1, 2]],
+	},
+	"50":{
+		"names": ["Am6"],
+		"notes": ["C", "E", "Gb", "A"],
+		"fingerings": [[null, 0, 2, 2, 1, 2], [null, null, 2, 2, 1, 2]],
+	},
+	"51":{
+		"names": ["Am7"],
+		"notes": ["C", "E", "G", "A"],
+		"fingerings": [[0, 0, 2, 0, 1, 3], [null, 0, 2, 0, 1, 0], [null, 0, 2, 2, 1, 3], [null, 0, 5, 5, 5, 8]],
+	},
+	"52":{
+		"names": ["Am7(b5)", "Ao7"],
+		"notes": ["C", "Eb", "G", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 3]],
+	},
+	"53":{
+		"names": ["Am7/add11", "Am7/11"],
+		"notes": ["C", "D", "E", "G", "A"],
+		"fingerings": [[null, 5, 7, 5, 8, 0]],
+	},
+	"54":{
+		"names": ["Amaj7", "A#7"],
+		"notes": ["Db", "E", "Ab", "A"],
+		"fingerings": [[null, 0, 2, 1, 2, 0]],
+	},
+	"55":{
+		"names": ["Amin/maj9"],
+		"notes": ["C", "E", "Ab", "A", "B"],
+		"fingerings": [[null, 0, 6, 5, 5, 7]],
+	},
+	"56":{
+		"names": ["Asus", "Asus4"],
+		"notes": ["D", "E", "A"],
+		"fingerings": [[0, 0, 2, 2, 3, 0], [null, 0, 2, 2, 3, 0], [5, 5, 7, 7, null, 0], [null, 0, 0, 2, 3, 0]],
+	},
+	"57":{
+		"names": ["Asus2", "Aadd9(no3)"],
+		"notes": ["E", "A", "B"],
+		"fingerings": [[0, 0, 2, 2, 0, 0], [0, 0, 2, 4, 0, 0], [0, 2, 2, 2, 0, 0], [null, 0, 2, 2, 0, 0], [null, null, 2, 2, 0, 0]],
+	},
+	"58":{
+		"names": ["Asus2/Ab"],
+		"notes": ["E", "Ab", "A", "B"],
+		"fingerings": [[null, 0, 2, 1, 0, 0]],
+	},
+	"59":{
+		"names": ["Asus2/C"],
+		"notes": ["C", "E", "A", "B"],
+		"fingerings": [[0, 0, 7, 5, 0, 0], [null, 3, 2, 2, 0, 0]],
+	},
+	"60":{
+		"names": ["Asus2/D"],
+		"notes": ["D", "E", "A", "B"],
+		"fingerings": [[0, 2, 0, 2, 0, 0], [null, 2, 0, 2, 3, 0]],
+	},
+	"61":{
+		"names": ["Asus2/Db"],
+		"notes": ["Db", "E", "A", "B"],
+		"fingerings": [[0, 0, 2, 4, 2, 0], [null, 0, 7, 6, 0, 0]],
+	},
+	"62":{
+		"names": ["Asus2/Eb"],
+		"notes": ["Eb", "E", "A", "B"],
+		"fingerings": [[null, 2, 1, 2, 0, 0]],
+	},
+	"63":{
+		"names": ["Asus2/F"],
+		"notes": ["E", "F", "A", "B"],
+		"fingerings": [[0, 0, 3, 2, 0, 0]],
+	},
+	"64":{
+		"names": ["Asus2/G"],
+		"notes": ["E", "G", "A", "B"],
+		"fingerings": [[3, null, 2, 2, 0, 0], [null, 0, 2, 0, 0, 0], [null, 0, 5, 4, 5, 0]],
+	},
+	"65":{
+		"names": ["Asus2/Gb"],
+		"notes": ["E", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 0, 0], [null, 2, 4, 2, 5, 2]],
+	},
+	"66":{
+		"names": ["Asus4/Ab"],
+		"notes": ["D", "E", "Ab", "A"],
+		"fingerings": [[4, null, 0, 2, 3, 0]],
+	},
+	"67":{
+		"names": ["Asus4/B"],
+		"notes": ["D", "E", "A", "B"],
+		"fingerings": [[0, 2, 0, 2, 0, 0]],
+	},
+	"68":{
+		"names": ["Asus4/Bb"],
+		"notes": ["D", "E", "A", "Bb"],
+		"fingerings": [[0, 1, null, 2, 3, 0]],
+	},
+	"69":{
+		"names": ["Asus4/C"],
+		"notes": ["C", "D", "E", "A"],
+		"fingerings": [[null, null, 0, 2, 1, 0], [null, null, 0, 5, 5, 5]],
+	},
+	"70":{
+		"names": ["Asus4/Db"],
+		"notes": ["Db", "D", "E", "A"],
+		"fingerings": [[null, 0, 0, 2, 2, 0], [null, null, 0, 2, 2, 0], [null, null, 0, 6, 5, 5], [null, null, 0, 9, 10, 9]],
+	},
+	"71":{
+		"names": ["Asus4/F"],
+		"notes": ["D", "E", "F", "A"],
+		"fingerings": [[null, null, 7, 7, 6, 0]],
+	},
+	"72":{
+		"names": ["Asus4/G"],
+		"notes": ["D", "E", "G", "A"],
+		"fingerings": [[null, 0, 2, 0, 3, 0], [null, 0, 2, 0, 3, 3], [null, 0, 2, 2, 3, 3], [null, 0, 0, 0, null, 0]],
+	},
+	"73":{
+		"names": ["Asus4/Gb"],
+		"notes": ["D", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 0, 2, 3, 2], [0, 0, 4, 2, 3, 0], [2, null, 0, 2, 3, 0], [null, 0, 2, 2, 3, 2], [null, null, 2, 2, 3, 2], [null, 5, 4, 2, 3, 0], [null, 9, 7, 7, null, 0]],
+	},
+	"74":{
+		"names": ["B", "Bmaj"],
+		"notes": ["Eb", "Gb", "B"],
+		"fingerings": [[null, 2, 4, 4, 4, 2]],
+	},
+	"75":{
+		"names": ["B #5", "Baug"],
+		"notes": ["Eb", "G", "B"],
+		"fingerings": [[3, 2, 1, 0, 0, 3], [3, null, 1, 0, 0, 3]],
+	},
+	"76":{
+		"names": ["B/A"],
+		"notes": ["Eb", "Gb", "A", "B"],
+		"fingerings": [[2, null, 1, 2, 0, 2], [null, 0, 1, 2, 0, 2], [null, 2, 1, 2, 0, 2], [null, 2, 4, 2, 4, 2]],
+	},
+	"77":{
+		"names": ["B/Ab"],
+		"notes": ["Eb", "Gb", "Ab", "B"],
+		"fingerings": [[null, null, 4, 4, 4, 4]],
+	},
+	"78":{
+		"names": ["B/E"],
+		"notes": ["Eb", "E", "Gb", "B"],
+		"fingerings": [[null, 2, 2, 4, 4, 2], [null, null, 4, 4, 4, 0]],
+	},
+	"79":{
+		"names": ["B5", "B(no 3rd)"],
+		"notes": ["Gb", "B"],
+		"fingerings": [[7, 9, 9, null, null, 2], [null, 2, 4, 4, null, 2]],
+	},
+	"80":{
+		"names": ["B6"],
+		"notes": ["Eb", "Gb", "Ab", "B"],
+		"fingerings": [[null, null, 4, 4, 4, 4]],
+	},
+	"81":{
+		"names": ["B7", "Bdom 7"],
+		"notes": ["Eb", "Gb", "A", "B"],
+		"fingerings": [[2, null, 1, 2, 0, 2], [null, 0, 1, 2, 0, 2], [null, 2, 1, 2, 0, 2], [null, 2, 4, 2, 4, 2]],
+	},
+	"82":{
+		"names": ["B7/add11", "B7/11"],
+		"notes": ["Eb", "E", "Gb", "A", "B"],
+		"fingerings": [[0, 0, 4, 4, 4, 0], [0, 2, 1, 2, 0, 2]],
+	},
+	"83":{
+		"names": ["B7sus4"],
+		"notes": ["E", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 0, 0], [null, 2, 4, 2, 5, 2]],
+	},
+	"84":{
+		"names": ["Baug/E"],
+		"notes": ["Eb", "E", "G", "B"],
+		"fingerings": [[3, null, 1, 0, 0, 0], [null, null, 1, 0, 0, 0]],
+	},
+	"85":{
+		"names": ["Bb", "Bbmaj"],
+		"notes": ["D", "F", "Bb"],
+		"fingerings": [[1, 1, 3, 3, 3, 1], [null, 1, 3, 3, 3, 1], [null, null, 0, 3, 3, 1]],
+	},
+	"86":{
+		"names": ["Bb #5", "Bbaug"],
+		"notes": ["D", "Gb", "Bb"],
+		"fingerings": [[null, null, 0, 3, 3, 2]],
+	},
+	"87":{
+		"names": ["Bb b5"],
+		"notes": ["D", "E", "Bb"],
+		"fingerings": [[null, null, 0, 3, null, 0]],
+	},
+	"88":{
+		"names": ["Bb/A"],
+		"notes": ["D", "F", "A", "Bb"],
+		"fingerings": [[1, 1, 3, 2, 3, 1]],
+	},
+	"89":{
+		"names": ["Bb/Ab"],
+		"notes": ["D", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 3, 1], [null, null, 3, 3, 3, 4]],
+	},
+	"90":{
+		"names": ["Bb/Db"],
+		"notes": ["Db", "D", "F", "Bb"],
+		"fingerings": [[null, null, 0, 6, 6, 6]],
+	},
+	"91":{
+		"names": ["Bb/E"],
+		"notes": ["D", "E", "F", "Bb"],
+		"fingerings": [[null, 1, 3, 3, 3, 0]],
+	},
+	"92":{
+		"names": ["Bb/G"],
+		"notes": ["D", "F", "G", "Bb"],
+		"fingerings": [[3, 5, 3, 3, 3, 3], [null, null, 3, 3, 3, 3]],
+	},
+	"93":{
+		"names": ["Bb5", "Bb(no 3rd)"],
+		"notes": ["F", "Bb"],
+		"fingerings": [[6, 8, 8, null, null, 6], [null, 1, 3, 3, null, 6]],
+	},
+	"94":{
+		"names": ["Bb6"],
+		"notes": ["D", "F", "G", "Bb"],
+		"fingerings": [[3, 5, 3, 3, 3, 3], [null, null, 3, 3, 3, 3]],
+	},
+	"95":{
+		"names": ["Bb6/add9", "Bb6/9"],
+		"notes": ["C", "D", "F", "G", "Bb"],
+		"fingerings": [[null, 3, 3, 3, 3, 3]],
+	},
+	"96":{
+		"names": ["Bb7", "Bbdom 7"],
+		"notes": ["D", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 3, 1], [null, null, 3, 3, 3, 4]],
+	},
+	"97":{
+		"names": ["Bb7sus4"],
+		"notes": ["Eb", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 4, 1]],
+	},
+	"98":{
+		"names": ["Bbadd#11"],
+		"notes": ["D", "E", "F", "Bb"],
+		"fingerings": [[null, 1, 3, 3, 3, 0]],
+	},
+	"99":{
+		"names": ["Bbaug/E"],
+		"notes": ["D", "E", "Gb", "Bb"],
+		"fingerings": [[2, null, 4, 3, 3, 0]],
+	},
+	"100":{
+		"names": ["Bbdim/C"],
+		"notes": ["C", "Db", "E", "Bb"],
+		"fingerings": [[null, 3, null, 3, 2, 0]],
+	},
+	"101":{
+		"names": ["Bbdim/D"],
+		"notes": ["Db", "D", "E", "Bb"],
+		"fingerings": [[null, null, 0, 3, 2, 0]],
+	},
+	"102":{
+		"names": ["Bbdim/G"],
+		"notes": ["Db", "E", "G", "Bb"],
+		"fingerings": [[null, 1, 2, 0, 2, 0], [null, null, 2, 3, 2, 3]],
+	},
+	"103":{
+		"names": ["Bbdim/Gb"],
+		"notes": ["Db", "E", "Gb", "Bb"],
+		"fingerings": [[2, 4, 2, 3, 2, 2], [null, null, 4, 3, 2, 0]],
+	},
+	"104":{
+		"names": ["Bbdim7"],
+		"notes": ["Db", "E", "G", "Bb"],
+		"fingerings": [[null, 1, 2, 0, 2, 0], [null, null, 2, 3, 2, 3]],
+	},
+	"105":{
+		"names": ["Bbm"],
+		"notes": ["Db", "F", "Bb"],
+		"fingerings": [[1, 1, 3, 3, 2, 1]],
+	},
+	"106":{
+		"names": ["Bbm/Ab"],
+		"notes": ["Db", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 2, 1]],
+	},
+	"107":{
+		"names": ["Bbm/D"],
+		"notes": ["Db", "D", "F", "Bb"],
+		"fingerings": [[null, null, 0, 6, 6, 6]],
+	},
+	"108":{
+		"names": ["Bbm/Gb"],
+		"notes": ["Db", "F", "Gb", "Bb"],
+		"fingerings": [[null, null, 3, 3, 2, 2]],
+	},
+	"109":{
+		"names": ["Bbm7"],
+		"notes": ["Db", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 2, 1]],
+	},
+	"110":{
+		"names": ["Bbmaj7", "Bb#7"],
+		"notes": ["D", "F", "A", "Bb"],
+		"fingerings": [[1, 1, 3, 2, 3, 1]],
+	},
+	"111":{
+		"names": ["Bbmaj9", "Bb9(#7)"],
+		"notes": ["C", "D", "F", "A", "Bb"],
+		"fingerings": [[null, 3, 3, 3, 3, 5]],
+	},
+	"112":{
+		"names": ["Bbsus2", "Bbadd9(no3)"],
+		"notes": ["C", "F", "Bb"],
+		"fingerings": [[null, null, 3, 3, 1, 1]],
+	},
+	"113":{
+		"names": ["Bbsus2/G"],
+		"notes": ["C", "F", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 6, 3]],
+	},
+	"114":{
+		"names": ["Bbsus4/Ab"],
+		"notes": ["Eb", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 4, 1]],
+	},
+	"115":{
+		"names": ["Bdim/A"],
+		"notes": ["D", "F", "A", "B"],
+		"fingerings": [[1, 2, 3, 2, 3, 1], [null, 2, 0, 2, 0, 1], [null, null, 0, 2, 0, 1]],
+	},
+	"116":{
+		"names": ["Bdim/Ab"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"117":{
+		"names": ["Bdim/G"],
+		"notes": ["D", "F", "G", "B"],
+		"fingerings": [[1, null, 0, 0, 0, 3], [3, 2, 0, 0, 0, 1], [null, null, 0, 0, 0, 1]],
+	},
+	"118":{
+		"names": ["Bdim7"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"119":{
+		"names": ["Bm"],
+		"notes": ["D", "Gb", "B"],
+		"fingerings": [[2, 2, 4, 4, 3, 2], [null, 2, 4, 4, 3, 2], [null, null, 0, 4, 3, 2]],
+	},
+	"120":{
+		"names": ["Bm/A"],
+		"notes": ["D", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 3, 2], [null, 2, 0, 2, 0, 2], [null, 2, 0, 2, 3, 2], [null, 2, 4, 2, 3, 2], [null, null, 0, 2, 0, 2]],
+	},
+	"121":{
+		"names": ["Bm/G"],
+		"notes": ["D", "Gb", "G", "B"],
+		"fingerings": [[2, 2, 0, 0, 0, 3], [2, 2, 0, 0, 3, 3], [3, 2, 0, 0, 0, 2], [null, null, 4, 4, 3, 3]],
+	},
+	"122":{
+		"names": ["Bm7"],
+		"notes": ["D", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 3, 2], [null, 2, 0, 2, 0, 2], [null, 2, 0, 2, 3, 2], [null, 2, 4, 2, 3, 2], [null, null, 0, 2, 0, 2]],
+	},
+	"123":{
+		"names": ["Bm7(b5)", "Bo7"],
+		"notes": ["D", "F", "A", "B"],
+		"fingerings": [[1, 2, 3, 2, 3, 1], [null, 2, 0, 2, 0, 1], [null, null, 0, 2, 0, 1]],
+	},
+	"124":{
+		"names": ["Bm7/add11", "Bm7/11"],
+		"notes": ["D", "E", "Gb", "A", "B"],
+		"fingerings": [[0, 0, 2, 4, 3, 2], [0, 2, 0, 2, 0, 2]],
+	},
+	"125":{
+		"names": ["Bmaj7/#11"],
+		"notes": ["Eb", "F", "Gb", "Bb", "B"],
+		"fingerings": [[null, 2, 3, 3, 4, 2]],
+	},
+	"126":{
+		"names": ["Bsus", "Bsus4"],
+		"notes": ["E", "Gb", "B"],
+		"fingerings": [[7, 9, 9, null, null, 0], [null, 2, 4, 4, null, 0]],
+	},
+	"127":{
+		"names": ["Bsus2", "Badd9(no3)"],
+		"notes": ["Db", "Gb", "B"],
+		"fingerings": [[null, 4, 4, 4, null, 2], [null, null, 4, 4, 2, 2]],
+	},
+	"128":{
+		"names": ["Bsus2/E"],
+		"notes": ["Db", "E", "Gb", "B"],
+		"fingerings": [[null, 4, 4, 4, null, 0]],
+	},
+	"129":{
+		"names": ["Bsus4/A"],
+		"notes": ["E", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 0, 0], [null, 2, 4, 2, 5, 2]],
+	},
+	"130":{
+		"names": ["Bsus4/Ab"],
+		"notes": ["E", "Gb", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 0, 2], [0, null, 4, 1, 0, 0], [2, 2, 2, 1, 0, 0]],
+	},
+	"131":{
+		"names": ["Bsus4/Db"],
+		"notes": ["Db", "E", "Gb", "B"],
+		"fingerings": [[null, 4, 4, 4, null, 0]],
+	},
+	"132":{
+		"names": ["Bsus4/Eb"],
+		"notes": ["Eb", "E", "Gb", "B"],
+		"fingerings": [[null, 2, 2, 4, 4, 2], [null, null, 4, 4, 4, 0]],
+	},
+	"133":{
+		"names": ["Bsus4/G"],
+		"notes": ["E", "Gb", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 0, 2], [0, 2, 4, 0, 0, 0], [0, null, 4, 0, 0, 0], [2, 2, 2, 0, 0, 0]],
+	},
+	"134":{
+		"names": ["C", "Cmaj"],
+		"notes": ["C", "E", "G"],
+		"fingerings": [[0, 3, 2, 0, 1, 0], [0, 3, 5, 5, 5, 3], [3, 3, 2, 0, 1, 0], [3, null, 2, 0, 1, 0], [null, 3, 2, 0, 1, 0], [null, 3, 5, 5, 5, 0]],
+	},
+	"135":{
+		"names": ["C #5", "Caug"],
+		"notes": ["C", "E", "Ab"],
+		"fingerings": [[null, 3, 2, 1, 1, 0]],
+	},
+	"136":{
+		"names": ["C b5"],
+		"notes": ["C", "E", "Gb"],
+		"fingerings": [[null, null, 4, 5, null, 0]],
+	},
+	"137":{
+		"names": ["C/A"],
+		"notes": ["C", "E", "G", "A"],
+		"fingerings": [[0, 0, 2, 0, 1, 3], [null, 0, 2, 0, 1, 0], [null, 0, 2, 2, 1, 3], [null, 0, 5, 5, 5, 8]],
+	},
+	"138":{
+		"names": ["C/B"],
+		"notes": ["C", "E", "G", "B"],
+		"fingerings": [[0, 3, 2, 0, 0, 0], [null, 2, 2, 0, 1, 0], [null, 3, 5, 4, 5, 3]],
+	},
+	"139":{
+		"names": ["C/Bb"],
+		"notes": ["C", "E", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 5, 3]],
+	},
+	"140":{
+		"names": ["C/D"],
+		"notes": ["C", "D", "E", "G"],
+		"fingerings": [[3, null, 0, 0, 1, 0], [null, 3, 0, 0, 1, 0], [null, 3, 2, 0, 3, 0], [null, 3, 2, 0, 3, 3], [null, null, 0, 0, 1, 0], [null, null, 0, 5, 5, 3], [null, 10, 12, 12, 13, 0], [null, 5, 5, 5, null, 0]],
+	},
+	"141":{
+		"names": ["C/F"],
+		"notes": ["C", "E", "F", "G"],
+		"fingerings": [[null, 3, 3, 0, 1, 0], [null, null, 3, 0, 1, 0]],
+	},
+	"142":{
+		"names": ["C5", "C(no 3rd)"],
+		"notes": ["C", "G"],
+		"fingerings": [[null, 3, 5, 5, null, 3]],
+	},
+	"143":{
+		"names": ["C6"],
+		"notes": ["C", "E", "G", "A"],
+		"fingerings": [[0, 0, 2, 0, 1, 3], [null, 0, 2, 0, 1, 0], [null, 0, 2, 2, 1, 3], [null, 0, 5, 5, 5, 8]],
+	},
+	"144":{
+		"names": ["C6/add9", "C6/9"],
+		"notes": ["C", "D", "E", "G", "A"],
+		"fingerings": [[null, 5, 7, 5, 8, 0]],
+	},
+	"145":{
+		"names": ["C7", "Cdom 7"],
+		"notes": ["C", "E", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 5, 3]],
+	},
+	"146":{
+		"names": ["C7sus4"],
+		"notes": ["C", "F", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 6, 3]],
+	},
+	"147":{
+		"names": ["C9(b5)"],
+		"notes": ["C", "D", "E", "Gb", "Bb"],
+		"fingerings": [[0, 3, null, 3, 3, 2]],
+	},
+	"148":{
+		"names": ["Cadd9", "C2"],
+		"notes": ["C", "D", "E", "G"],
+		"fingerings": [[3, null, 0, 0, 1, 0], [null, 3, 0, 0, 1, 0], [null, 3, 2, 0, 3, 0], [null, 3, 2, 0, 3, 3], [null, null, 0, 0, 1, 0], [null, null, 0, 5, 5, 3], [null, 10, 12, 12, 13, 0], [null, 3, 2, 0, 3, 0], [null, 5, 5, 5, null, 0]],
+	},
+	"149":{
+		"names": ["Cdim/A"],
+		"notes": ["C", "Eb", "Gb", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 2]],
+	},
+	"150":{
+		"names": ["Cdim/Ab"],
+		"notes": ["C", "Eb", "Gb", "Ab"],
+		"fingerings": [[null, null, 1, 1, 1, 2], [null, null, 4, 5, 4, 4]],
+	},
+	"151":{
+		"names": ["Cdim/D"],
+		"notes": ["C", "D", "Eb", "Gb"],
+		"fingerings": [[null, 5, 4, 5, 4, 2]],
+	},
+	"152":{
+		"names": ["Cdim7"],
+		"notes": ["C", "Eb", "Gb", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 2]],
+	},
+	"153":{
+		"names": ["Cm"],
+		"notes": ["C", "Eb", "G"],
+		"fingerings": [[null, 3, 5, 5, 4, 3], [null, null, 5, 5, 4, 3]],
+	},
+	"154":{
+		"names": ["Cm/A"],
+		"notes": ["C", "Eb", "G", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 3]],
+	},
+	"155":{
+		"names": ["Cm/Bb"],
+		"notes": ["C", "Eb", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 4, 3]],
+	},
+	"156":{
+		"names": ["Cm6"],
+		"notes": ["C", "Eb", "G", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 3]],
+	},
+	"157":{
+		"names": ["Cm7"],
+		"notes": ["C", "Eb", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 4, 3]],
+	},
+	"158":{
+		"names": ["Cmaj7", "C#7"],
+		"notes": ["C", "E", "G", "B"],
+		"fingerings": [[0, 3, 2, 0, 0, 0], [null, 2, 2, 0, 1, 0], [null, 3, 5, 4, 5, 3]],
+	},
+	"159":{
+		"names": ["Cmaj9", "C9(#7)"],
+		"notes": ["C", "D", "E", "G", "B"],
+		"fingerings": [[null, 3, 0, 0, 0, 0]],
+	},
+	"160":{
+		"names": ["Csus", "Csus4"],
+		"notes": ["C", "F", "G"],
+		"fingerings": [[null, 3, 3, 0, 1, 1], [null, null, 3, 0, 1, 1]],
+	},
+	"161":{
+		"names": ["Csus2", "Cadd9(no3)"],
+		"notes": ["C", "D", "G"],
+		"fingerings": [[null, 10, 12, 12, 13, 3], [null, 5, 5, 5, null, 3], [null, 3, 0, 0, 3, 3], [null, 3, 5, 5, 3, 3]],
+	},
+	"162":{
+		"names": ["Csus2/A"],
+		"notes": ["C", "D", "G", "A"],
+		"fingerings": [[null, 5, 7, 5, 8, 3], [null, null, 0, 2, 1, 3]],
+	},
+	"163":{
+		"names": ["Csus2/B"],
+		"notes": ["C", "D", "G", "B"],
+		"fingerings": [[3, 3, 0, 0, 0, 3], [null, 3, 0, 0, 0, 3]],
+	},
+	"164":{
+		"names": ["Csus2/E"],
+		"notes": ["C", "D", "E", "G"],
+		"fingerings": [[3, null, 0, 0, 1, 0], [null, 3, 0, 0, 1, 0], [null, 3, 2, 0, 3, 0], [null, 3, 2, 0, 3, 3], [null, null, 0, 0, 1, 0], [null, null, 0, 5, 5, 3], [null, 10, 12, 12, 13, 0], [null, 5, 5, 5, null, 0]],
+	},
+	"165":{
+		"names": ["Csus2/F"],
+		"notes": ["C", "D", "F", "G"],
+		"fingerings": [[3, 3, 0, 0, 1, 1]],
+	},
+	"166":{
+		"names": ["Csus4/A"],
+		"notes": ["C", "F", "G", "A"],
+		"fingerings": [[3, null, 3, 2, 1, 1], [null, null, 3, 2, 1, 3]],
+	},
+	"167":{
+		"names": ["Csus4/B"],
+		"notes": ["C", "F", "G", "B"],
+		"fingerings": [[null, 3, 3, 0, 0, 3]],
+	},
+	"168":{
+		"names": ["Csus4/Bb"],
+		"notes": ["C", "F", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 6, 3]],
+	},
+	"169":{
+		"names": ["Csus4/D"],
+		"notes": ["C", "D", "F", "G"],
+		"fingerings": [[3, 3, 0, 0, 1, 1]],
+	},
+	"170":{
+		"names": ["Csus4/E"],
+		"notes": ["C", "E", "F", "G"],
+		"fingerings": [[null, 3, 3, 0, 1, 0], [null, null, 3, 0, 1, 0]],
+	},
+	"171":{
+		"names": ["D", "Dmaj"],
+		"notes": ["D", "Gb", "A"],
+		"fingerings": [[null, 5, 4, 2, 3, 2], [null, 9, 7, 7, null, 2], [2, 0, 0, 2, 3, 2], [null, 0, 0, 2, 3, 2], [null, 0, 4, 2, 3, 2], [null, null, 0, 2, 3, 2], [null, null, 0, 7, 7, 5]],
+	},
+	"172":{
+		"names": ["D #5", "Daug"],
+		"notes": ["D", "Gb", "Bb"],
+		"fingerings": [[null, null, 0, 3, 3, 2]],
+	},
+	"173":{
+		"names": ["D/B"],
+		"notes": ["D", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 3, 2], [null, 2, 0, 2, 0, 2], [null, 2, 0, 2, 3, 2], [null, 2, 4, 2, 3, 2], [null, null, 0, 2, 0, 2]],
+	},
+	"174":{
+		"names": ["D/C"],
+		"notes": ["C", "D", "Gb", "A"],
+		"fingerings": [[null, 5, 7, 5, 7, 2], [null, 0, 0, 2, 1, 2], [null, 3, null, 2, 3, 2], [null, 5, 7, 5, 7, 5]],
+	},
+	"175":{
+		"names": ["D/Db"],
+		"notes": ["Db", "D", "Gb", "A"],
+		"fingerings": [[null, null, 0, 14, 14, 14], [null, null, 0, 2, 2, 2]],
+	},
+	"176":{
+		"names": ["D/E"],
+		"notes": ["D", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 0, 2, 3, 2], [0, 0, 4, 2, 3, 0], [2, null, 0, 2, 3, 0], [null, 0, 2, 2, 3, 2], [null, null, 2, 2, 3, 2], [null, 5, 4, 2, 3, 0], [null, 9, 7, 7, null, 0]],
+	},
+	"177":{
+		"names": ["D/G"],
+		"notes": ["D", "Gb", "G", "A"],
+		"fingerings": [[5, null, 4, 0, 3, 5], [3, null, 0, 2, 3, 2]],
+	},
+	"178":{
+		"names": ["D5", "D(no 3rd)"],
+		"notes": ["D", "A"],
+		"fingerings": [[5, 5, 7, 7, null, 5], [null, 0, 0, 2, 3, 5]],
+	},
+	"179":{
+		"names": ["D6"],
+		"notes": ["D", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 3, 2], [null, 2, 0, 2, 0, 2], [null, 2, 0, 2, 3, 2], [null, 2, 4, 2, 3, 2], [null, null, 0, 2, 0, 2]],
+	},
+	"180":{
+		"names": ["D6/add9", "D6/9"],
+		"notes": ["D", "E", "Gb", "A", "B"],
+		"fingerings": [[0, 0, 2, 4, 3, 2], [0, 2, 0, 2, 0, 2]],
+	},
+	"181":{
+		"names": ["D7", "Ddom 7"],
+		"notes": ["C", "D", "Gb", "A"],
+		"fingerings": [[null, 5, 7, 5, 7, 2], [null, 0, 0, 2, 1, 2], [null, 3, null, 2, 3, 2], [null, 5, 7, 5, 7, 5]],
+	},
+	"182":{
+		"names": ["D7sus4"],
+		"notes": ["C", "D", "G", "A"],
+		"fingerings": [[null, 5, 7, 5, 8, 3], [null, null, 0, 2, 1, 3]],
+	},
+	"183":{
+		"names": ["D9", "Ddom 9"],
+		"notes": ["C", "D", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 0, 2, 1, 2], [2, null, 0, 2, 1, 0], [null, 5, 7, 5, 7, 0]],
+	},
+	"184":{
+		"names": ["D9(#5)"],
+		"notes": ["C", "D", "E", "Gb", "Bb"],
+		"fingerings": [[0, 3, null, 3, 3, 2]],
+	},
+	"185":{
+		"names": ["Dadd9", "D2"],
+		"notes": ["D", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 0, 2, 3, 2], [0, 0, 4, 2, 3, 0], [2, null, 0, 2, 3, 0], [null, 0, 2, 2, 3, 2], [null, null, 2, 2, 3, 2], [null, 5, 4, 2, 3, 0], [null, 9, 7, 7, null, 0]],
+	},
+	"186":{
+		"names": ["Daug/E"],
+		"notes": ["D", "E", "Gb", "Bb"],
+		"fingerings": [[2, null, 4, 3, 3, 0]],
+	},
+	"187":{
+		"names": ["Db", "Dbmaj"],
+		"notes": ["Db", "F", "Ab"],
+		"fingerings": [[4, 4, 6, 6, 6, 4], [null, 4, 3, 1, 2, 1], [null, 4, 6, 6, 6, 4], [null, null, 3, 1, 2, 1], [null, null, 6, 6, 6, 4]],
+	},
+	"188":{
+		"names": ["Db #5", "Dbaug"],
+		"notes": ["Db", "F", "A"],
+		"fingerings": [[null, 0, 3, 2, 2, 1], [null, 0, null, 2, 2, 1]],
+	},
+	"189":{
+		"names": ["Db b5"],
+		"notes": ["Db", "F", "G"],
+		"fingerings": [[null, null, 3, 0, 2, 1]],
+	},
+	"190":{
+		"names": ["Db/B"],
+		"notes": ["Db", "F", "Ab", "B"],
+		"fingerings": [[null, 4, 3, 4, 0, 4]],
+	},
+	"191":{
+		"names": ["Db/Bb"],
+		"notes": ["Db", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 2, 1]],
+	},
+	"192":{
+		"names": ["Db/C"],
+		"notes": ["C", "Db", "F", "Ab"],
+		"fingerings": [[null, 3, 3, 1, 2, 1], [null, 4, 6, 5, 6, 4]],
+	},
+	"193":{
+		"names": ["Db5", "Db(no 3rd)"],
+		"notes": ["Db", "Ab"],
+		"fingerings": [[null, 4, 6, 6, null, 4]],
+	},
+	"194":{
+		"names": ["Db6"],
+		"notes": ["Db", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 2, 1]],
+	},
+	"195":{
+		"names": ["Db7", "Dbdom 7"],
+		"notes": ["Db", "F", "Ab", "B"],
+		"fingerings": [[null, 4, 3, 4, 0, 4]],
+	},
+	"196":{
+		"names": ["Dbaug/D"],
+		"notes": ["Db", "D", "F", "A"],
+		"fingerings": [[null, null, 0, 2, 2, 1]],
+	},
+	"197":{
+		"names": ["Dbaug/G"],
+		"notes": ["Db", "F", "G", "A"],
+		"fingerings": [[1, 0, 3, 0, 2, 1]],
+	},
+	"198":{
+		"names": ["Dbdim/A"],
+		"notes": ["Db", "E", "G", "A"],
+		"fingerings": [[3, null, 2, 2, 2, 0], [null, 0, 2, 0, 2, 0], [null, 0, 2, 2, 2, 3]],
+	},
+	"199":{
+		"names": ["Dbdim/B"],
+		"notes": ["Db", "E", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 2, 0]],
+	},
+	"200":{
+		"names": ["Dbdim/Bb"],
+		"notes": ["Db", "E", "G", "Bb"],
+		"fingerings": [[null, 1, 2, 0, 2, 0], [null, null, 2, 3, 2, 3]],
+	},
+	"201":{
+		"names": ["Dbdim/D"],
+		"notes": ["Db", "D", "E", "G"],
+		"fingerings": [[3, null, 0, 0, 2, 0], [null, null, 0, 0, 2, 0]],
+	},
+	"202":{
+		"names": ["Dbdim7"],
+		"notes": ["Db", "E", "G", "Bb"],
+		"fingerings": [[null, 1, 2, 0, 2, 0], [null, null, 2, 3, 2, 3]],
+	},
+	"203":{
+		"names": ["Dbm"],
+		"notes": ["Db", "E", "Ab"],
+		"fingerings": [[null, 4, 6, 6, 5, 4], [null, null, 2, 1, 2, 0], [null, 4, 6, 6, null, 0]],
+	},
+	"204":{
+		"names": ["Dbm/A"],
+		"notes": ["Db", "E", "Ab", "A"],
+		"fingerings": [[null, 0, 2, 1, 2, 0]],
+	},
+	"205":{
+		"names": ["Dbm/B"],
+		"notes": ["Db", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 2, 0], [null, 4, 6, 4, 5, 4]],
+	},
+	"206":{
+		"names": ["Dbm7"],
+		"notes": ["Db", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 2, 0], [null, 4, 6, 4, 5, 4]],
+	},
+	"207":{
+		"names": ["Dbm7(b5)", "Dbo7"],
+		"notes": ["Db", "E", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 2, 0]],
+	},
+	"208":{
+		"names": ["Dbmaj7", "Db#7"],
+		"notes": ["C", "Db", "F", "Ab"],
+		"fingerings": [[null, 3, 3, 1, 2, 1], [null, 4, 6, 5, 6, 4]],
+	},
+	"209":{
+		"names": ["Dbsus2", "Dbadd9(no3)"],
+		"notes": ["Db", "Eb", "Ab"],
+		"fingerings": [[null, null, 6, 6, 4, 4]],
+	},
+	"210":{
+		"names": ["Dbsus4/Bb"],
+		"notes": ["Db", "Gb", "Ab", "Bb"],
+		"fingerings": [[null, null, 4, 3, 2, 4]],
+	},
+	"211":{
+		"names": ["Ddim/B"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"212":{
+		"names": ["Ddim/Bb"],
+		"notes": ["D", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 3, 1], [null, null, 3, 3, 3, 4]],
+	},
+	"213":{
+		"names": ["Ddim/C"],
+		"notes": ["C", "D", "F", "Ab"],
+		"fingerings": [[null, null, 0, 1, 1, 1]],
+	},
+	"214":{
+		"names": ["Ddim7"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"215":{
+		"names": ["Dm"],
+		"notes": ["D", "F", "A"],
+		"fingerings": [[null, 0, 0, 2, 3, 1]],
+	},
+	"216":{
+		"names": ["Dm/B"],
+		"notes": ["D", "F", "A", "B"],
+		"fingerings": [[1, 2, 3, 2, 3, 1], [null, 2, 0, 2, 0, 1], [null, null, 0, 2, 0, 1]],
+	},
+	"217":{
+		"names": ["Dm/Bb"],
+		"notes": ["D", "F", "A", "Bb"],
+		"fingerings": [[1, 1, 3, 2, 3, 1]],
+	},
+	"218":{
+		"names": ["Dm/C"],
+		"notes": ["C", "D", "F", "A"],
+		"fingerings": [[null, 5, 7, 5, 6, 5], [null, null, 0, 2, 1, 1], [null, null, 0, 5, 6, 5]],
+	},
+	"219":{
+		"names": ["Dm/Db"],
+		"notes": ["Db", "D", "F", "A"],
+		"fingerings": [[null, null, 0, 2, 2, 1]],
+	},
+	"220":{
+		"names": ["Dm/E"],
+		"notes": ["D", "E", "F", "A"],
+		"fingerings": [[null, null, 7, 7, 6, 0]],
+	},
+	"221":{
+		"names": ["Dm6"],
+		"notes": ["D", "F", "A", "B"],
+		"fingerings": [[1, 2, 3, 2, 3, 1], [null, 2, 0, 2, 0, 1], [null, null, 0, 2, 0, 1]],
+	},
+	"222":{
+		"names": ["Dm7"],
+		"notes": ["C", "D", "F", "A"],
+		"fingerings": [[null, 5, 7, 5, 6, 5], [null, null, 0, 2, 1, 1], [null, null, 0, 5, 6, 5]],
+	},
+	"223":{
+		"names": ["Dm7(b5)", "Do7"],
+		"notes": ["C", "D", "F", "Ab"],
+		"fingerings": [[null, null, 0, 1, 1, 1]],
+	},
+	"224":{
+		"names": ["Dm7/add11", "Dm7/11"],
+		"notes": ["C", "D", "F", "G", "A"],
+		"fingerings": [[3, null, 0, 2, 1, 1]],
+	},
+	"225":{
+		"names": ["Dmaj7", "D#7"],
+		"notes": ["Db", "D", "Gb", "A"],
+		"fingerings": [[null, null, 0, 14, 14, 14], [null, null, 0, 2, 2, 2]],
+	},
+	"226":{
+		"names": ["Dmin/maj7"],
+		"notes": ["Db", "D", "F", "A"],
+		"fingerings": [[null, null, 0, 2, 2, 1]],
+	},
+	"227":{
+		"names": ["Dsus", "Dsus4"],
+		"notes": ["D", "G", "A"],
+		"fingerings": [[5, null, 0, 0, 3, 5], [3, 0, 0, 0, 3, 3], [null, 0, 0, 0, 3, 3], [null, null, 0, 2, 3, 3]],
+	},
+	"228":{
+		"names": ["Dsus2", "Dadd9(no3)"],
+		"notes": ["D", "E", "A"],
+		"fingerings": [[5, 5, 7, 7, null, 0], [null, 0, 0, 2, 3, 0], [0, 0, 2, 2, 3, 0], [null, 0, 2, 2, 3, 0], [null, null, 0, 2, 3, 0]],
+	},
+	"229":{
+		"names": ["Dsus2/Ab"],
+		"notes": ["D", "E", "Ab", "A"],
+		"fingerings": [[4, null, 0, 2, 3, 0]],
+	},
+	"230":{
+		"names": ["Dsus2/B"],
+		"notes": ["D", "E", "A", "B"],
+		"fingerings": [[0, 2, 0, 2, 0, 0], [null, 2, 0, 2, 3, 0]],
+	},
+	"231":{
+		"names": ["Dsus2/Bb"],
+		"notes": ["D", "E", "A", "Bb"],
+		"fingerings": [[0, 1, null, 2, 3, 0]],
+	},
+	"232":{
+		"names": ["Dsus2/C"],
+		"notes": ["C", "D", "E", "A"],
+		"fingerings": [[null, null, 0, 2, 1, 0], [null, null, 0, 5, 5, 5]],
+	},
+	"233":{
+		"names": ["Dsus2/Db"],
+		"notes": ["Db", "D", "E", "A"],
+		"fingerings": [[null, 0, 0, 2, 2, 0], [null, null, 0, 2, 2, 0], [null, null, 0, 6, 5, 5], [null, null, 0, 9, 10, 9]],
+	},
+	"234":{
+		"names": ["Dsus2/F"],
+		"notes": ["D", "E", "F", "A"],
+		"fingerings": [[null, null, 7, 7, 6, 0]],
+	},
+	"235":{
+		"names": ["Dsus2/G"],
+		"notes": ["D", "E", "G", "A"],
+		"fingerings": [[null, 0, 2, 0, 3, 0], [null, 0, 2, 0, 3, 3], [null, 0, 2, 2, 3, 3], [5, null, 0, 0, 3, 0], [null, 0, 0, 0, null, 0]],
+	},
+	"236":{
+		"names": ["Dsus2/Gb"],
+		"notes": ["D", "E", "Gb", "A"],
+		"fingerings": [[0, 0, 0, 2, 3, 2], [0, 0, 4, 2, 3, 0], [2, null, 0, 2, 3, 0], [null, 0, 2, 2, 3, 2], [null, null, 2, 2, 3, 2], [null, 5, 4, 2, 3, 0], [null, 9, 7, 7, null, 0]],
+	},
+	"237":{
+		"names": ["Dsus4/B"],
+		"notes": ["D", "G", "A", "B"],
+		"fingerings": [[3, 0, 0, 0, 0, 3], [3, 2, 0, 2, 0, 3]],
+	},
+	"238":{
+		"names": ["Dsus4/C"],
+		"notes": ["C", "D", "G", "A"],
+		"fingerings": [[null, 5, 7, 5, 8, 3], [null, null, 0, 2, 1, 3]],
+	},
+	"239":{
+		"names": ["Dsus4/E"],
+		"notes": ["D", "E", "G", "A"],
+		"fingerings": [[null, 0, 2, 0, 3, 0], [null, 0, 2, 0, 3, 3], [null, 0, 2, 2, 3, 3], [5, null, 0, 0, 3, 0], [null, 0, 0, 0, null, 0]],
+	},
+	"240":{
+		"names": ["Dsus4/Gb"],
+		"notes": ["D", "Gb", "G", "A"],
+		"fingerings": [[5, null, 4, 0, 3, 5], [3, null, 0, 2, 3, 2]],
+	},
+	"241":{
+		"names": ["E", "Emaj"],
+		"notes": ["E", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 0, 0], [null, 7, 6, 4, 5, 0]],
+	},
+	"242":{
+		"names": ["E #5", "Eaug"],
+		"notes": ["C", "E", "Ab"],
+		"fingerings": [[null, 3, 2, 1, 1, 0]],
+	},
+	"243":{
+		"names": ["E/A"],
+		"notes": ["E", "Ab", "A", "B"],
+		"fingerings": [[null, 0, 2, 1, 0, 0]],
+	},
+	"244":{
+		"names": ["E/D"],
+		"notes": ["D", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 0, 1, 0, 0], [0, 2, 2, 1, 3, 0], [null, 2, 0, 1, 3, 0], [null, null, 0, 1, 0, 0]],
+	},
+	"245":{
+		"names": ["E/Db"],
+		"notes": ["Db", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 2, 0], [null, 4, 6, 4, 5, 4]],
+	},
+	"246":{
+		"names": ["E/Eb"],
+		"notes": ["Eb", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 1, 1, 0, 0], [0, null, 6, 4, 4, 0], [null, null, 1, 1, 0, 0]],
+	},
+	"247":{
+		"names": ["E/Gb"],
+		"notes": ["E", "Gb", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 0, 2], [0, null, 4, 1, 0, 0], [2, 2, 2, 1, 0, 0]],
+	},
+	"248":{
+		"names": ["E11/b9"],
+		"notes": ["D", "E", "F", "Ab", "A", "B"],
+		"fingerings": [[0, 0, 3, 4, 3, 4]],
+	},
+	"249":{
+		"names": ["E5", "E(no 3rd)"],
+		"notes": ["E", "B"],
+		"fingerings": [[0, 2, null, null, null, 0], [null, 7, 9, 9, null, 0]],
+	},
+	"250":{
+		"names": ["E6"],
+		"notes": ["Db", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 2, 0], [null, 4, 6, 4, 5, 4]],
+	},
+	"251":{
+		"names": ["E7", "Edom 7"],
+		"notes": ["D", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 0, 1, 0, 0], [0, 2, 2, 1, 3, 0], [null, 2, 0, 1, 3, 0], [null, null, 0, 1, 0, 0]],
+	},
+	"252":{
+		"names": ["E7/add11", "E7/11"],
+		"notes": ["D", "E", "Ab", "A", "B"],
+		"fingerings": [[null, 0, 0, 1, 0, 0]],
+	},
+	"253":{
+		"names": ["E7/b9(b5)"],
+		"notes": ["D", "E", "F", "Ab", "Bb"],
+		"fingerings": [[0, 1, 3, 1, 3, 1]],
+	},
+	"254":{
+		"names": ["E7sus4"],
+		"notes": ["D", "E", "A", "B"],
+		"fingerings": [[0, 2, 0, 2, 0, 0]],
+	},
+	"255":{
+		"names": ["E9", "Edom 9"],
+		"notes": ["D", "E", "Gb", "Ab", "B"],
+		"fingerings": [[0, 2, 0, 1, 0, 2], [2, 2, 0, 1, 0, 0]],
+	},
+	"256":{
+		"names": ["Eadd9", "E2"],
+		"notes": ["E", "Gb", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 0, 2], [0, null, 4, 1, 0, 0], [2, 2, 2, 1, 0, 0]],
+	},
+	"257":{
+		"names": ["Eb", "Ebmaj"],
+		"notes": ["Eb", "G", "Bb"],
+		"fingerings": [[null, 1, 1, 3, 4, 3], [null, null, 1, 3, 4, 3], [null, null, 5, 3, 4, 3]],
+	},
+	"258":{
+		"names": ["Eb #5", "Ebaug"],
+		"notes": ["Eb", "G", "B"],
+		"fingerings": [[3, 2, 1, 0, 0, 3], [3, null, 1, 0, 0, 3]],
+	},
+	"259":{
+		"names": ["Eb/C"],
+		"notes": ["C", "Eb", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 4, 3]],
+	},
+	"260":{
+		"names": ["Eb/D"],
+		"notes": ["D", "Eb", "G", "Bb"],
+		"fingerings": [[null, 6, 8, 7, 8, 6]],
+	},
+	"261":{
+		"names": ["Eb/Db"],
+		"notes": ["Db", "Eb", "G", "Bb"],
+		"fingerings": [[null, 1, 1, 3, 2, 3], [null, 6, 8, 6, 8, 6], [null, null, 1, 3, 2, 3]],
+	},
+	"262":{
+		"names": ["Eb/E"],
+		"notes": ["Eb", "E", "G", "Bb"],
+		"fingerings": [[null, null, 5, 3, 4, 0]],
+	},
+	"263":{
+		"names": ["Eb5", "Eb(no 3rd)"],
+		"notes": ["Eb", "Bb"],
+		"fingerings": [[null, 6, 8, 8, null, 6]],
+	},
+	"264":{
+		"names": ["Eb6"],
+		"notes": ["C", "Eb", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 4, 3]],
+	},
+	"265":{
+		"names": ["Eb7", "Ebdom 7"],
+		"notes": ["Db", "Eb", "G", "Bb"],
+		"fingerings": [[null, 1, 1, 3, 2, 3], [null, 6, 8, 6, 8, 6], [null, null, 1, 3, 2, 3]],
+	},
+	"266":{
+		"names": ["Ebaug/E"],
+		"notes": ["Eb", "E", "G", "B"],
+		"fingerings": [[3, null, 1, 0, 0, 0], [null, null, 1, 0, 0, 0]],
+	},
+	"267":{
+		"names": ["Ebdim/B"],
+		"notes": ["Eb", "Gb", "A", "B"],
+		"fingerings": [[2, null, 1, 2, 0, 2], [null, 0, 1, 2, 0, 2], [null, 2, 1, 2, 0, 2], [null, 2, 4, 2, 4, 2]],
+	},
+	"268":{
+		"names": ["Ebdim/C"],
+		"notes": ["C", "Eb", "Gb", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 2]],
+	},
+	"269":{
+		"names": ["Ebdim7"],
+		"notes": ["C", "Eb", "Gb", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 2]],
+	},
+	"270":{
+		"names": ["Ebm"],
+		"notes": ["Eb", "Gb", "Bb"],
+		"fingerings": [[null, null, 4, 3, 4, 2]],
+	},
+	"271":{
+		"names": ["Ebm/Db"],
+		"notes": ["Db", "Eb", "Gb", "Bb"],
+		"fingerings": [[null, null, 1, 3, 2, 2]],
+	},
+	"272":{
+		"names": ["Ebm7"],
+		"notes": ["Db", "Eb", "Gb", "Bb"],
+		"fingerings": [[null, null, 1, 3, 2, 2]],
+	},
+	"273":{
+		"names": ["Ebmaj7", "Eb#7"],
+		"notes": ["D", "Eb", "G", "Bb"],
+		"fingerings": [[null, 6, 8, 7, 8, 6]],
+	},
+	"274":{
+		"names": ["Ebsus2/Ab"],
+		"notes": ["Eb", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 4, 1]],
+	},
+	"275":{
+		"names": ["Ebsus4/F"],
+		"notes": ["Eb", "F", "Ab", "Bb"],
+		"fingerings": [[null, 1, 3, 1, 4, 1]],
+	},
+	"276":{
+		"names": ["Edim/C"],
+		"notes": ["C", "E", "G", "Bb"],
+		"fingerings": [[null, 3, 5, 3, 5, 3]],
+	},
+	"277":{
+		"names": ["Edim/D"],
+		"notes": ["D", "E", "G", "Bb"],
+		"fingerings": [[3, null, 0, 3, 3, 0]],
+	},
+	"278":{
+		"names": ["Edim/Db"],
+		"notes": ["Db", "E", "G", "Bb"],
+		"fingerings": [[null, 1, 2, 0, 2, 0], [null, null, 2, 3, 2, 3]],
+	},
+	"279":{
+		"names": ["Edim/Eb"],
+		"notes": ["Eb", "E", "G", "Bb"],
+		"fingerings": [[null, null, 5, 3, 4, 0]],
+	},
+	"280":{
+		"names": ["Edim7"],
+		"notes": ["Db", "E", "G", "Bb"],
+		"fingerings": [[null, 1, 2, 0, 2, 0], [null, null, 2, 3, 2, 3]],
+	},
+	"281":{
+		"names": ["Em"],
+		"notes": ["E", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 0, 0], [3, null, 2, 0, 0, 0], [null, 2, 5, null, null, 0]],
+	},
+	"282":{
+		"names": ["Em/A"],
+		"notes": ["E", "G", "A", "B"],
+		"fingerings": [[3, null, 2, 2, 0, 0], [null, 0, 2, 0, 0, 0], [null, 0, 5, 4, 5, 0]],
+	},
+	"283":{
+		"names": ["Em/C"],
+		"notes": ["C", "E", "G", "B"],
+		"fingerings": [[0, 3, 2, 0, 0, 0], [null, 2, 2, 0, 1, 0], [null, 3, 5, 4, 5, 3]],
+	},
+	"284":{
+		"names": ["Em/D"],
+		"notes": ["D", "E", "G", "B"],
+		"fingerings": [[0, 2, 0, 0, 0, 0], [0, 2, 0, 0, 3, 0], [0, 2, 2, 0, 3, 0], [0, 2, 2, 0, 3, 3], [null, null, 0, 12, 12, 12], [null, null, 0, 9, 8, 7], [null, null, 2, 4, 3, 3], [0, null, 0, 0, 0, 0], [null, 10, 12, 12, 12, 0]],
+	},
+	"285":{
+		"names": ["Em/Db"],
+		"notes": ["Db", "E", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 2, 0]],
+	},
+	"286":{
+		"names": ["Em/Eb"],
+		"notes": ["Eb", "E", "G", "B"],
+		"fingerings": [[3, null, 1, 0, 0, 0], [null, null, 1, 0, 0, 0]],
+	},
+	"287":{
+		"names": ["Em/Gb"],
+		"notes": ["E", "Gb", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 0, 2], [0, 2, 4, 0, 0, 0], [0, null, 4, 0, 0, 0], [2, 2, 2, 0, 0, 0]],
+	},
+	"288":{
+		"names": ["Em6"],
+		"notes": ["Db", "E", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 2, 0]],
+	},
+	"289":{
+		"names": ["Em7"],
+		"notes": ["D", "E", "G", "B"],
+		"fingerings": [[0, 2, 0, 0, 0, 0], [0, 2, 0, 0, 3, 0], [0, 2, 2, 0, 3, 0], [0, 2, 2, 0, 3, 3], [null, null, 0, 0, 0, 0], [null, null, 0, 12, 12, 12], [null, null, 0, 9, 8, 7], [null, null, 2, 4, 3, 3], [0, null, 0, 0, 0, 0], [null, 10, 12, 12, 12, 0]],
+	},
+	"290":{
+		"names": ["Em7(b5)", "Eo7"],
+		"notes": ["D", "E", "G", "Bb"],
+		"fingerings": [[3, null, 0, 3, 3, 0]],
+	},
+	"291":{
+		"names": ["Em7/add11", "Em7/11"],
+		"notes": ["D", "E", "G", "A", "B"],
+		"fingerings": [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 3], [3, null, 0, 2, 0, 0]],
+	},
+	"292":{
+		"names": ["Em9"],
+		"notes": ["D", "E", "Gb", "G", "B"],
+		"fingerings": [[0, 2, 0, 0, 0, 2], [0, 2, 0, 0, 3, 2], [2, 2, 0, 0, 0, 0]],
+	},
+	"293":{
+		"names": ["Emaj7", "E#7"],
+		"notes": ["Eb", "E", "Ab", "B"],
+		"fingerings": [[0, 2, 1, 1, 0, 0], [0, null, 6, 4, 4, 0], [null, null, 1, 1, 0, 0]],
+	},
+	"294":{
+		"names": ["Emaj9", "E9(#7)"],
+		"notes": ["Eb", "E", "Gb", "Ab", "B"],
+		"fingerings": [[0, 2, 1, 1, 0, 2], [4, null, 4, 4, 4, 0]],
+	},
+	"295":{
+		"names": ["Emin/maj7"],
+		"notes": ["Eb", "E", "G", "B"],
+		"fingerings": [[3, null, 1, 0, 0, 0], [null, null, 1, 0, 0, 0]],
+	},
+	"296":{
+		"names": ["Emin/maj9"],
+		"notes": ["Eb", "E", "Gb", "G", "B"],
+		"fingerings": [[0, 6, 4, 0, 0, 0]],
+	},
+	"297":{
+		"names": ["Esus", "Esus4"],
+		"notes": ["E", "A", "B"],
+		"fingerings": [[0, 0, 2, 2, 0, 0], [0, 0, 2, 4, 0, 0], [0, 2, 2, 2, 0, 0], [null, 0, 2, 2, 0, 0], [null, null, 2, 2, 0, 0]],
+	},
+	"298":{
+		"names": ["Esus2", "Eadd9(no3)"],
+		"notes": ["E", "Gb", "B"],
+		"fingerings": [[7, 9, 9, null, null, 0], [null, 2, 4, 4, null, 0]],
+	},
+	"299":{
+		"names": ["Esus2/A"],
+		"notes": ["E", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 0, 0], [null, 2, 4, 2, 5, 2]],
+	},
+	"300":{
+		"names": ["Esus2/Ab"],
+		"notes": ["E", "Gb", "Ab", "B"],
+		"fingerings": [[0, 2, 2, 1, 0, 2], [0, null, 4, 1, 0, 0], [2, 2, 2, 1, 0, 0]],
+	},
+	"301":{
+		"names": ["Esus2/Db"],
+		"notes": ["Db", "E", "Gb", "B"],
+		"fingerings": [[null, 4, 4, 4, null, 0]],
+	},
+	"302":{
+		"names": ["Esus2/Eb"],
+		"notes": ["Eb", "E", "Gb", "B"],
+		"fingerings": [[null, 2, 2, 4, 4, 2], [null, null, 4, 4, 4, 0]],
+	},
+	"303":{
+		"names": ["Esus2/G"],
+		"notes": ["E", "Gb", "G", "B"],
+		"fingerings": [[0, 2, 2, 0, 0, 2], [0, 2, 4, 0, 0, 0], [0, null, 4, 0, 0, 0], [2, 2, 2, 0, 0, 0]],
+	},
+	"304":{
+		"names": ["Esus4/Ab"],
+		"notes": ["E", "Ab", "A", "B"],
+		"fingerings": [[null, 0, 2, 1, 0, 0]],
+	},
+	"305":{
+		"names": ["Esus4/C"],
+		"notes": ["C", "E", "A", "B"],
+		"fingerings": [[0, 0, 7, 5, 0, 0], [null, 3, 2, 2, 0, 0]],
+	},
+	"306":{
+		"names": ["Esus4/D"],
+		"notes": ["D", "E", "A", "B"],
+		"fingerings": [[0, 2, 0, 2, 0, 0], [null, 2, 0, 2, 3, 0]],
+	},
+	"307":{
+		"names": ["Esus4/Db"],
+		"notes": ["Db", "E", "A", "B"],
+		"fingerings": [[0, 0, 2, 4, 2, 0], [null, 0, 7, 6, 0, 0]],
+	},
+	"308":{
+		"names": ["Esus4/Eb"],
+		"notes": ["Eb", "E", "A", "B"],
+		"fingerings": [[null, 2, 1, 2, 0, 0]],
+	},
+	"309":{
+		"names": ["Esus4/F"],
+		"notes": ["E", "F", "A", "B"],
+		"fingerings": [[0, 0, 3, 2, 0, 0]],
+	},
+	"310":{
+		"names": ["Esus4/G"],
+		"notes": ["E", "G", "A", "B"],
+		"fingerings": [[3, null, 2, 2, 0, 0], [null, 0, 2, 0, 0, 0], [null, 0, 5, 4, 5, 0]],
+	},
+	"311":{
+		"names": ["Esus4/Gb"],
+		"notes": ["E", "Gb", "A", "B"],
+		"fingerings": [[null, 0, 4, 4, 0, 0], [null, 2, 4, 2, 5, 2]],
+	},
+	"312":{
+		"names": ["F", "Fmaj"],
+		"notes": ["C", "F", "A"],
+		"fingerings": [[1, 3, 3, 2, 1, 1], [null, 0, 3, 2, 1, 1], [null, 3, 3, 2, 1, 1], [null, null, 3, 2, 1, 1]],
+	},
+	"313":{
+		"names": ["F #5", "Faug"],
+		"notes": ["Db", "F", "A"],
+		"fingerings": [[null, 0, 3, 2, 2, 1], [null, 0, null, 2, 2, 1]],
+	},
+	"314":{
+		"names": ["F/D"],
+		"notes": ["C", "D", "F", "A"],
+		"fingerings": [[null, 5, 7, 5, 6, 5], [null, null, 0, 2, 1, 1], [null, null, 0, 5, 6, 5]],
+	},
+	"315":{
+		"names": ["F/E"],
+		"notes": ["C", "E", "F", "A"],
+		"fingerings": [[0, 0, 3, 2, 1, 0], [1, 3, 3, 2, 1, 0], [1, null, 2, 2, 1, 0], [null, null, 2, 2, 1, 1], [null, null, 3, 2, 1, 0]],
+	},
+	"316":{
+		"names": ["F/Eb"],
+		"notes": ["C", "Eb", "F", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 1], [null, null, 3, 5, 4, 5]],
+	},
+	"317":{
+		"names": ["F/G"],
+		"notes": ["C", "F", "G", "A"],
+		"fingerings": [[3, null, 3, 2, 1, 1], [null, null, 3, 2, 1, 3]],
+	},
+	"318":{
+		"names": ["F5", "F(no 3rd)"],
+		"notes": ["C", "F"],
+		"fingerings": [[1, 3, 3, null, null, 1], [null, 8, 10, null, null, 1]],
+	},
+	"319":{
+		"names": ["F6"],
+		"notes": ["C", "D", "F", "A"],
+		"fingerings": [[null, 5, 7, 5, 6, 5], [null, null, 0, 2, 1, 1], [null, null, 0, 5, 6, 5]],
+	},
+	"320":{
+		"names": ["F6/add9", "F6/9"],
+		"notes": ["C", "D", "F", "G", "A"],
+		"fingerings": [[3, null, 0, 2, 1, 1]],
+	},
+	"321":{
+		"names": ["F7", "Fdom 7"],
+		"notes": ["C", "Eb", "F", "A"],
+		"fingerings": [[null, null, 1, 2, 1, 1], [null, null, 3, 5, 4, 5]],
+	},
+	"322":{
+		"names": ["Fadd9", "F2"],
+		"notes": ["C", "F", "G", "A"],
+		"fingerings": [[3, null, 3, 2, 1, 1], [null, null, 3, 2, 1, 3]],
+	},
+	"323":{
+		"names": ["Faug/D"],
+		"notes": ["Db", "D", "F", "A"],
+		"fingerings": [[null, null, 0, 2, 2, 1]],
+	},
+	"324":{
+		"names": ["Faug/G"],
+		"notes": ["Db", "F", "G", "A"],
+		"fingerings": [[1, 0, 3, 0, 2, 1]],
+	},
+	"325":{
+		"names": ["Fdim/D"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"326":{
+		"names": ["Fdim/Db"],
+		"notes": ["Db", "F", "Ab", "B"],
+		"fingerings": [[null, 4, 3, 4, 0, 4]],
+	},
+	"327":{
+		"names": ["Fdim7"],
+		"notes": ["D", "F", "Ab", "B"],
+		"fingerings": [[null, 2, 0, 1, 0, 1], [null, null, 0, 1, 0, 1], [null, null, 3, 4, 3, 4]],
+	},
+	"328":{
+		"names": ["Fm"],
+		"notes": ["C", "F", "Ab"],
+		"fingerings": [[null, 3, 3, 1, 1, 1], [null, null, 3, 1, 1, 1]],
+	},
+	"329":{
+		"names": ["Fm/D"],
+		"notes": ["C", "D", "F", "Ab"],
+		"fingerings": [[null, null, 0, 1, 1, 1]],
+	},
+	"330":{
+		"names": ["Fm/Db"],
+		"notes": ["C", "Db", "F", "Ab"],
+		"fingerings": [[null, 3, 3, 1, 2, 1], [null, 4, 6, 5, 6, 4]],
+	},
+	"331":{
+		"names": ["Fm/Eb"],
+		"notes": ["C", "Eb", "F", "Ab"],
+		"fingerings": [[null, 8, 10, 8, 9, 8], [null, null, 1, 1, 1, 1]],
+	},
+	"332":{
+		"names": ["Fm6"],
+		"notes": ["C", "D", "F", "Ab"],
+		"fingerings": [[null, null, 0, 1, 1, 1]],
+	},
+	"333":{
+		"names": ["Fm7"],
+		"notes": ["C", "Eb", "F", "Ab"],
+		"fingerings": [[null, 8, 10, 8, 9, 8], [null, null, 1, 1, 1, 1]],
+	},
+	"334":{
+		"names": ["Fmaj7", "F#7"],
+		"notes": ["C", "E", "F", "A"],
+		"fingerings": [[0, 0, 3, 2, 1, 0], [1, 3, 3, 2, 1, 0], [1, null, 2, 2, 1, 0], [null, null, 2, 2, 1, 1], [null, null, 3, 2, 1, 0]],
+	},
+	"335":{
+		"names": ["Fmaj7/#11"],
+		"notes": ["C", "E", "F", "A", "B"],
+		"fingerings": [[0, 2, 3, 2, 1, 0], [1, 3, 3, 2, 0, 0]],
+	},
+	"336":{
+		"names": ["Fmaj9", "F9(#7)"],
+		"notes": ["C", "E", "F", "G", "A"],
+		"fingerings": [[0, 0, 3, 0, 1, 3]],
+	},
+	"337":{
+		"names": ["Fsus", "Fsus4"],
+		"notes": ["C", "F", "Bb"],
+		"fingerings": [[null, null, 3, 3, 1, 1]],
+	},
+	"338":{
+		"names": ["Fsus2", "Fadd9(no3)"],
+		"notes": ["C", "F", "G"],
+		"fingerings": [[null, 3, 3, 0, 1, 1]],
+	},
+}
