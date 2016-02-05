@@ -43,7 +43,7 @@ public class ChordActivity extends AppCompatActivity {
     HashMap<String,ToggleableRadioButton>buttonMapping;
 
     GuitarNeck guitarNeck;
-    GuitarNeck.Fingering currentFingering;
+    Fingering currentFingering;
 
     /**
     * Whenever a radioButton is clicked, it calls this method.
@@ -92,10 +92,40 @@ public class ChordActivity extends AppCompatActivity {
         }
         chordDisplay.setText(currentChord.getProgression(root));
         scaleDisplay.setText(toneUtils.getScaleText(root));
-        ArrayList<GuitarNeck.Fingering> f = guitarNeck.findFingerings(currentChord.getProgression());
-        if (f.isEmpty()) currentFingering = null; else currentFingering = f.get(0);
+        ArrayList<Fingering> f = guitarNeck.findFingerings(currentChord.getProgression());
+        if (f.isEmpty()){
+            currentFingering = null;
+            ViewGroup parent = (ViewGroup) findViewById(R.id.fingeringContainer);
+            parent.removeAllViews();
+            TextView t = (TextView) findViewById(R.id.fingeringText);
+            t.setText("");
+        } else {
+            currentFingering = f.get(0);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ViewGroup parent = (ViewGroup) findViewById(R.id.fingeringContainer);
+            parent.removeAllViews();
+            for (int i = 0; i < Math.min(30,f.size()); i++){
+                final FingeringThumbnail tv = new FingeringThumbnail(this);
+                tv.setText(f.get(i).toString());
+                tv.setFingering(f.get(i));
+                tv.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setFingering(v);
+                    }
+                });
+                parent.addView(tv,params);
+            }
+        }
     }
 
+    private void setFingering(View v){
+        FingeringThumbnail thumb = (FingeringThumbnail) v;
+        currentFingering = thumb.getFingering();
+        TextView t = (TextView) findViewById(R.id.fingeringText);
+        t.setText(currentFingering.toString());
+        System.out.println(thumb.getFingering());
+    }
     /**
     * A method to construct a dialog window in which the user can choose the root tone of the chord.
     * @return A dialog window for choosing the root tone*/
@@ -104,6 +134,7 @@ public class ChordActivity extends AppCompatActivity {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.root_dialog);
         dialog.setTitle("Pick a root tone");
+
         ArrayList<SemiTone>semiTones = toneUtils.getSemiTones();
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 4; j++){

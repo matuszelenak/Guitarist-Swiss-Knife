@@ -13,52 +13,10 @@ import java.util.HashSet;
  * Created by whiskas on 30.1.2016.
  */
 public class GuitarNeck {
-    class GuitarString{
-        MediaPlayer player;
-        int stringIndex;
-        int currentFret;
-        Context context;
-        SemiTone startTone;
-        public GuitarString(Context context,int index){
-            this.context = context;
-            this.stringIndex = index;
-        }
-
-        public void setOpenTone(SemiTone tone){
-            this.startTone = tone;
-        }
-
-        public void setFret(int fretIndex){
-            currentFret = fretIndex;
-        }
-
-        public SemiTone getSemiTone(){
-            if (currentFret == -1) return null;
-            SemiTone result = startTone;
-            for (int i = 0; i < currentFret; i++){
-                result = result.getHigher();
-            }
-            return result;
-        }
-
-        public void pick(){
-            if (currentFret == -1) return;
-            int id = context.getResources().getIdentifier(String.format("guitar_%d_%d", stringIndex, currentFret), "raw", context.getPackageName());
-            player = MediaPlayer.create(context,id);
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            player.start();
-            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.stop();
-                    mp.release();
-                }
-            });
-        }
-    }
 
     class StrumThread extends Thread{
         ArrayList<GuitarString>strings;
+        int time = 75;
         public StrumThread(ArrayList<GuitarString>strings){
             super();
             this.strings = strings;
@@ -69,33 +27,12 @@ public class GuitarNeck {
             for (GuitarString gs : strings){
                 gs.pick();
                 try {
-                    Thread.sleep(150);
+                    Thread.sleep(time);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                time -=2;
             }
-        }
-    }
-
-    class Fingering implements Comparable{
-        ArrayList<Integer>fingering = new ArrayList<>();
-        int rating = 0;
-        public Fingering(ArrayList<Integer>fingering){
-            this.fingering = fingering;
-        }
-        @Override
-        public String toString(){
-            StringBuilder sb = new StringBuilder();
-            for (Integer i : fingering){
-                if (i == -1) sb.append('x').append(' ');
-                    else sb.append(i).append(' ');
-            }
-            return sb.toString();
-        }
-
-        public int compareTo(Object o){
-            Fingering f2 = (Fingering)o;
-            return f2.rating - rating;
         }
     }
 
@@ -143,11 +80,16 @@ public class GuitarNeck {
     }
 
     private int rateFingering(Fingering fingering){
-        return openStrings(fingering)*2 + continuousSeqLen(fingering)*2 - jumps(fingering)*3;
+        return openStrings(fingering)*2 + continuousSeqLen(fingering)*2 - jumps(fingering)*3 - neckDistance(fingering);
     }
 
     private int neckDistance(Fingering fingering){
-        return Collections.min(fingering.fingering);
+        int min = Integer.MAX_VALUE;
+        for (Integer i : fingering.fingering){
+            if (i <= 0) continue;
+            min = Math.min(min,i);
+        }
+        return min;
     }
 
     private int jumps(Fingering fingering){
@@ -211,7 +153,7 @@ public class GuitarNeck {
         int lowerBound = 1;
         int upperBound = 15;
         if (min != Integer.MAX_VALUE) lowerBound = Math.max(1,min-fretSpan);
-        if (max != Integer.MIN_VALUE) upperBound = Math.min(5, max + fretSpan);
+        if (max != Integer.MIN_VALUE) upperBound = Math.min(15, max + fretSpan);
         SemiTone newTone;
         for (int i = lowerBound; i < upperBound; i++){
 
