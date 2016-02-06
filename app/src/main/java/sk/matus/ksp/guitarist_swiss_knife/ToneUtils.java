@@ -1,10 +1,7 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.util.JsonReader;
-import android.util.Log;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,7 +21,7 @@ public class ToneUtils {
     private TreeMap<Double,String> allSemiTones = new TreeMap<>();
     /**
      * For each frequency found in allSemiTones, this HashMap contains an interval
-     * with bounds lower and higher than said frequency.
+     * with bounds lowerSemitone and higherSemitone than said frequency.
      * If another frequency falls into this interval, it is considered to be the
      * tone with the frequency the interval was derived from.
      */
@@ -105,8 +102,8 @@ public class ToneUtils {
     }
 
     /**This method calculates alternative names for all of the semitones.
-    * It does so by either lifting the lower semitones with # flag[s]
-    * or by lowering the higher semitones with b flag[s]*/
+    * It does so by either lifting the lowerSemitone semitones with # flag[s]
+    * or by lowering the higherSemitone semitones with b flag[s]*/
     private void generateAlternativeNames(){
         String[] suffix = new String[] {"##","#","","b","bb"};
         for (int i = 0; i < semiTones.size(); i++) {
@@ -122,11 +119,11 @@ public class ToneUtils {
 
     /**
      * * Binds the semiTones in the semiTone array together: each semitone will know,
-     * which semitone is higher and lower than itself*/
+     * which semitone is higherSemitone and lowerSemitone than itself*/
     private void bindTones(){
         for (int i = 0; i < semiTones.size(); i++){
-            semiTones.get(i).setHigher(semiTones.get(((i + 1) % 12 + 12) % 12));
-            semiTones.get(i).setLower(semiTones.get(((i-1)%12+12)%12));
+            semiTones.get(i).setHigherSemitone(semiTones.get(((i + 1) % 12 + 12) % 12));
+            semiTones.get(i).setLowerSemitone(semiTones.get(((i - 1) % 12 + 12) % 12));
         }
     }
 

@@ -1,15 +1,16 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.app.Dialog;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,18 +22,22 @@ import java.util.HashSet;
  */
 public class ChordActivity extends AppCompatActivity {
 
-    RadioButton rootChooser;
-    Dialog rootDialog;
+    RadioButton rootChooserButton;
+    Dialog rootChooserDialog;
     Chord currentChord;
-    TextView scaleDisplay;
-    TextView chordDisplay;
+    TextView scaleView;
+    TextView chordView;
+    ViewGroup fingeringsContainer;
+    ImageView currentFingeringView;
+    TextView currentFingeringText;
     /**
      * An instance of ToneUtils class for resolving tone related queries.
      */
     ToneUtils toneUtils;
-    /*
+    /**
     * Describes the root note of the scale (and consequently the chord
-    * On default set to "C", can be altered by the root choosing dialog*/
+    * On default set to "C", can be altered by the root choosing dialog
+    * */
     String root = "C";
     /**
      * An instance of DependencyScheme class which describes what the consistent
@@ -41,24 +46,9 @@ public class ChordActivity extends AppCompatActivity {
      */
     DependencyScheme scheme;
     HashMap<String,ToggleableRadioButton>buttonMapping;
-
     GuitarNeck guitarNeck;
+    ArrayList<Fingering>fingerings = new ArrayList<>();
     Fingering currentFingering;
-
-    /**
-    * Whenever a radioButton is clicked, it calls this method.
-    * It performs it's action and then resolves dependencies
-    * @param v View component that has changed*/
-    public void setModifier(View v){
-        ToggleableRadioButton button = (ToggleableRadioButton)v;
-        boolean state = button.isChecked();
-        currentChord.clearFlags();
-        HashSet<DependencyTerm> n = new HashSet<>();
-        n.add(new DependencyTerm(button.isChecked(),(String)button.getTag()));
-        scheme.deriveNew(n);
-        if (state != button.isChecked()) button.toggle();
-        updateChord();
-    }
 
     private HashMap<String,ToggleableRadioButton> extractButtons(ViewGroup parent){
         HashMap<String,ToggleableRadioButton>result = new HashMap<>();
@@ -74,58 +64,80 @@ public class ChordActivity extends AppCompatActivity {
         return result;
     }
 
-    /**
-    * A method called by the root choosing dialog which changes the root tone.
-    * @param v The View component (RadioButton in this case) which triggered the change*/
-    private void setRoot(View v){
-        root = (String) v.getTag();
-        updateChord();
-    }
-
-    /**
-    * A method that updates the scale, chord and the visual components that show them.*/
-    private void updateChord(){
-        rootChooser.setText(root);
+    private void updateModel(){
+        currentChord.clearFlags();
         currentChord.setScale(toneUtils.getScaleTones(root));
         for (HashMap.Entry<String,ToggleableRadioButton>e : scheme.getButtonMapping().entrySet()){
             if (e.getValue().isChecked()) currentChord.setFlag(e.getKey());
         }
-        chordDisplay.setText(currentChord.getProgression(root));
-        scaleDisplay.setText(toneUtils.getScaleText(root));
-        ArrayList<Fingering> f = guitarNeck.findFingerings(currentChord.getProgression());
-        if (f.isEmpty()){
-            currentFingering = null;
-            ViewGroup parent = (ViewGroup) findViewById(R.id.fingeringContainer);
-            parent.removeAllViews();
-            TextView t = (TextView) findViewById(R.id.fingeringText);
-            t.setText("");
-        } else {
-            currentFingering = f.get(0);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            ViewGroup parent = (ViewGroup) findViewById(R.id.fingeringContainer);
-            parent.removeAllViews();
-            for (int i = 0; i < Math.min(30,f.size()); i++){
-                final FingeringThumbnail tv = new FingeringThumbnail(this);
-                tv.setText(f.get(i).toString());
-                tv.setFingering(f.get(i));
-                tv.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setFingering(v);
-                    }
-                });
-                parent.addView(tv,params);
-            }
+        currentChord.constructProgression(root);
+        fingerings = guitarNeck.findFingerings(currentChord.getSemiToneProgression());
+        currentFingering = null;
+        if (!fingerings.isEmpty()){
+            currentFingering = fingerings.get(0);
         }
+    }
+
+    private void updateUI(){
+        rootChooserButton.setText(root);
+        chordView.setText(currentChord.getTextProgression());
+        scaleView.setText(toneUtils.getScaleText(root));
+
+        fingeringsContainer.removeAllViews();
+        currentFingeringText.setText("");
+        currentFingeringView.setBackgroundColor(Color.BLACK);
+
+        LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        for (int i = 0; i < Math.min(30,fingerings.size()); i++){
+            final FingeringThumbnail thumb = new FingeringThumbnail(this);
+            thumb.setText(fingerings.get(i).toString());
+            thumb.setFingering(fingerings.get(i));
+            thumb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setFingering(v);
+                }
+            });
+            fingeringsContainer.addView(thumb, params);
+        }
+        if (currentFingering!=null) {
+            currentFingeringText.setText(currentFingering.toString());
+        }
+    }
+
+    private void updateContent(){
+        updateModel();
+        updateUI();
+    }
+
+    /**
+     * A method called by the root choosing dialog which changes the root tone.
+     * @param v The View component (RadioButton in this case) which triggered the change*/
+    private void setRoot(View v){
+        root = (String) v.getTag();
+        updateContent();
+    }
+
+    /**
+     * Whenever a radioButton is clicked, it calls this method.
+     * It performs it's action and then resolves dependencies
+     * @param v View component that has changed*/
+    public void setModifier(View v){
+        ToggleableRadioButton button = (ToggleableRadioButton)v;
+        boolean state = button.isChecked();
+        HashSet<DependencyTerm> n = new HashSet<>();
+        n.add(new DependencyTerm(button.isChecked(),(String)button.getTag()));
+        scheme.deriveNew(n);
+        if (state != button.isChecked()) button.toggle();
+        updateContent();
     }
 
     private void setFingering(View v){
         FingeringThumbnail thumb = (FingeringThumbnail) v;
         currentFingering = thumb.getFingering();
-        TextView t = (TextView) findViewById(R.id.fingeringText);
-        t.setText(currentFingering.toString());
-        System.out.println(thumb.getFingering());
+        currentFingeringText.setText(currentFingering.toString());
     }
+
     /**
     * A method to construct a dialog window in which the user can choose the root tone of the chord.
     * @return A dialog window for choosing the root tone*/
@@ -133,8 +145,6 @@ public class ChordActivity extends AppCompatActivity {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.root_dialog);
-        dialog.setTitle("Pick a root tone");
-
         ArrayList<SemiTone>semiTones = toneUtils.getSemiTones();
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 4; j++){
@@ -151,7 +161,6 @@ public class ChordActivity extends AppCompatActivity {
                     }
                 });
             }
-
         }
         Button dialogButtonCancel = (Button) dialog.findViewById(R.id.customDialogCancel);
         dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
@@ -164,26 +173,29 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * Method triggered when the user clicks on the rootChooser radio button. Fires up the root choosing dialog
+    * Method triggered when the user clicks on the rootChooserButton radio button. Fires up the root choosing dialog
     * @param v The View component that has been clicked
     */
     public void chooseRoot(View v){
-        rootDialog.show();
+        rootChooserDialog.show();
     }
 
     public void playChord(View v){
         guitarNeck.strum(currentFingering);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chord);
-        rootChooser = (RadioButton) findViewById(R.id.rootChooser);
-        scaleDisplay = (TextView) findViewById(R.id.scaleDisplay);
-        chordDisplay = (TextView) findViewById(R.id.chordDisplay);
+    private void initUI(){
+        rootChooserButton = (RadioButton) findViewById(R.id.rootChooser);
+        scaleView = (TextView) findViewById(R.id.scaleDisplay);
+        chordView = (TextView) findViewById(R.id.chordDisplay);
+        rootChooserDialog = constructRootDialog();
+        currentFingeringView = (ImageView) findViewById(R.id.currentFingeringView);
+        currentFingeringText = (TextView) findViewById(R.id.currentFingeringText);
+        fingeringsContainer = (ViewGroup) findViewById(R.id.fingeringContainer);
+    }
+
+    private void initModel(){
         toneUtils = new ToneUtils(this.getResources());
-        rootDialog = constructRootDialog();
         currentChord = new Chord(toneUtils);
         currentChord.assignFlagMeaning(this.getResources());
         buttonMapping = extractButtons((ViewGroup) (findViewById(R.id.chordModifierContainer)));
@@ -191,12 +203,20 @@ public class ChordActivity extends AppCompatActivity {
         scheme.setModifierButtons(buttonMapping);
         guitarNeck = new GuitarNeck(this);
         ArrayList<SemiTone>tuning = new ArrayList<>();
-        String[] names = new String[]{"E","A","D","G","B","E"};
-        for (int i = 0; i < 6; i++){
-            tuning.add(toneUtils.getSemiTones().get(toneUtils.getSemiTonePosition(names[i])));
+        String[] defaultTuning = getResources().getStringArray(R.array.default_tuning);
+        for (String aDefaultTuning : defaultTuning) {
+            tuning.add(toneUtils.getSemiTones().get(toneUtils.getSemiTonePosition(aDefaultTuning)));
         }
         guitarNeck.setTuning(tuning);
-        updateChord();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chord);
+        initModel();
+        initUI();
+        updateContent();
     }
 
     @Override
@@ -222,6 +242,6 @@ public class ChordActivity extends AppCompatActivity {
             if (savedInstanceState.getBoolean(e.getKey())) currentChord.setFlag(e.getKey());
         }
         root = savedInstanceState.getString("root");
-        updateChord();
+        updateContent();
     }
 }

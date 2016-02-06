@@ -1,10 +1,9 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
-/**
- * Created by whiskas on 5.2.2016.
- */
 class Fingering implements Comparable{
     ArrayList<Integer> fingering = new ArrayList<>();
     int rating = 0;
@@ -23,7 +22,7 @@ class Fingering implements Comparable{
         return sb.toString();
     }
 
-    public int compareTo(Object o){
+    public int compareTo(@NonNull Object o){
         Fingering f2 = (Fingering)o;
         return f2.rating - rating;
     }

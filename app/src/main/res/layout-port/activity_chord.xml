@@ -16,7 +16,46 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/currentFingeringText"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/currentFingeringView"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fingeringScrollView"
+                android:padding="10dp"
+                android:layout_margin="10dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/fingeringContainer">
+                </LinearLayout>
+            </HorizontalScrollView>
+        </LinearLayout>
+
 
     </LinearLayout>
 
@@ -60,7 +99,8 @@
                 android:padding="10dp"
                 android:layout_margin="5dp"
                 android:background="#303030"
-                android:elevation="5dp"/>
+                android:elevation="5dp"
+                android:onClick="playChord"/>
 
         </LinearLayout>
 
@@ -478,7 +518,6 @@
                 android:textAlignment="center"
                 android:text="Scale"
                 android:background="#303030" />
-
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

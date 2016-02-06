@@ -27,24 +27,6 @@ public class Dependency {
 	}
 
     /**
-    * @return The set of user-modified terms.*/
-	public HashSet<DependencyTerm> getNewValues() {
-		return newValues;
-	}
-
-    /**
-    * @return The set of currently true terms.*/
-	public HashSet<DependencyTerm> getCurrentValues() {
-		return currentValues;
-	}
-
-    /**
-     * @return The set of terms resulting from the dependency.*/
-	public HashSet<DependencyTerm> getResultValues() {
-		return resultValues;
-	}
-
-    /**
      * @return String representation of the dependency in the form [newTerms + currentTerms] ==> [resultTerms].*/
 	@Override
 	public String toString(){

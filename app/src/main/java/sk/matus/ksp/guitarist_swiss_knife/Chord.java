@@ -29,6 +29,8 @@ public class Chord {
      * This HashMap should contain the tone progression that is currently present in the chord.
      * */
     HashSet<SemiTone> progression = new HashSet<>();
+
+    String stringProgression;
     /**
      * HashMap that assigns a meaning to each flag. The meaning is basically a complex index
      * into complete progression of 12 semitones.
@@ -111,7 +113,7 @@ public class Chord {
         String flag = reader.nextString();
         double index = reader.nextDouble();
         System.out.println(Double.toString(index)+flag);
-        flagMeaning.put(flag,index);
+        flagMeaning.put(flag, index);
         reader.endArray();
     }
     /**
@@ -129,24 +131,31 @@ public class Chord {
     * This method is supposed to resolve the flag to a SemiTone that the flag is supposed to add.
     * Each flag has a meaning which is a double value. The integer part of this value represents
     * the position at the scale, the (value - integer part) represents the semitone shift if there is any
-    * (0.5 = semitone higher, 0.0 no shift)
+    * (0.5 = semitone higherSemitone, 0.0 no shift)
     * @param flag A flag to be processed
     * @return A semiTone that is resulting from the flag being set*/
     private SemiTone resolveFlag(String flag){
         double rawIndex = flagMeaning.get(flag);
         int index = (int)Math.floor(rawIndex);
-        if (rawIndex - index > 0)  return scale.get(index).getHigher();
+        if (rawIndex - index > 0)  return scale.get(index).getHigherSemitone();
         return scale.get(index);
     }
 
+    public String getTextProgression(){
+       return stringProgression;
+    }
+
+    public HashSet<SemiTone> getSemiToneProgression() {
+        return progression;
+    }
+
     /**
-    * Iterates through the scale from which the chord is to be derived (starts at the
-    * root note position) and appends the tones present in the chord to the resulting
-    * string representation. This way the chord tones are printed out in the correct
-    * order and with names identical to those in the scale
-    * @param root The starting tone of the chord
-    * @return A string representation of the current chord*/
-    public String getProgression(String root){
+     * Iterates through the scale from which the chord is to be derived (starts at the
+     * root note position) and appends the tones present in the chord to the resulting
+     * string representation. This way the chord tones are printed out in the correct
+     * order and with names identical to those in the scale
+     * @param root The starting tone of the chord*/
+    public void constructProgression(String root){
         progression = new HashSet<>();
         collectTones();
         StringBuilder sb = new StringBuilder();
@@ -159,10 +168,6 @@ public class Chord {
             i++;
             count++;
         }
-        return sb.toString();
-    }
-
-    public HashSet<SemiTone> getProgression() {
-        return progression;
+        stringProgression = sb.toString();
     }
 }

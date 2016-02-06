@@ -45,7 +45,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
      */
     String currentTone = "";
     /**
-     * Contains the information about the currentTone being either higher, lower or precisely at currentFreq.
+     * Contains the information about the currentTone being either higherSemitone, lowerSemitone or precisely at currentFreq.
      */
     String currentDirection = "";
 

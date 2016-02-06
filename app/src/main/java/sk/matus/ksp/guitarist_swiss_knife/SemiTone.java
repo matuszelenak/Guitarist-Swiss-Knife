@@ -1,17 +1,13 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
-import android.util.Log;
-
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * This class represents the atomic part of the tone scale - a semitone.
  */
 class SemiTone {
-    SemiTone higher;
-    SemiTone lower;
+    SemiTone higherSemitone;
+    SemiTone lowerSemitone;
     ArrayList<String> names = new ArrayList<>();
     public SemiTone(String name){
         names.add(name);
@@ -30,22 +26,22 @@ class SemiTone {
         if (!names.contains(name)) names.add(name);
     }
 
-    /**@return A Tone that is higher by one semitone*/
-    public SemiTone getHigher() {
-        return higher;
+    /**@return A Tone that is higherSemitone by one semitone*/
+    public SemiTone getHigherSemitone() {
+        return higherSemitone;
     }
 
-    /**@return A Tone that is lower by one semitone*/
-    public SemiTone getLower() {
-        return lower;
+    /**@return A Tone that is lowerSemitone by one semitone*/
+    public SemiTone getLowerSemitone() {
+        return lowerSemitone;
     }
 
-    public void setHigher(SemiTone higher) {
-        this.higher = higher;
+    public void setHigherSemitone(SemiTone higherSemitone) {
+        this.higherSemitone = higherSemitone;
     }
 
-    public void setLower(SemiTone lower) {
-        this.lower = lower;
+    public void setLowerSemitone(SemiTone lowerSemitone) {
+        this.lowerSemitone = lowerSemitone;
     }
 
     @Override

@@ -1,37 +1,35 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 
-/**
- * Created by whiskas on 30.1.2016.
- */
 public class GuitarNeck {
 
     class StrumThread extends Thread{
         ArrayList<GuitarString>strings;
-        int time = 75;
+        int time = 40;
+        boolean seqStart = false;
         public StrumThread(ArrayList<GuitarString>strings){
-            super();
             this.strings = strings;
         }
 
         @Override
         public void run() {
             for (GuitarString gs : strings){
-                gs.pick();
+                if (Thread.interrupted()) return;
+                if (gs.pick() && !seqStart){
+                    seqStart = true;
+                }
+                if (!seqStart) continue;
                 try {
                     Thread.sleep(time);
-                } catch (InterruptedException e) {
+                }
+                catch(Exception e){
                     e.printStackTrace();
                 }
-                time -=2;
+                time ++;
             }
         }
     }
@@ -39,12 +37,14 @@ public class GuitarNeck {
     Context context;
     ArrayList<GuitarString>strings = new ArrayList<>();
     int fretSpan = 3;
+    StrumThread strumThread;
 
     public GuitarNeck(Context context){
         this.context = context;
         for (int i = 0; i < 6; i++){
             strings.add(new GuitarString(context, i));
         }
+        strumThread = new StrumThread(strings);
     }
 
     public void setTuning(ArrayList<SemiTone>tuning){
@@ -58,8 +58,11 @@ public class GuitarNeck {
         for (int i = 0; i < fingering.fingering.size(); i++){
             strings.get(i).setFret(fingering.fingering.get(i));
         }
-        StrumThread strumThread = new StrumThread(strings);
-        strumThread.run();
+        if (strumThread.isAlive()){
+            strumThread.interrupt();
+        }
+        strumThread = new StrumThread(strings);
+        strumThread.start();
     }
 
 
@@ -67,12 +70,10 @@ public class GuitarNeck {
         ArrayList<Fingering> result = new ArrayList<>();
         bruteFingerings(chord, result, 0, new ArrayList<Integer>(), new ArrayList<SemiTone>());
         sortFingerings(result);
-        for (Fingering f : result) System.out.println(f);
         return result;
     }
 
     private void sortFingerings(ArrayList<Fingering>fingerings){
-        ArrayList<Fingering>result = new ArrayList<>();
         for (Fingering f : fingerings){
             f.rating = rateFingering(f);
         }
@@ -169,9 +170,7 @@ public class GuitarNeck {
         }
         strings.get(stringIndex).setFret(0);
         newTone = strings.get(stringIndex).getSemiTone();
-        boolean openString = false;
         if (chord.contains(newTone)){
-            openString = true;
             currentTones.add(newTone);
             currentFingers.add(0);
             bruteFingerings(chord,found,stringIndex+1,currentFingers,currentTones);

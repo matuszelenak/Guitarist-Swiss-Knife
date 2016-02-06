@@ -151,7 +151,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>private java.util.HashMap&lt;java.lang.Double,<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/Tuple.html" title="class in sk.matus.ksp.guitarist_swiss_knife">Tuple</a>&lt;java.lang.Double,java.lang.Double&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#precisionIntervals">precisionIntervals</a></span></code>
 <div class="block">For each frequency found in allSemiTones, this HashMap contains an interval
- with bounds lower and higher than said frequency.</div>
+ with bounds lowerSemitone and higherSemitone than said frequency.</div>
 </td>
 </tr>
 <tr class="altColor">
@@ -198,7 +198,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>private void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#bindTones--">bindTones</a></span>()</code>
 <div class="block">* Binds the semiTones in the semiTone array together: each semitone will know,
- which semitone is higher and lower than itself</div>
+ which semitone is higherSemitone and lowerSemitone than itself</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -298,7 +298,7 @@ extends java.lang.Object</pre>
 <h4>precisionIntervals</h4>
 <pre>private&nbsp;java.util.HashMap&lt;java.lang.Double,<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/Tuple.html" title="class in sk.matus.ksp.guitarist_swiss_knife">Tuple</a>&lt;java.lang.Double,java.lang.Double&gt;&gt; precisionIntervals</pre>
 <div class="block">For each frequency found in allSemiTones, this HashMap contains an interval
- with bounds lower and higher than said frequency.
+ with bounds lowerSemitone and higherSemitone than said frequency.
  If another frequency falls into this interval, it is considered to be the
  tone with the frequency the interval was derived from.</div>
 </li>
@@ -417,8 +417,8 @@ extends java.lang.Object</pre>
 <h4>generateAlternativeNames</h4>
 <pre>private&nbsp;void&nbsp;generateAlternativeNames()</pre>
 <div class="block">This method calculates alternative names for all of the semitones.
- It does so by either lifting the lower semitones with # flag[s]
- or by lowering the higher semitones with b flag[s]</div>
+ It does so by either lifting the lowerSemitone semitones with # flag[s]
+ or by lowering the higherSemitone semitones with b flag[s]</div>
 </li>
 </ul>
 <a name="bindTones--">
@@ -429,7 +429,7 @@ extends java.lang.Object</pre>
 <h4>bindTones</h4>
 <pre>private&nbsp;void&nbsp;bindTones()</pre>
 <div class="block">* Binds the semiTones in the semiTone array together: each semitone will know,
- which semitone is higher and lower than itself</div>
+ which semitone is higherSemitone and lowerSemitone than itself</div>
 </li>
 </ul>
 <a name="extractToneFromFrequency-double-">

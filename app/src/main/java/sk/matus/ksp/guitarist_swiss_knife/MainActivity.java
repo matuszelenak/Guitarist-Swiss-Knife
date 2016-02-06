@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import sk.matus.ksp.guitarist_swiss_knife.MetronomeActivity;
-
 /**
 * The Activity that appears on the start-up.
 * Contains shortcuts that start individual sub-activities of the app*/
