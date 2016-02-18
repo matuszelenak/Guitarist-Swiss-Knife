@@ -73,9 +73,11 @@ public class ToneUtils {
     private void readTonesArray(JsonReader reader) throws IOException{
         reader.beginArray();
         String name;
+        int positionInOctave = 0;
         while (reader.hasNext()) {
             name = reader.nextString();
-            semiTones.add(new SemiTone(name));
+            semiTones.add(new SemiTone(name, positionInOctave));
+            positionInOctave++;
         }
         reader.endArray();
     }
@@ -125,6 +127,7 @@ public class ToneUtils {
             semiTones.get(i).setHigherSemitone(semiTones.get(((i + 1) % 12 + 12) % 12));
             semiTones.get(i).setLowerSemitone(semiTones.get(((i - 1) % 12 + 12) % 12));
         }
+
     }
 
     /**Given a frequency, it tries to determine which valid tone is closest to it and whether the supplied frequency is undertuned or overtuned.

@@ -16,8 +16,8 @@ public class DependencyScheme {
     /**
      * A list of valid functional dependencies which is used for further calculations.
      */
-	ArrayList<Dependency>dependencies = new ArrayList<>();
-    HashMap<String,ToggleableRadioButton>buttonMapping = new HashMap<>();
+	private ArrayList<Dependency>dependencies = new ArrayList<>();
+    private HashMap<String,ToggleableRadioButton>buttonMapping = new HashMap<>();
 
     /**On construction the dependency scheme loads the dependencies from the JSON file
     * @param resources The Resources to read JSON from*/
@@ -42,6 +42,9 @@ public class DependencyScheme {
         }
     }
 
+    /**
+     * @param buttons A HashMap of buttonTag-to-button associations
+     */
     public void setModifierButtons(HashMap<String,ToggleableRadioButton>buttons){
         buttonMapping = buttons;
     }
@@ -50,6 +53,10 @@ public class DependencyScheme {
         return buttonMapping;
     }
 
+    /**
+     *
+     * @return
+     */
     private HashSet<DependencyTerm> getCurrentFlags(){
         HashSet<DependencyTerm>result = new HashSet<>();
         for (HashMap.Entry<String,ToggleableRadioButton>e : buttonMapping.entrySet()){
@@ -58,20 +65,27 @@ public class DependencyScheme {
         return result;
     }
 
+    /**
+     * Given a newly derived dependency term, the method updates the actual modifier
+     * component so that it corresponds to the current state.
+     * @param dt A dependency term describing the state of the modifier to be set.
+     */
     private void performButtonAction(DependencyTerm dt){
-        if (dt.bool){
-            if(!buttonMapping.get(dt.statement).isChecked()){
-                buttonMapping.get(dt.statement).performClick();
-            }
-        }
-        else
-        {
-            if(buttonMapping.get(dt.statement).isChecked()){
-                buttonMapping.get(dt.statement).performClick();
-            }
+        if (buttonMapping.get(dt.getStatement()).isChecked() != dt.isBool()){
+            buttonMapping.get(dt.getStatement()).performClick();
         }
     }
 
+    /**
+     * Method called after a chord modifier has been changed.
+     * The method iterates through all the dependencies and checks
+     * if any additional changes to other modifiers are necessary to
+     * maintain a consistent state.
+     * If a dependency holds true, corresponding modifiers are updated
+     * which can trigger this method to run again and so on...
+     * @param newValues A HashSet of the DependencyTerm values which represents
+     *                  the changes made to the modifier
+     */
     public void deriveNew(HashSet<DependencyTerm>newValues){
         HashSet<DependencyTerm>currentValues;
         for (Dependency dependency : dependencies){
@@ -79,8 +93,8 @@ public class DependencyScheme {
             for (DependencyTerm dt : newValues){
                 if (currentValues.contains(dt)) currentValues.remove(dt);
             }
-            if (isSubset(dependency.newValues,newValues) && isSubset(dependency.currentValues,currentValues)){
-                for (DependencyTerm dt : dependency.resultValues){
+            if (isSubset(dependency.getNewValues(),newValues) && isSubset(dependency.getCurrentValues(),currentValues)){
+                for (DependencyTerm dt : dependency.getResultValues()){
                     performButtonAction(dt);
                 }
             }

@@ -141,16 +141,10 @@ public class Chord {
         return scale.get(index);
     }
 
-    /**
-     * @return string representation of the tone progression in a the chord
-     */
     public String getTextProgression(){
        return stringProgression;
     }
 
-    /**
-     * @return A Set of SemiTone instances which represent the chord
-     */
     public HashSet<SemiTone> getSemiToneProgression() {
         return progression;
     }

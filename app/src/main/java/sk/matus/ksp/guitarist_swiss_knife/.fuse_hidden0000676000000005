@@ -3,7 +3,6 @@ package sk.matus.ksp.guitarist_swiss_knife;
 import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -15,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+
 
 /**
  * The activity that contains all of the chord related tools:Finding chords and finger layouts.
@@ -37,21 +37,14 @@ public class ChordActivity extends AppCompatActivity {
     * Describes the root note of the scale (and consequently the chord
     * On default set to "C", can be altered by the root choosing dialog
     * */
-    private String root;
+    private String root = "C";
     /**
      * An instance of DependencyScheme class which describes what the consistent
      * state of the UI and the chord should be like whenever the user triggers a
      * change through UI components.
      */
     private DependencyScheme scheme;
-    /**
-     * A HashMap which associates the String tags of modifier buttons with the instances
-     * of said buttons in order to make their traversal easier.
-     */
     private HashMap<String,ToggleableRadioButton>buttonMapping;
-    /**
-     * An instance of GuitarNeck on which to perform all the fingering-related calculations
-     */
     private GuitarNeck guitarNeck;
     private ArrayList<Fingering>fingerings = new ArrayList<>();
     private Fingering currentFingering;
@@ -92,11 +85,9 @@ public class ChordActivity extends AppCompatActivity {
         fingeringsContainer.removeAllViews();
         currentFingeringText.setText("");
         currentFingeringView.setBackgroundColor(getResources().getColor(R.color.colorActivityBackground));
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0,2,15,2);
-        long start = System.nanoTime();
-        for (int i = 0; i < Math.min(5,fingerings.size()); i++){
+        for (int i = 0; i < Math.min(30,fingerings.size()); i++){
             final FingeringThumbnail thumb = new FingeringThumbnail(this);
             thumb.setFingering(fingerings.get(i));
             thumb.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -114,8 +105,6 @@ public class ChordActivity extends AppCompatActivity {
             currentFingeringText.setText(currentFingering.toString());
             currentFingeringView.setImageDrawable(guitarNeck.renderFingering(currentFingering, 300));
         }
-        Log.i("Drawing took",Double.toString((System.nanoTime()-start)/1000000.0));
-
     }
 
     private void updateContent(){
@@ -131,30 +120,18 @@ public class ChordActivity extends AppCompatActivity {
         updateContent();
     }
 
-    private boolean counting = false;
-    private long start;
     /**
      * Whenever a radioButton is clicked, it calls this method.
      * It performs it's action and then resolves dependencies
      * @param v View component that has changed*/
     public void setModifier(View v){
-        boolean meCounting = false;
-        if (!counting){
-            counting = true;
-            start = System.nanoTime();
-            meCounting = true;
-        }
         ToggleableRadioButton button = (ToggleableRadioButton)v;
         boolean state = button.isChecked();
         HashSet<DependencyTerm> n = new HashSet<>();
-        n.add(new DependencyTerm(button.isChecked(), (String) button.getTag()));
+        n.add(new DependencyTerm(button.isChecked(),(String)button.getTag()));
         scheme.deriveNew(n);
         if (state != button.isChecked()) button.toggle();
         updateContent();
-        if (meCounting){
-            counting = false;
-            Log.i("Resolving took",Double.toString((System.nanoTime()-start)/1000000.0));
-        }
     }
 
     private void setFingering(View v){
@@ -222,12 +199,11 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     private void initModel(){
-        root = getResources().getString(R.string.default_root);
-        toneUtils = new ToneUtils(getResources());
+        toneUtils = new ToneUtils(this.getResources());
         currentChord = new Chord(toneUtils);
-        currentChord.assignFlagMeaning(getResources());
+        currentChord.assignFlagMeaning(this.getResources());
         buttonMapping = extractButtons((ViewGroup) (findViewById(R.id.chordModifierContainer)));
-        scheme = new DependencyScheme(getResources());
+        scheme = new DependencyScheme(this.getResources());
         scheme.setModifierButtons(buttonMapping);
         guitarNeck = new GuitarNeck(this);
         ArrayList<SemiTone>tuning = new ArrayList<>();

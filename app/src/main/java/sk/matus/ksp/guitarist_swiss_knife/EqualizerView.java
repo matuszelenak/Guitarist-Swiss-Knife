@@ -23,31 +23,31 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     /**
      * A thread that continuously updates the SurfaceView with current values.
      */
-    UpdateThread updateThread;
+    private UpdateThread updateThread;
     /**
      * A variable that holds the dimensions of the SurfaceView canvas so that it
      * doesn't have to be queried each time.
      */
-    Rect canvasDimensions;
-    Paint wavePaint = new Paint();
-    Paint freqPaint = new Paint();
-    int backgroundColor;
+    private Rect canvasDimensions;
+    private Paint wavePaint = new Paint();
+    private Paint freqPaint = new Paint();
+    private int backgroundColor;
     /**
      * An array containing the current block of samples processed by FFT.
      */
-    double[] freqData;
+    private double[] freqData;
     /**
      * Self-descriptive, contains the current frequency taken from freqData
      */
-    double currentFreq = 0;
+    private double currentFreq = 0;
     /**
      * Contains the string representation of the tone which corresponds to currentFreq
      */
-    String currentTone = "";
+    private String currentTone = "";
     /**
      * Contains the information about the currentTone being either higherSemitone, lowerSemitone or precisely at currentFreq.
      */
-    String currentDirection = "";
+    private String currentDirection = "";
 
     public EqualizerView(Context context) {
         super(context);
@@ -166,7 +166,7 @@ public class EqualizerView extends SurfaceView implements SurfaceHolder.Callback
     /** Thread that permanently updates the surfaceView component.*/
     class UpdateThread extends Thread {
 
-        private SurfaceHolder surfaceHolder;
+        private final SurfaceHolder surfaceHolder;
         private boolean runFlag = false;
 
         public UpdateThread(SurfaceHolder surfaceHolder) {

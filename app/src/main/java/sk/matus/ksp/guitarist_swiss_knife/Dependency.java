@@ -1,7 +1,5 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -10,9 +8,9 @@ import java.util.HashSet;
  * on its right side will become true as well
  */
 public class Dependency {
-	HashSet<DependencyTerm> newValues = new HashSet<>();
-	HashSet<DependencyTerm>currentValues = new HashSet<>();
-	HashSet<DependencyTerm>resultValues = new HashSet<>();
+	private HashSet<DependencyTerm> newValues = new HashSet<>();
+	private HashSet<DependencyTerm>currentValues = new HashSet<>();
+	private HashSet<DependencyTerm>resultValues = new HashSet<>();
 
     /**
     * @param newValues list of terms that become true due to user's action.
@@ -26,7 +24,19 @@ public class Dependency {
 		this.resultValues = resultValues;
 	}
 
-    /**
+	public HashSet<DependencyTerm> getNewValues() {
+		return newValues;
+	}
+
+	public HashSet<DependencyTerm> getCurrentValues() {
+		return currentValues;
+	}
+
+	public HashSet<DependencyTerm> getResultValues() {
+		return resultValues;
+	}
+
+	/**
      * @return String representation of the dependency in the form [newTerms + currentTerms] ==> [resultTerms].*/
 	@Override
 	public String toString(){

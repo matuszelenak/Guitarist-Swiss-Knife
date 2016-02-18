@@ -5,15 +5,20 @@ import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 
+import java.util.ArrayList;
+
 class GuitarString{
-    int stringIndex;
-    int currentFret;
-    Context context;
-    SemiTone startTone;
-    MediaPlayer player = new MediaPlayer();
-    public GuitarString(Context context,int index){
+    private Context context;
+    private int stringIndex;
+    private int pressedFret;
+    private SemiTone openTone;
+    private int fretCount;
+    private ArrayList<SemiTone>semiTones = new ArrayList<>();
+    private MediaPlayer player = new MediaPlayer();
+    public GuitarString(Context context, int index, int fretCount){
         this.context = context;
         this.stringIndex = index;
+        this.fretCount = fretCount;
         player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
             public boolean onError(MediaPlayer mp, int what, int extra) {
@@ -36,24 +41,31 @@ class GuitarString{
     }
 
     public void setOpenTone(SemiTone tone){
-        this.startTone = tone;
+        this.openTone = tone;
+        SemiTone addedTone = tone;
+        semiTones = new ArrayList<>();
+        for (int i = 0; i < fretCount; i++){
+            semiTones.add(addedTone);
+            addedTone = addedTone.getHigherSemitone();
+        }
     }
 
     public void setFret(int fretIndex){
-        currentFret = fretIndex;
+        if (fretIndex >= fretCount) return;
+        pressedFret = fretIndex;
     }
 
-    public SemiTone getSemiTone(){
-        if (currentFret == -1) return null;
-        SemiTone result = startTone;
-        for (int i = 0; i < currentFret; i++){
-            result = result.getHigherSemitone();
-        }
-        return result;
+    public SemiTone getTone(){
+        if (semiTones == null) return null;
+        return semiTones.get(pressedFret);
+    }
+
+    public SemiTone getOpenTone(){
+        return openTone;
     }
 
     public boolean pick(){
-        int id = context.getResources().getIdentifier(String.format("guitar_%d_%d", stringIndex, currentFret), "raw", context.getPackageName());
+        int id = context.getResources().getIdentifier(String.format("guitar_%d_%d", stringIndex, pressedFret), "raw", context.getPackageName());
         if (id == 0) return false;
         AssetFileDescriptor afd = context.getResources().openRawResourceFd(id);
         try{

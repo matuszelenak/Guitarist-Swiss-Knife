@@ -6,11 +6,13 @@ import java.util.ArrayList;
  * This class represents the atomic part of the tone scale - a semitone.
  */
 class SemiTone {
-    SemiTone higherSemitone;
-    SemiTone lowerSemitone;
-    ArrayList<String> names = new ArrayList<>();
-    public SemiTone(String name){
+    private SemiTone higherSemitone;
+    private SemiTone lowerSemitone;
+    private ArrayList<String> names = new ArrayList<>();
+    private int positionInOctave;
+    public SemiTone(String name, int octavePosition){
         names.add(name);
+        positionInOctave = octavePosition;
     }
 
     public ArrayList<String> getNames() {
