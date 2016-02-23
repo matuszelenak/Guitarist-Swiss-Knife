@@ -5,10 +5,13 @@ import android.util.AttributeSet;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import java.util.ArrayList;
+
 /**
  * A custom RadioButton that can be unchecked (even within a RadioGroup component)
  */
 public class ToggleableRadioButton extends RadioButton {
+    ArrayList<Dependency>dependencies = new ArrayList<>();
     public ToggleableRadioButton(Context context){
         super(context);
     }
@@ -34,5 +37,17 @@ public class ToggleableRadioButton extends RadioButton {
         } else {
             setChecked(true);
         }
+    }
+
+    public ArrayList<Dependency> getDependencies() {
+        return dependencies;
+    }
+
+    public void setDependencies(ArrayList<Dependency> dependencies) {
+        this.dependencies = dependencies;
+    }
+
+    public void addDependency(Dependency dependency){
+        dependencies.add(dependency);
     }
 }

@@ -68,12 +68,12 @@ public class GuitarNeck {
         fretLines.add(nut);
         for (int i = 0; i <19; i++){
             ShapeDrawable fret = new ShapeDrawable(new RectShape());
-            fret.getPaint().setColor(Color.WHITE);
+            fret.getPaint().setColor(Color.GRAY);
             fretLines.add(fret);
         }
         for (int i = 0; i < 6; i++){
             ShapeDrawable string = new ShapeDrawable(new RectShape());
-            string.getPaint().setColor(Color.WHITE);
+            string.getPaint().setColor(Color.LTGRAY);
             ShapeDrawable finger = new ShapeDrawable(new OvalShape());
             finger.getPaint().setColor(Color.WHITE);
             stringLines.add(string);
@@ -114,13 +114,6 @@ public class GuitarNeck {
         Collections.sort(fingerings);
     }
 
-    private boolean isComplete(ArrayList<SemiTone>tones,HashSet<SemiTone>chord){
-        for (SemiTone st : chord){
-            if (!tones.contains(st)) return false;
-        }
-        return true;
-    }
-
     private void bruteFingerings(HashSet<SemiTone> chord,
                                  ArrayList<Fingering>found,
                                  int stringIndex,
@@ -128,12 +121,17 @@ public class GuitarNeck {
                                  ArrayList<SemiTone>currentTones
     ){
         if (stringIndex > 5){
-            if (isComplete(currentTones, chord)){
+            if (currentTones.containsAll(chord)){
                 ArrayList<Integer>newFingering = new ArrayList<>();
                 for (Integer i : currentFingers){
                     newFingering.add(i);
                 }
                 Fingering fingering = new Fingering(newFingering);
+                ArrayList<String>tones = new ArrayList<>();
+                for (SemiTone semiTone: currentTones){
+                    if (semiTone == null) tones.add("x"); else tones.add(semiTone.toString());
+                }
+                fingering.setTones(tones);
                 found.add(fingering);
             }
             return;
@@ -147,7 +145,7 @@ public class GuitarNeck {
         }
         int lowerBound, upperBound;
         if (min != Integer.MAX_VALUE) lowerBound = Math.max(1,min-fretSpan); else lowerBound = 1;
-        if (max != Integer.MIN_VALUE) upperBound = Math.min(15, max + fretSpan); else upperBound = 15;
+        if (max != Integer.MIN_VALUE) upperBound = Math.min(9, max + fretSpan); else upperBound = 15;
         SemiTone newTone;
         for (int i = lowerBound; i < upperBound; i++){
             strings.get(stringIndex).setFret(i);
@@ -165,51 +163,98 @@ public class GuitarNeck {
         if (chord.contains(newTone)){
             currentTones.add(newTone);
             currentFingers.add(0);
-            bruteFingerings(chord,found,stringIndex+1,currentFingers,currentTones);
-            currentFingers.remove(currentFingers.size()-1);
+            bruteFingerings(chord, found, stringIndex + 1, currentFingers, currentTones);
+            currentFingers.remove(currentFingers.size() - 1);
             currentTones.remove(currentTones.size()-1);
         }
         currentFingers.add(-1);
-        bruteFingerings(chord,found,stringIndex+1,currentFingers,currentTones);
+        currentTones.add(null);
+        bruteFingerings(chord, found, stringIndex + 1, currentFingers, currentTones);
+        currentTones.remove(currentTones.size()-1);
         currentFingers.remove(currentFingers.size()-1);
     }
 
     public Drawable renderFingering(Fingering fingering, int width){
-        int canvasWidth = width;
-        Bitmap bitmap = Bitmap.createBitmap(canvasWidth, canvasWidth*21/3, Bitmap.Config.ARGB_8888);
-        Canvas myCanvas = new Canvas(bitmap);
-        myCanvas.drawColor(Color.DKGRAY);
+        Bitmap bitmap = Bitmap.createBitmap(width, width*8, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.DKGRAY);
         Paint p = new Paint();
         p.setColor(Color.WHITE);
-        p.setTextSize(width / 8);
-        int textOffset = (int)p.measureText("88")+10;
+        int textSize = width / 10;
+        p.setTextSize(textSize);
+        int textOffset = (int)p.measureText("666");
+        int neckWidth = width - textOffset - 5;
         int radius = (width-textOffset)/12-1;
+        int headerHeight = textSize + width/20;
         int x = textOffset;
-        int y = 0;
-        int fretThickness = width/50;
+        int y = headerHeight;
+        int fretThickness = neckWidth/32;
         for (int i = 0; i < fretLines.size(); i++){
-            fretLines.get(i).setBounds(x, y, canvasWidth, y + fretThickness);
-            fretLines.get(i).draw(myCanvas);
-            myCanvas.drawText(Integer.toString(i),5,y+10,p);
-            y+=canvasWidth/3;
+            int textWidth = (int)p.measureText(Integer.toString(i));
+            fretLines.get(i).setBounds(x, y, x + neckWidth, y + fretThickness);
+            fretLines.get(i).draw(canvas);
+            canvas.drawText(Integer.toString(i), (textOffset - textWidth) / 2, y + textSize / 2, p);
+            y+=width/3;
         }
-        x = textOffset;
-        int stringThickness = width/70;
+        int stringThickness = neckWidth/48;
         for (int i = 0; i < stringLines.size(); i++){
-            stringLines.get(i).setBounds(x,0,x+stringThickness,myCanvas.getHeight());
-            stringLines.get(i).draw(myCanvas);
-            x+=(canvasWidth-textOffset-2*radius)/(stringLines.size()-1);
-            stringThickness = (int)Math.max(stringThickness*0.95,2.0);
+            x = textOffset+i*neckWidth/6+(neckWidth/12);
+            stringLines.get(i).setBounds(x - stringThickness / 2, headerHeight, x + stringThickness / 2, canvas.getHeight());
+            stringLines.get(i).draw(canvas);
+            stringThickness = (int)Math.max(stringThickness*0.97,2.0);
         }
-        x = textOffset;
+        Bitmap header = Bitmap.createBitmap(width, headerHeight, Bitmap.Config.ARGB_8888);
+        Canvas headerCanvas = new Canvas(header);
+        headerCanvas.drawColor(Color.DKGRAY);
+        ArrayList<String>headerData = fingering.getTones();
         for (int i = 0; i < fingering.getFingering().size(); i++){
+            x = textOffset+i*neckWidth/6+(neckWidth/12);
             if (fingering.getFingering().get(i)>0){
-                fingerMarkers.get(i).setBounds(x-radius,fingering.getFingering().get(i)*canvasWidth/3- radius,x+radius,fingering.getFingering().get(i)*canvasWidth/3+radius);
+                int position = fingering.getFingering().get(i);
+                fingerMarkers.get(i).setBounds(x - radius, headerHeight + position * width / 3 - radius, x + radius, headerHeight + position * width / 3 + radius);
+                fingerMarkers.get(i).draw(canvas);
+
+            }
+            String s = headerData.get(i);
+            headerCanvas.drawText(s,x-(int)p.measureText(s)/2,headerHeight-width/40,p);
+        }
+        Bitmap resized = Bitmap.createBitmap(bitmap,0,headerHeight+Math.max((int)Math.round((fingering.neckDistance()-0.5)*width/3),0),width, 4*width/3);
+        Bitmap combined = Bitmap.createBitmap(width,headerHeight+resized.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas combinedCanvas = new Canvas(combined);
+        combinedCanvas.drawBitmap(header,0f,0f,null);
+        combinedCanvas.drawBitmap(resized,0f,headerCanvas.getHeight(),null);
+        return new BitmapDrawable(combined);
+    }
+
+    public Drawable renderFingeringThumbnail(Fingering fingering, int width){
+        Bitmap bitmap = Bitmap.createBitmap(width, width*7, Bitmap.Config.ARGB_8888);
+        Canvas myCanvas = new Canvas(bitmap);
+        myCanvas.drawColor(Color.DKGRAY);
+        int radius = (width)/12;
+        int x = 0;
+        int y = 0;
+        int fretThickness = width/32;
+        for (int i = 0; i < fretLines.size(); i++){
+            fretLines.get(i).setBounds(x, y, width, y + fretThickness);
+            fretLines.get(i).draw(myCanvas);
+            y+=width/3;
+        }
+        int stringThickness = width/48;
+        for (int i = 0; i < stringLines.size(); i++){
+            x = i*width/6+(width/12-stringThickness/2);
+            stringLines.get(i).setBounds(x, 0, x + stringThickness, myCanvas.getHeight());
+            stringLines.get(i).draw(myCanvas);
+            stringThickness = (int)Math.max(stringThickness*0.97,2.0);
+        }
+        x = 0;
+        for (int i = 0; i < fingering.getFingering().size(); i++){
+            x = i*width/6+(width/12);
+            if (fingering.getFingering().get(i)>0){
+                fingerMarkers.get(i).setBounds(x-radius,fingering.getFingering().get(i)*width/3- radius,x+radius,fingering.getFingering().get(i)*width/3+radius);
                 fingerMarkers.get(i).draw(myCanvas);
             }
-            x+=(canvasWidth-textOffset-2*radius)/(stringLines.size()-1);
         }
-        Bitmap resized = Bitmap.createBitmap(bitmap,0,(int)Math.round((fingering.neckDistance()-0.5)*canvasWidth/3),canvasWidth, 4*canvasWidth/3);
+        Bitmap resized = Bitmap.createBitmap(bitmap,0,Math.max((int)Math.round((fingering.neckDistance()-0.5)*width/3),0),width, 4*width/3);
         return new BitmapDrawable(resized);
     }
 }

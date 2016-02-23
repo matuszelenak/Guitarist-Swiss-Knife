@@ -28,7 +28,6 @@ public class ChordActivity extends AppCompatActivity {
     private TextView chordView;
     private LinearLayout fingeringsContainer;
     private ImageView currentFingeringView;
-    private TextView currentFingeringText;
     /**
      * An instance of ToneUtils class for resolving tone related queries.
      */
@@ -71,6 +70,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     private void updateModel(){
+        start = System.nanoTime();
         currentChord.clearFlags();
         currentChord.setScale(toneUtils.getScaleTones(root));
         for (HashMap.Entry<String,ToggleableRadioButton>e : scheme.getButtonMapping().entrySet()){
@@ -82,6 +82,7 @@ public class ChordActivity extends AppCompatActivity {
         if (!fingerings.isEmpty()){
             currentFingering = fingerings.get(0);
         }
+        Log.i("ContentUpdateTook", Double.toString((System.nanoTime() - start) / 1000000.0));
     }
 
     private void updateUI(){
@@ -90,30 +91,28 @@ public class ChordActivity extends AppCompatActivity {
         scaleView.setText(toneUtils.getScaleText(root));
 
         fingeringsContainer.removeAllViews();
-        currentFingeringText.setText("");
         currentFingeringView.setBackgroundColor(getResources().getColor(R.color.colorActivityBackground));
-
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         params.setMargins(0,2,15,2);
         long start = System.nanoTime();
-        for (int i = 0; i < Math.min(5,fingerings.size()); i++){
+        for (int i = 0; i < Math.min(15, fingerings.size()); i++){
             final FingeringThumbnail thumb = new FingeringThumbnail(this);
             thumb.setFingering(fingerings.get(i));
             thumb.setScaleType(ImageView.ScaleType.FIT_CENTER);
             thumb.setAdjustViewBounds(true);
-            thumb.setImageDrawable(guitarNeck.renderFingering(thumb.fingering, 300));
+            fingeringsContainer.addView(thumb, params);
+            thumb.setImageDrawable(guitarNeck.renderFingeringThumbnail(thumb.fingering, 130));
             thumb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     setFingering(v);
                 }
             });
-            fingeringsContainer.addView(thumb, params);
+
         }
         if (currentFingering!=null) {
-            currentFingeringText.setText(currentFingering.toString());
             currentFingeringView.setImageDrawable(guitarNeck.renderFingering(currentFingering, 300));
-        }
+        } else currentFingeringView.setImageDrawable(null);
         Log.i("Drawing took",Double.toString((System.nanoTime()-start)/1000000.0));
 
     }
@@ -131,36 +130,34 @@ public class ChordActivity extends AppCompatActivity {
         updateContent();
     }
 
-    private boolean counting = false;
+    private boolean nestedUpdate = false;
     private long start;
     /**
      * Whenever a radioButton is clicked, it calls this method.
      * It performs it's action and then resolves dependencies
      * @param v View component that has changed*/
     public void setModifier(View v){
-        boolean meCounting = false;
-        if (!counting){
-            counting = true;
-            start = System.nanoTime();
-            meCounting = true;
+        boolean parentCall = false;
+        if (!nestedUpdate){
+            nestedUpdate = true;
+            parentCall = true;
         }
         ToggleableRadioButton button = (ToggleableRadioButton)v;
         boolean state = button.isChecked();
         HashSet<DependencyTerm> n = new HashSet<>();
         n.add(new DependencyTerm(button.isChecked(), (String) button.getTag()));
-        scheme.deriveNew(n);
+        scheme.deriveNew(n, button);
         if (state != button.isChecked()) button.toggle();
-        updateContent();
-        if (meCounting){
-            counting = false;
-            Log.i("Resolving took",Double.toString((System.nanoTime()-start)/1000000.0));
+        if (parentCall){
+            updateContent();
+            nestedUpdate = false;
         }
     }
 
     private void setFingering(View v){
         FingeringThumbnail thumb = (FingeringThumbnail) v;
         currentFingering = thumb.getFingering();
-        updateContent();
+        currentFingeringView.setImageDrawable(guitarNeck.renderFingering(currentFingering, 300));
     }
 
     /**
@@ -217,7 +214,6 @@ public class ChordActivity extends AppCompatActivity {
         currentFingeringView = (ImageView) findViewById(R.id.currentFingeringView);
         currentFingeringView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         currentFingeringView.setAdjustViewBounds(true);
-        currentFingeringText = (TextView) findViewById(R.id.currentFingeringText);
         fingeringsContainer = (LinearLayout) findViewById(R.id.fingeringContainer);
     }
 

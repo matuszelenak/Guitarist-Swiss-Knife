@@ -16,9 +16,18 @@ class Fingering implements Comparable{
 
     private ArrayList<Integer> fingering = new ArrayList<>();
     private int rating = 0;
-    public Fingering(ArrayList<Integer>fingering){
+    ArrayList<String>tones = new ArrayList<>();
+    public Fingering(ArrayList<Integer>fingering) {
         this.fingering = fingering;
         rate();
+    }
+
+    public ArrayList<String> getTones() {
+        return tones;
+    }
+
+    public void setTones(ArrayList<String> tones) {
+        this.tones = tones;
     }
 
     @Override
@@ -31,6 +40,15 @@ class Fingering implements Comparable{
         }
         sb.append(']');
         return sb.toString();
+    }
+
+    public ArrayList<String> getStringRepresentation(){
+        ArrayList<String>result = new ArrayList<>();
+        for (Integer i : fingering){
+            if (i == -1) result.add("X");
+                else result.add(" ");
+        }
+        return result;
     }
 
     public int compareTo(@NonNull Object o){

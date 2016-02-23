@@ -47,6 +47,11 @@ public class DependencyScheme {
      */
     public void setModifierButtons(HashMap<String,ToggleableRadioButton>buttons){
         buttonMapping = buttons;
+        for (Dependency d : dependencies){
+            for (DependencyTerm dt: d.getNewValues()){
+                buttonMapping.get(dt.getStatement()).addDependency(d);
+            }
+        }
     }
 
     public HashMap<String, ToggleableRadioButton> getButtonMapping() {
@@ -86,31 +91,19 @@ public class DependencyScheme {
      * @param newValues A HashSet of the DependencyTerm values which represents
      *                  the changes made to the modifier
      */
-    public void deriveNew(HashSet<DependencyTerm>newValues){
+    public void deriveNew(HashSet<DependencyTerm>newValues, ToggleableRadioButton button){
         HashSet<DependencyTerm>currentValues;
-        for (Dependency dependency : dependencies){
+        for (Dependency dependency : button.getDependencies()){
             currentValues = getCurrentFlags();
             for (DependencyTerm dt : newValues){
                 if (currentValues.contains(dt)) currentValues.remove(dt);
             }
-            if (isSubset(dependency.getNewValues(),newValues) && isSubset(dependency.getCurrentValues(),currentValues)){
+            if (newValues.containsAll(dependency.getNewValues()) && currentValues.containsAll(dependency.getCurrentValues())){
                 for (DependencyTerm dt : dependency.getResultValues()){
                     performButtonAction(dt);
                 }
             }
         }
-    }
-
-    /**
-    * A helper method that verifies if a set is a subset of another set.
-    * @param A The first set
-    * @param B The second set
-    * @return True if A is a subset of B, else otherwise*/
-    private boolean isSubset(HashSet<DependencyTerm>A,HashSet<DependencyTerm>B){
-        for (DependencyTerm e : A){
-            if (!B.contains(e)) return false;
-        }
-        return true;
     }
 
     /**
