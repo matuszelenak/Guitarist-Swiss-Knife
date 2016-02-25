@@ -51,7 +51,7 @@ public class Chord {
     }
 
     /**
-    * A not-yet implemented method that will add the flag to the set of current flags.
+    * Method that will add the flag to the set of current flags.
     * @param flag A flag to be set*/
     public void setFlag(String flag){
         flags.add(flag);

@@ -6,17 +6,10 @@
     tools:context="sk.matus.ksp.guitarist_swiss_knife.TunerActivity"
     android:background="@color/colorActivityBackground">
 
-
-    <ViewFlipper
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/viewFlipper"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" >
-    </ViewFlipper>
+    <android.support.v4.view.ViewPager
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tunerViewPager">
+    </android.support.v4.view.ViewPager>
 
 </RelativeLayout>

@@ -17,8 +17,18 @@ class Fingering implements Comparable{
     private ArrayList<Integer> fingering = new ArrayList<>();
     private int rating = 0;
     ArrayList<String>tones = new ArrayList<>();
+    String hashString;
     public Fingering(ArrayList<Integer>fingering) {
         this.fingering = fingering;
+        StringBuilder sb = new StringBuilder();
+        for (Integer i : fingering){
+            if (i == -1){
+                sb.append('x');
+            }
+            else
+                sb.append((char)(i.intValue()+65));
+        }
+        hashString = sb.toString();
         rate();
     }
 
@@ -28,6 +38,10 @@ class Fingering implements Comparable{
 
     public void setTones(ArrayList<String> tones) {
         this.tones = tones;
+    }
+
+    public String getHashString() {
+        return hashString;
     }
 
     @Override
@@ -40,6 +54,26 @@ class Fingering implements Comparable{
         }
         sb.append(']');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if (!(o instanceof Fingering)){
+            return false;
+        }
+        if (!((Fingering) o).getFingering().containsAll(fingering)) return false;
+        return true;
+    }
+
+    /**
+     * Overriding this method is quite a dirty hack
+     * only made to simplify the set operations on the
+     * objects of this type.
+     * @return a custom HashCode of this instance
+     */
+    @Override
+    public int hashCode(){
+        return hashString.hashCode();
     }
 
     public ArrayList<String> getStringRepresentation(){

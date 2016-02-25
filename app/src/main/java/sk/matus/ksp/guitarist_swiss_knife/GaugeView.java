@@ -9,7 +9,7 @@ import android.view.TextureView.SurfaceTextureListener;
 
 import java.util.Arrays;
 
-public class EqualizerView {
+public class GaugeView {
     private TextureView mTextureView;
     private RenderThread mThread;
     private int mWidth;
@@ -38,7 +38,7 @@ public class EqualizerView {
      */
     private String currentDirection = "";
 
-    public EqualizerView(Context context){
+    public GaugeView(Context context){
         wavePaint.setColor(context.getResources().getColor(R.color.colorKSPGreen));
         freqPaint.setColor(context.getResources().getColor(R.color.colorKSPGreen));
         freqPaint.setTextSize(40);
@@ -70,7 +70,7 @@ public class EqualizerView {
     private void drawEqualizer(Canvas canvas){
         int baseLineY = (int)(mHeight*0.8);
         for (int i = 0, x=10;  i < freqData.length; i+=freqData.length/(mWidth-20), x++){
-            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*10000))*baseLineY/4);   
+            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*10000))*baseLineY/4);
             canvas.drawLine(x,baseLineY,x,amplitudePeak,wavePaint);
         }
     }

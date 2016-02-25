@@ -1,6 +1,8 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,7 @@ public class ChordActivity extends AppCompatActivity {
     private TextView chordView;
     private LinearLayout fingeringsContainer;
     private ImageView currentFingeringView;
+    private TextView currentChordName;
     /**
      * An instance of ToneUtils class for resolving tone related queries.
      */
@@ -55,7 +58,7 @@ public class ChordActivity extends AppCompatActivity {
     private ArrayList<Fingering>fingerings = new ArrayList<>();
     private Fingering currentFingering;
 
-    private HashMap<String,ToggleableRadioButton> extractButtons(ViewGroup parent){
+    private HashMap<String,ToggleableRadioButton> getButtonMapping(ViewGroup parent){
         HashMap<String,ToggleableRadioButton>result = new HashMap<>();
         for (int i = 0; i < parent.getChildCount(); i++) {
             if (parent.getChildAt(i) instanceof ToggleableRadioButton){
@@ -63,7 +66,7 @@ public class ChordActivity extends AppCompatActivity {
                 result.put((String)trb.getTag(),trb);
             } else
             if (parent.getChildAt(i) instanceof ViewGroup){
-                result.putAll(extractButtons((ViewGroup)parent.getChildAt(i)));
+                result.putAll(getButtonMapping((ViewGroup) parent.getChildAt(i)));
             }
         }
         return result;
@@ -82,7 +85,7 @@ public class ChordActivity extends AppCompatActivity {
         if (!fingerings.isEmpty()){
             currentFingering = fingerings.get(0);
         }
-        Log.i("ContentUpdateTook", Double.toString((System.nanoTime() - start) / 1000000.0));
+        //Log.i("ContentUpdateTook", Double.toString((System.nanoTime() - start) / 1000000.0));
     }
 
     private void updateUI(){
@@ -93,7 +96,13 @@ public class ChordActivity extends AppCompatActivity {
         fingeringsContainer.removeAllViews();
         currentFingeringView.setBackgroundColor(getResources().getColor(R.color.colorActivityBackground));
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0,2,15,2);
+        if (getResources().getConfiguration().orientation == 2){
+            params.setMargins(0,2,15,2);
+        }
+        else{
+            params.setMargins(0,2,2,15);
+        }
+
         long start = System.nanoTime();
         for (int i = 0; i < Math.min(15, fingerings.size()); i++){
             final FingeringThumbnail thumb = new FingeringThumbnail(this);
@@ -113,8 +122,7 @@ public class ChordActivity extends AppCompatActivity {
         if (currentFingering!=null) {
             currentFingeringView.setImageDrawable(guitarNeck.renderFingering(currentFingering, 300));
         } else currentFingeringView.setImageDrawable(null);
-        Log.i("Drawing took",Double.toString((System.nanoTime()-start)/1000000.0));
-
+        //Log.i("Drawing took",Double.toString((System.nanoTime()-start)/1000000.0));
     }
 
     private void updateContent(){
@@ -214,6 +222,7 @@ public class ChordActivity extends AppCompatActivity {
         currentFingeringView = (ImageView) findViewById(R.id.currentFingeringView);
         currentFingeringView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         currentFingeringView.setAdjustViewBounds(true);
+        currentChordName = (TextView) findViewById(R.id.currentChordName);
         fingeringsContainer = (LinearLayout) findViewById(R.id.fingeringContainer);
     }
 
@@ -222,7 +231,7 @@ public class ChordActivity extends AppCompatActivity {
         toneUtils = new ToneUtils(getResources());
         currentChord = new Chord(toneUtils);
         currentChord.assignFlagMeaning(getResources());
-        buttonMapping = extractButtons((ViewGroup) (findViewById(R.id.chordModifierContainer)));
+        buttonMapping = getButtonMapping((ViewGroup) (findViewById(R.id.chordModifierContainer)));
         scheme = new DependencyScheme(getResources());
         scheme.setModifierButtons(buttonMapping);
         guitarNeck = new GuitarNeck(this);

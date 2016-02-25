@@ -4,6 +4,7 @@ import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +13,12 @@ import org.jtransforms.fft.DoubleFFT_1D;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 /**
 * The activity that records audio from the microphone in real time
 * and presents the user with visualisations of this audio*/
 public class TunerActivity extends AppCompatActivity {
+    ViewPager viewPager;
+    TunerPagerAdapter tunerPagerAdapter;
 
     //constants chosen so that the tradeoff between real-time performance and accuracy of FFT is optimal
     int sampleRate = 11025;
@@ -27,6 +29,7 @@ public class TunerActivity extends AppCompatActivity {
     private ProcessAudio processTask;
     private boolean started = false;
     private EqualizerView equalizerView;
+    private GaugeView gaugeView;
     private DoubleFFT_1D fft = new DoubleFFT_1D(blockSize);
     /**
      * An instance of ToneUtils class for resolving tone related queries.
@@ -40,9 +43,20 @@ public class TunerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         toneUtils = new ToneUtils(this.getResources());
         equalizerView = new EqualizerView(this);
-        equalizerView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        equalizerView.getTextureView().setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-        setContentView(equalizerView);
+        gaugeView = new GaugeView(this);
+        gaugeView.getTextureView().setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
+        //setContentView(equalizerView.getmTextureView());
+
+        setContentView(R.layout.activity_tuner);
+        viewPager = (ViewPager)findViewById(R.id.tunerViewPager);
+        tunerPagerAdapter = new TunerPagerAdapter(this);
+        tunerPagerAdapter.addPage(equalizerView.getTextureView());
+        tunerPagerAdapter.addPage(gaugeView.getTextureView());
+        viewPager.setAdapter(tunerPagerAdapter);
     }
 
     /**
@@ -89,10 +103,10 @@ public class TunerActivity extends AppCompatActivity {
         @Override
         protected void onProgressUpdate(double[]... waves) {
             if (equalizerView == null){
-                Log.i("NULL","");
                 return;
             }
             equalizerView.updateWaves(waves[0]);
+            gaugeView.updateWaves(waves[0]);
             double currentMax = findStrongestFreq(waves[0]);
             int measurementCount = 10;
             if (measurementNo != measurementCount){
@@ -103,6 +117,7 @@ public class TunerActivity extends AppCompatActivity {
             {
                 double overallMax = findPrevalentFreq(gatheredMaxFreq);
                 equalizerView.updateFreq(overallMax);
+                gaugeView.updateFreq(overallMax);
                 Tuple<String,String> noteData = toneUtils.extractToneFromFrequency(overallMax);
                 equalizerView.updateTone(noteData.x, noteData.y);
                 gatheredMaxFreq = new ArrayList<>();

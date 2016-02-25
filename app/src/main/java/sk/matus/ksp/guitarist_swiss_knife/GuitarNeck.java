@@ -99,15 +99,15 @@ public class GuitarNeck {
         strumThread.start();
     }
 
-
     public ArrayList<Fingering> findFingerings(HashSet<SemiTone>chord){
-        ArrayList<Fingering> result = new ArrayList<>();
+        HashSet<Fingering> result = new HashSet<>();
         long startTime = System.nanoTime();
         bruteFingerings(chord, result, 0, new ArrayList<Integer>(), new ArrayList<SemiTone>());
         long difference = System.nanoTime() - startTime;
+        ArrayList<Fingering>sorted = new ArrayList<>(result);
+        sortFingerings(sorted);
         Log.i("Fingerings took", Double.toString(difference / 1000000.0));
-        sortFingerings(result);
-        return result;
+        return sorted;
     }
 
     private void sortFingerings(ArrayList<Fingering>fingerings){
@@ -115,7 +115,7 @@ public class GuitarNeck {
     }
 
     private void bruteFingerings(HashSet<SemiTone> chord,
-                                 ArrayList<Fingering>found,
+                                 HashSet<Fingering>found,
                                  int stringIndex,
                                  ArrayList<Integer>currentFingers,
                                  ArrayList<SemiTone>currentTones
@@ -177,7 +177,7 @@ public class GuitarNeck {
     public Drawable renderFingering(Fingering fingering, int width){
         Bitmap bitmap = Bitmap.createBitmap(width, width*8, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawColor(Color.DKGRAY);
+        canvas.drawColor(Color.rgb(0x30,0x30,0x30));
         Paint p = new Paint();
         p.setColor(Color.WHITE);
         int textSize = width / 10;
@@ -205,7 +205,7 @@ public class GuitarNeck {
         }
         Bitmap header = Bitmap.createBitmap(width, headerHeight, Bitmap.Config.ARGB_8888);
         Canvas headerCanvas = new Canvas(header);
-        headerCanvas.drawColor(Color.DKGRAY);
+        headerCanvas.drawColor(Color.rgb(0x30,0x30,0x30));
         ArrayList<String>headerData = fingering.getTones();
         for (int i = 0; i < fingering.getFingering().size(); i++){
             x = textOffset+i*neckWidth/6+(neckWidth/12);
