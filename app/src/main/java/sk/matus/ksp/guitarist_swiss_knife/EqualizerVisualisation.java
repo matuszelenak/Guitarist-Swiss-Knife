@@ -6,10 +6,13 @@ import android.graphics.Paint;
 import android.graphics.SurfaceTexture;
 import android.view.TextureView;
 import android.view.TextureView.SurfaceTextureListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.Arrays;
 
-public class EqualizerView {
+public class EqualizerVisualisation extends LinearLayout implements TunerVisualisation{
+    Context context;
     private TextureView mTextureView;
     private RenderThread mThread;
     private int mWidth;
@@ -32,24 +35,27 @@ public class EqualizerView {
     /**
      * Contains the string representation of the tone which corresponds to currentFreq
      */
-    private String currentTone = "";
+    private Tone currentTone;
     /**
      * Contains the information about the currentTone being either higherSemitone, lowerSemitone or precisely at currentFreq.
      */
     private String currentDirection = "";
 
-    public EqualizerView(Context context){
+    public EqualizerVisualisation(Context context){
+        super(context);
+        this.context = context;
         wavePaint.setColor(context.getResources().getColor(R.color.colorKSPGreen));
         freqPaint.setColor(context.getResources().getColor(R.color.colorKSPGreen));
         freqPaint.setTextSize(40);
         backgroundColor = context.getResources().getColor(R.color.colorActivityBackground);
         mTextureView = new TextureView(context);
+        mTextureView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
         mTextureView.setSurfaceTextureListener(new CanvasListener());
         mTextureView.setOpaque(false);
-    }
-
-    public TextureView getTextureView(){
-        return mTextureView;
+        setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        this.addView(mTextureView);
     }
 
     /**
@@ -70,7 +76,7 @@ public class EqualizerView {
     private void drawEqualizer(Canvas canvas){
         int baseLineY = (int)(mHeight*0.8);
         for (int i = 0, x=10;  i < freqData.length; i+=freqData.length/(mWidth-20), x++){
-            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*10000))*baseLineY/4);   
+            int amplitudePeak = (int)(baseLineY - Math.max(4/baseLineY,Math.log(freqData[i]*10000))*baseLineY/4);
             canvas.drawLine(x,baseLineY,x,amplitudePeak,wavePaint);
         }
     }
@@ -88,7 +94,7 @@ public class EqualizerView {
      * Method updates its current freqData with a new block.
      * @param data the new block of data to use
      */
-    public void updateWaves(double[] data){
+    public void updateSamples(double[] data){
         this.freqData = Arrays.copyOf(data, data.length);
     }
 
@@ -96,18 +102,28 @@ public class EqualizerView {
      * Method updates its currenFreq with a new value.
      * @param freq the new frequency to use.
      */
-    public void updateFreq(double freq){
+    public void updateMaxFrequency(double freq){
         this.currentFreq = freq;
     }
 
     /**
      * Method that updates the currentTone and currentDirection with up-to-date data.
      * @param tone
-     * @param tuningDirection
      */
-    public void updateTone(String tone, String tuningDirection){
-        this.currentTone = tone;
-        this.currentDirection = tuningDirection;
+
+    public void updateTone(Tone tone){
+        currentTone = tone;
+        double error = currentFreq - tone.getFrequency();
+        double lowerLimit = (tone.getFrequencyInterval().x - tone.getFrequency())/2;
+        double upperLimit = (tone.getFrequencyInterval().y - tone.getFrequency())/2;
+        if (error > 0){
+            currentDirection = context.getString(R.string.frequency_below);
+            if (error < upperLimit) currentDirection = context.getString(R.string.frequency_precise);
+        } else
+        {
+            currentDirection = context.getString(R.string.frequency_above);
+            if (error > lowerLimit) currentDirection = context.getString(R.string.frequency_precise);
+        }
     }
 
     private class RenderThread extends Thread {

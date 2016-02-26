@@ -151,12 +151,12 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>private java.util.HashMap&lt;java.lang.Double,<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/Tuple.html" title="class in sk.matus.ksp.guitarist_swiss_knife">Tuple</a>&lt;java.lang.Double,java.lang.Double&gt;&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#precisionIntervals">precisionIntervals</a></span></code>
 <div class="block">For each frequency found in allSemiTones, this HashMap contains an interval
- with bounds lowerSemitone and higherSemitone than said frequency.</div>
+ with bounds lowerTone and higherTone than said frequency.</div>
 </td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>private java.util.ArrayList&lt;<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/SemiTone.html" title="class in sk.matus.ksp.guitarist_swiss_knife">SemiTone</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#semiTones">semiTones</a></span></code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#tones">tones</a></span></code>
 <div class="block">Contains the full range of semitones found in one octave (From "C" to "B")</div>
 </td>
 </tr>
@@ -176,7 +176,7 @@ extends java.lang.Object</pre>
 </tr>
 <tr class="altColor">
 <td class="colOne"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#ToneUtils-android.content.res.Resources-">ToneUtils</a></span>(android.content.res.Resources&nbsp;res)</code>
-<div class="block">Constructor reads a list containing the semiTones</div>
+<div class="block">Constructor reads a list containing the tones</div>
 </td>
 </tr>
 </table>
@@ -197,14 +197,14 @@ extends java.lang.Object</pre>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>private void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#bindTones--">bindTones</a></span>()</code>
-<div class="block">* Binds the semiTones in the semiTone array together: each semitone will know,
- which semitone is higherSemitone and lowerSemitone than itself</div>
+<div class="block">* Binds the tones in the tone array together: each semitone will know,
+ which semitone is higherTone and lowerTone than itself</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>private void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#constructScale-java.lang.String-">constructScale</a></span>(java.lang.String&nbsp;root)</code>
-<div class="block">This method constructs the harmonic scale starting from the root note.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#constructScale-java.lang.String-">constructScale</a></span>(java.lang.String&nbsp;baseName)</code>
+<div class="block">This method constructs the harmonic scale starting from the baseName note.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -216,7 +216,7 @@ extends java.lang.Object</pre>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>private void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#generateAllSemiTones--">generateAllSemiTones</a></span>()</code>
-<div class="block">A procedure to expand the basic semiTones into full range of 8 octaves.</div>
+<div class="block">A procedure to expand the basic tones into full range of 8 octaves.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
@@ -227,14 +227,14 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i5" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#getScaleText-java.lang.String-">getScaleText</a></span>(java.lang.String&nbsp;root)</code>
-<div class="block">Given the root note (String) it constructs the scale and returns its string representation.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#getScaleText-java.lang.String-">getScaleText</a></span>(java.lang.String&nbsp;baseName)</code>
+<div class="block">Given the baseName note (String) it constructs the scale and returns its string representation.</div>
 </td>
 </tr>
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>java.util.ArrayList&lt;<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/SemiTone.html" title="class in sk.matus.ksp.guitarist_swiss_knife">SemiTone</a>&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#getScaleTones-java.lang.String-">getScaleTones</a></span>(java.lang.String&nbsp;root)</code>
-<div class="block">Given the root note (String) it constructs the scale and returns it as an Array of SemiTones.</div>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ToneUtils.html#getScaleTones-java.lang.String-">getScaleTones</a></span>(java.lang.String&nbsp;baseName)</code>
+<div class="block">Given the baseName note (String) it constructs the scale and returns it as an Array of SemiTones.</div>
 </td>
 </tr>
 <tr id="i7" class="rowColor">
@@ -298,18 +298,18 @@ extends java.lang.Object</pre>
 <h4>precisionIntervals</h4>
 <pre>private&nbsp;java.util.HashMap&lt;java.lang.Double,<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/Tuple.html" title="class in sk.matus.ksp.guitarist_swiss_knife">Tuple</a>&lt;java.lang.Double,java.lang.Double&gt;&gt; precisionIntervals</pre>
 <div class="block">For each frequency found in allSemiTones, this HashMap contains an interval
- with bounds lowerSemitone and higherSemitone than said frequency.
+ with bounds lowerTone and higherTone than said frequency.
  If another frequency falls into this interval, it is considered to be the
  tone with the frequency the interval was derived from.</div>
 </li>
 </ul>
-<a name="semiTones">
+<a name="tones">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>semiTones</h4>
-<pre>private&nbsp;java.util.ArrayList&lt;<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/SemiTone.html" title="class in sk.matus.ksp.guitarist_swiss_knife">SemiTone</a>&gt; semiTones</pre>
+<h4>tones</h4>
+<pre>private&nbsp;java.util.ArrayList&lt;<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/SemiTone.html" title="class in sk.matus.ksp.guitarist_swiss_knife">SemiTone</a>&gt; tones</pre>
 <div class="block">Contains the full range of semitones found in one octave (From "C" to "B")</div>
 </li>
 </ul>
@@ -348,7 +348,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>ToneUtils</h4>
 <pre>public&nbsp;ToneUtils(android.content.res.Resources&nbsp;res)</pre>
-<div class="block">Constructor reads a list containing the semiTones</div>
+<div class="block">Constructor reads a list containing the tones</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>res</code> - Resources to be read from</dd>
@@ -403,7 +403,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>generateAllSemiTones</h4>
 <pre>private&nbsp;void&nbsp;generateAllSemiTones()</pre>
-<div class="block">A procedure to expand the basic semiTones into full range of 8 octaves.
+<div class="block">A procedure to expand the basic tones into full range of 8 octaves.
  Fills the balanced binary tree whose keys are frequencies and values are scientifical names of the tones.
  In addition, it calculates the maximum precision margins (ranges in which the frequency is associated with the tone itself)
  both for undertuned and overtuned frequency.</div>
@@ -417,8 +417,8 @@ extends java.lang.Object</pre>
 <h4>generateAlternativeNames</h4>
 <pre>private&nbsp;void&nbsp;generateAlternativeNames()</pre>
 <div class="block">This method calculates alternative names for all of the semitones.
- It does so by either lifting the lowerSemitone semitones with # flag[s]
- or by lowering the higherSemitone semitones with b flag[s]</div>
+ It does so by either lifting the lowerTone semitones with # flag[s]
+ or by lowering the higherTone semitones with b flag[s]</div>
 </li>
 </ul>
 <a name="bindTones--">
@@ -428,8 +428,8 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>bindTones</h4>
 <pre>private&nbsp;void&nbsp;bindTones()</pre>
-<div class="block">* Binds the semiTones in the semiTone array together: each semitone will know,
- which semitone is higherSemitone and lowerSemitone than itself</div>
+<div class="block">* Binds the tones in the tone array together: each semitone will know,
+ which semitone is higherTone and lowerTone than itself</div>
 </li>
 </ul>
 <a name="extractToneFromFrequency-double-">
@@ -467,14 +467,14 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>constructScale</h4>
-<pre>private&nbsp;void&nbsp;constructScale(java.lang.String&nbsp;root)</pre>
-<div class="block">This method constructs the harmonic scale starting from the root note.
+<pre>private&nbsp;void&nbsp;constructScale(java.lang.String&nbsp;baseName)</pre>
+<div class="block">This method constructs the harmonic scale starting from the baseName note.
  The semitones in the scale obey the standard naming conventions (e.g. No letter is used more than once)
  It stores the scale both as a list of SemiTone classes and as
  a string representation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>root</code> - The root tone from which to build up the scale</dd>
+<dd><code>baseName</code> - The baseName tone from which to build up the scale</dd>
 </dl>
 </li>
 </ul>
@@ -484,11 +484,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getScaleText</h4>
-<pre>public&nbsp;java.lang.String&nbsp;getScaleText(java.lang.String&nbsp;root)</pre>
-<div class="block">Given the root note (String) it constructs the scale and returns its string representation.</div>
+<pre>public&nbsp;java.lang.String&nbsp;getScaleText(java.lang.String&nbsp;baseName)</pre>
+<div class="block">Given the baseName note (String) it constructs the scale and returns its string representation.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>root</code> - The root note of the scale</dd>
+<dd><code>baseName</code> - The baseName note of the scale</dd>
 </dl>
 </li>
 </ul>
@@ -498,11 +498,11 @@ extends java.lang.Object</pre>
 <ul class="blockList">
 <li class="blockList">
 <h4>getScaleTones</h4>
-<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/SemiTone.html" title="class in sk.matus.ksp.guitarist_swiss_knife">SemiTone</a>&gt;&nbsp;getScaleTones(java.lang.String&nbsp;root)</pre>
-<div class="block">Given the root note (String) it constructs the scale and returns it as an Array of SemiTones.</div>
+<pre>public&nbsp;java.util.ArrayList&lt;<a href="../../../../sk/matus/ksp/guitarist_swiss_knife/SemiTone.html" title="class in sk.matus.ksp.guitarist_swiss_knife">SemiTone</a>&gt;&nbsp;getScaleTones(java.lang.String&nbsp;baseName)</pre>
+<div class="block">Given the baseName note (String) it constructs the scale and returns it as an Array of SemiTones.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>root</code> - The root note of the scale</dd>
+<dd><code>baseName</code> - The baseName note of the scale</dd>
 </dl>
 </li>
 </ul>

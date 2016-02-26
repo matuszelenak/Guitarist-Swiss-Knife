@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ViewGroup;
+
 import org.jtransforms.fft.DoubleFFT_1D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,8 +28,8 @@ public class TunerActivity extends AppCompatActivity {
     private AudioRecord audioRecord;
     private ProcessAudio processTask;
     private boolean started = false;
-    private EqualizerView equalizerView;
-    private GaugeView gaugeView;
+    private EqualizerVisualisation equalizerView;
+    private GaugeVisualisation gaugeView;
     private DoubleFFT_1D fft = new DoubleFFT_1D(blockSize);
     /**
      * An instance of ToneUtils class for resolving tone related queries.
@@ -37,25 +37,21 @@ public class TunerActivity extends AppCompatActivity {
     private ToneUtils toneUtils;
     private int measurementNo = 0;
     private ArrayList<Double>gatheredMaxFreq = new ArrayList<>();
+    private ArrayList<TunerVisualisation> visualisations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toneUtils = new ToneUtils(this.getResources());
-        equalizerView = new EqualizerView(this);
-        equalizerView.getTextureView().setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        gaugeView = new GaugeView(this);
-        gaugeView.getTextureView().setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-
-        //setContentView(equalizerView.getmTextureView());
-
+        equalizerView = new EqualizerVisualisation(this);
+        gaugeView = new GaugeVisualisation(this);
+        visualisations.add(equalizerView);
+        visualisations.add(gaugeView);
         setContentView(R.layout.activity_tuner);
         viewPager = (ViewPager)findViewById(R.id.tunerViewPager);
         tunerPagerAdapter = new TunerPagerAdapter(this);
-        tunerPagerAdapter.addPage(equalizerView.getTextureView());
-        tunerPagerAdapter.addPage(gaugeView.getTextureView());
+        tunerPagerAdapter.addPage(equalizerView);
+        tunerPagerAdapter.addPage(gaugeView);
         viewPager.setAdapter(tunerPagerAdapter);
     }
 
@@ -102,13 +98,11 @@ public class TunerActivity extends AppCompatActivity {
         * @param waves An array of doubles containing the block of FFT-processed samples*/
         @Override
         protected void onProgressUpdate(double[]... waves) {
-            if (equalizerView == null){
-                return;
+            for (TunerVisualisation tunerVisualisation : visualisations){
+                tunerVisualisation.updateSamples(waves[0]);
             }
-            equalizerView.updateWaves(waves[0]);
-            gaugeView.updateWaves(waves[0]);
             double currentMax = findStrongestFreq(waves[0]);
-            int measurementCount = 10;
+            int measurementCount = 5;
             if (measurementNo != measurementCount){
                 gatheredMaxFreq.add(currentMax);
                 measurementNo++;
@@ -116,10 +110,11 @@ public class TunerActivity extends AppCompatActivity {
             else
             {
                 double overallMax = findPrevalentFreq(gatheredMaxFreq);
-                equalizerView.updateFreq(overallMax);
-                gaugeView.updateFreq(overallMax);
-                Tuple<String,String> noteData = toneUtils.extractToneFromFrequency(overallMax);
-                equalizerView.updateTone(noteData.x, noteData.y);
+                Tone tone = toneUtils.analyseFrequency(overallMax);
+                for (TunerVisualisation tv : visualisations){
+                    tv.updateMaxFrequency(overallMax);
+                    tv.updateTone(tone);
+                }
                 gatheredMaxFreq = new ArrayList<>();
                 measurementNo = 1;
             }

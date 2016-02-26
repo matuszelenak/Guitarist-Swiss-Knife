@@ -13,4 +13,7 @@
     </string-array>
     <string name="root_chooser_dialog_title">Vyberte základní notu</string>
     <string name="root_chooser_dialog_cancel">Zrušit</string>
+    <string name="frequency_below">Nad</string>
+    <string name="frequency_above">Pod</string>
+    <string name="frequency_precise">Přesně</string>
 </resources>

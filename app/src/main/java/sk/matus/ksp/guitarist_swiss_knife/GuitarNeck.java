@@ -81,7 +81,7 @@ public class GuitarNeck {
         }
     }
 
-    public void setTuning(ArrayList<SemiTone>tuning){
+    public void setTuning(ArrayList<Tone>tuning){
         for (int i = 0; i < 6; i++){
             strings.get(i).setOpenTone(tuning.get(i));
         }
@@ -99,10 +99,10 @@ public class GuitarNeck {
         strumThread.start();
     }
 
-    public ArrayList<Fingering> findFingerings(HashSet<SemiTone>chord){
+    public ArrayList<Fingering> findFingerings(HashSet<Tone>chord){
         HashSet<Fingering> result = new HashSet<>();
         long startTime = System.nanoTime();
-        bruteFingerings(chord, result, 0, new ArrayList<Integer>(), new ArrayList<SemiTone>());
+        bruteFingerings(chord, result, 0, new ArrayList<Integer>(), new ArrayList<Tone>());
         long difference = System.nanoTime() - startTime;
         ArrayList<Fingering>sorted = new ArrayList<>(result);
         sortFingerings(sorted);
@@ -114,11 +114,11 @@ public class GuitarNeck {
         Collections.sort(fingerings);
     }
 
-    private void bruteFingerings(HashSet<SemiTone> chord,
+    private void bruteFingerings(HashSet<Tone> chord,
                                  HashSet<Fingering>found,
                                  int stringIndex,
                                  ArrayList<Integer>currentFingers,
-                                 ArrayList<SemiTone>currentTones
+                                 ArrayList<Tone>currentTones
     ){
         if (stringIndex > 5){
             if (currentTones.containsAll(chord)){
@@ -127,9 +127,9 @@ public class GuitarNeck {
                     newFingering.add(i);
                 }
                 Fingering fingering = new Fingering(newFingering);
-                ArrayList<String>tones = new ArrayList<>();
-                for (SemiTone semiTone: currentTones){
-                    if (semiTone == null) tones.add("x"); else tones.add(semiTone.toString());
+                ArrayList<Tone>tones = new ArrayList<>();
+                for (Tone tone : currentTones){
+                    tones.add(tone);
                 }
                 fingering.setTones(tones);
                 found.add(fingering);
@@ -146,7 +146,7 @@ public class GuitarNeck {
         int lowerBound, upperBound;
         if (min != Integer.MAX_VALUE) lowerBound = Math.max(1,min-fretSpan); else lowerBound = 1;
         if (max != Integer.MIN_VALUE) upperBound = Math.min(9, max + fretSpan); else upperBound = 15;
-        SemiTone newTone;
+        Tone newTone;
         for (int i = lowerBound; i < upperBound; i++){
             strings.get(stringIndex).setFret(i);
             newTone = strings.get(stringIndex).getTone();
@@ -182,6 +182,7 @@ public class GuitarNeck {
         p.setColor(Color.WHITE);
         int textSize = width / 10;
         p.setTextSize(textSize);
+        p.setAntiAlias(true);
         int textOffset = (int)p.measureText("666");
         int neckWidth = width - textOffset - 5;
         int radius = (width-textOffset)/12-1;
@@ -206,7 +207,7 @@ public class GuitarNeck {
         Bitmap header = Bitmap.createBitmap(width, headerHeight, Bitmap.Config.ARGB_8888);
         Canvas headerCanvas = new Canvas(header);
         headerCanvas.drawColor(Color.rgb(0x30,0x30,0x30));
-        ArrayList<String>headerData = fingering.getTones();
+        ArrayList<String>headerData = fingering.getHeaderData();
         for (int i = 0; i < fingering.getFingering().size(); i++){
             x = textOffset+i*neckWidth/6+(neckWidth/12);
             if (fingering.getFingering().get(i)>0){
@@ -246,7 +247,6 @@ public class GuitarNeck {
             stringLines.get(i).draw(myCanvas);
             stringThickness = (int)Math.max(stringThickness*0.97,2.0);
         }
-        x = 0;
         for (int i = 0; i < fingering.getFingering().size(); i++){
             x = i*width/6+(width/12);
             if (fingering.getFingering().get(i)>0){

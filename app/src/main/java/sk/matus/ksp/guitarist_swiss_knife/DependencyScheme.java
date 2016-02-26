@@ -71,9 +71,9 @@ public class DependencyScheme {
     }
 
     /**
-     * Given a newly derived dependency term, the method updates the actual modifier
+     * Given a newly derived dependency term, the method updates the actual accidental
      * component so that it corresponds to the current state.
-     * @param dt A dependency term describing the state of the modifier to be set.
+     * @param dt A dependency term describing the state of the accidental to be set.
      */
     private void performButtonAction(DependencyTerm dt){
         if (buttonMapping.get(dt.getStatement()).isChecked() != dt.isBool()){
@@ -82,14 +82,14 @@ public class DependencyScheme {
     }
 
     /**
-     * Method called after a chord modifier has been changed.
+     * Method called after a chord accidental has been changed.
      * The method iterates through all the dependencies and checks
      * if any additional changes to other modifiers are necessary to
      * maintain a consistent state.
      * If a dependency holds true, corresponding modifiers are updated
      * which can trigger this method to run again and so on...
      * @param newValues A HashSet of the DependencyTerm values which represents
-     *                  the changes made to the modifier
+     *                  the changes made to the accidental
      */
     public void deriveNew(HashSet<DependencyTerm>newValues, ToggleableRadioButton button){
         HashSet<DependencyTerm>currentValues;

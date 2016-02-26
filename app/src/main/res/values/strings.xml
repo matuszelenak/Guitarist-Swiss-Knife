@@ -12,6 +12,9 @@
         <item>B</item>
         <item>E</item>
     </string-array>
-    <string name="root_chooser_dialog_title">Choose the root note</string>
+    <string name="root_chooser_dialog_title">Choose the baseName note</string>
     <string name="root_chooser_dialog_cancel">Cancel</string>
+    <string name="frequency_below">Below</string>
+    <string name="frequency_above">Above</string>
+    <string name="frequency_precise">Precisely</string>
 </resources>

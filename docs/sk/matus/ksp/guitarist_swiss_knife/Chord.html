@@ -268,9 +268,9 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/Chord.html#getProgression-java.lang.String-">getProgression</a></span>(java.lang.String&nbsp;root)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/Chord.html#getProgression-java.lang.String-">getProgression</a></span>(java.lang.String&nbsp;baseName)</code>
 <div class="block">Iterates through the scale from which the chord is to be derived (starts at the
- root note position) and appends the tones present in the chord to the resulting
+ baseName note position) and appends the tones present in the chord to the resulting
  string representation.</div>
 </td>
 </tr>
@@ -660,12 +660,12 @@ extends java.lang.Object</pre>
 <div class="block">This method is supposed to resolve the flag to a SemiTone that the flag is supposed to add.
  Each flag has a meaning which is a double value. The integer part of this value represents
  the position at the scale, the (value - integer part) represents the semitone shift if there is any
- (-0.5 = semitone lowerSemitone, 0.5 = semitone higherSemitone, 0.0 no shift)</div>
+ (-0.5 = semitone lowerTone, 0.5 = semitone higherTone, 0.0 no shift)</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>flag</code> - A flag to be processed</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A semiTone that is resulting from the flag being set</dd>
+<dd>A tone that is resulting from the flag being set</dd>
 </dl>
 </li>
 </ul>
@@ -675,14 +675,14 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>getProgression</h4>
-<pre>public&nbsp;java.lang.String&nbsp;getProgression(java.lang.String&nbsp;root)</pre>
+<pre>public&nbsp;java.lang.String&nbsp;getProgression(java.lang.String&nbsp;baseName)</pre>
 <div class="block">Iterates through the scale from which the chord is to be derived (starts at the
- root note position) and appends the tones present in the chord to the resulting
+ baseName note position) and appends the tones present in the chord to the resulting
  string representation. This way the chord tones are printed out in the correct
  order and with names identical to those in the scale</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>root</code> - The starting tone of the chord</dd>
+<dd><code>baseName</code> - The starting tone of the chord</dd>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>A string representation of the current chord</dd>
 </dl>

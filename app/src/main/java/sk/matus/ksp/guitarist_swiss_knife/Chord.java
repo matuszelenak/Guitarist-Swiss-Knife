@@ -16,7 +16,7 @@ public class Chord {
     /**
      * A list that holds the musical scale from which the chord progression is to be derived.
      */
-    private ArrayList<SemiTone>scale;
+    private ArrayList<Tone>scale;
     /**
      * An instance of ToneUtils class for resolving tone related queries.
      */
@@ -28,7 +28,7 @@ public class Chord {
     /**
      * This HashMap should contain the tone progression that is currently present in the chord.
      * */
-    private HashSet<SemiTone> progression = new HashSet<>();
+    private HashSet<Tone> progression = new HashSet<>();
 
     private String stringProgression;
     /**
@@ -46,7 +46,7 @@ public class Chord {
 
     /**
     * @param scale The scale from which the chord is to be derived.*/
-    public void setScale(ArrayList<SemiTone>scale){
+    public void setScale(ArrayList<Tone>scale){
         this.scale = scale;
     }
 
@@ -128,16 +128,16 @@ public class Chord {
     }
 
     /**
-    * This method is supposed to resolve the flag to a SemiTone that the flag is supposed to add.
+    * This method is supposed to resolve the flag to a Tone that the flag is supposed to add.
     * Each flag has a meaning which is a double value. The integer part of this value represents
     * the position at the scale, the (value - integer part) represents the semitone shift if there is any
     * (0.5 = semitone higherSemitone, 0.0 no shift)
     * @param flag A flag to be processed
     * @return A semiTone that is resulting from the flag being set*/
-    private SemiTone resolveFlag(String flag){
+    private Tone resolveFlag(String flag){
         double rawIndex = flagMeaning.get(flag);
         int index = (int)Math.floor(rawIndex);
-        if (rawIndex - index > 0)  return scale.get(index).getHigherSemitone();
+        if (rawIndex - index > 0)  return scale.get(index).getHigherTone();
         return scale.get(index);
     }
 
@@ -149,27 +149,27 @@ public class Chord {
     }
 
     /**
-     * @return A Set of SemiTone instances which represent the chord
+     * @return A Set of Tone instances which represent the chord
      */
-    public HashSet<SemiTone> getSemiToneProgression() {
+    public HashSet<Tone> getSemiToneProgression() {
         return progression;
     }
 
     /**
      * Iterates through the scale from which the chord is to be derived (starts at the
-     * root note position) and appends the tones present in the chord to the resulting
+     * baseName note position) and appends the tones present in the chord to the resulting
      * string representation. This way the chord tones are printed out in the correct
      * order and with names identical to those in the scale
      * @param root The starting tone of the chord*/
-    public void constructProgression(String root){
+    public void constructProgression(ToneName root){
         progression = new HashSet<>();
         collectTones();
         StringBuilder sb = new StringBuilder();
         int i = toneUtils.getSemiTonePosition(root);
         int count = 0;
         while (count < 12){
-            if (progression.contains(toneUtils.getSemiTones().get(i % 12))){
-                sb.append(toneUtils.getSemiTones().get(i%12).getNames().get(0)).append(" ");
+            if (progression.contains(toneUtils.getTones().get(i % 12))){
+                sb.append(toneUtils.getTones().get(i%12).getPrimaryName().format("%b%a")).append(" ");
             }
             i++;
             count++;

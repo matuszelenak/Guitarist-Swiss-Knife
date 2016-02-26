@@ -1,11 +1,8 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -36,10 +33,10 @@ public class ChordActivity extends AppCompatActivity {
      */
     private ToneUtils toneUtils;
     /**
-    * Describes the root note of the scale (and consequently the chord
-    * On default set to "C", can be altered by the root choosing dialog
+    * Describes the baseName note of the scale (and consequently the chord
+    * On default set to "C", can be altered by the baseName choosing dialog
     * */
-    private String root;
+    private Tone root;
     /**
      * An instance of DependencyScheme class which describes what the consistent
      * state of the UI and the chord should be like whenever the user triggers a
@@ -47,7 +44,7 @@ public class ChordActivity extends AppCompatActivity {
      */
     private DependencyScheme scheme;
     /**
-     * A HashMap which associates the String tags of modifier buttons with the instances
+     * A HashMap which associates the String tags of accidental buttons with the instances
      * of said buttons in order to make their traversal easier.
      */
     private HashMap<String,ToggleableRadioButton>buttonMapping;
@@ -75,23 +72,22 @@ public class ChordActivity extends AppCompatActivity {
     private void updateModel(){
         start = System.nanoTime();
         currentChord.clearFlags();
-        currentChord.setScale(toneUtils.getScaleTones(root));
+        currentChord.setScale(toneUtils.getScaleTones(root.getPrimaryName()));
         for (HashMap.Entry<String,ToggleableRadioButton>e : scheme.getButtonMapping().entrySet()){
             if (e.getValue().isChecked()) currentChord.setFlag(e.getKey());
         }
-        currentChord.constructProgression(root);
+        currentChord.constructProgression(root.getPrimaryName());
         fingerings = guitarNeck.findFingerings(currentChord.getSemiToneProgression());
         currentFingering = null;
         if (!fingerings.isEmpty()){
             currentFingering = fingerings.get(0);
         }
-        //Log.i("ContentUpdateTook", Double.toString((System.nanoTime() - start) / 1000000.0));
     }
 
     private void updateUI(){
-        rootChooserButton.setText(root);
+        rootChooserButton.setText(root.getPrimaryName().baseName +root.getPrimaryName().accidental);
         chordView.setText(currentChord.getTextProgression());
-        scaleView.setText(toneUtils.getScaleText(root));
+        scaleView.setText(toneUtils.getScaleText(root.getPrimaryName()));
 
         fingeringsContainer.removeAllViews();
         currentFingeringView.setBackgroundColor(getResources().getColor(R.color.colorActivityBackground));
@@ -102,8 +98,6 @@ public class ChordActivity extends AppCompatActivity {
         else{
             params.setMargins(0,2,2,15);
         }
-
-        long start = System.nanoTime();
         for (int i = 0; i < Math.min(15, fingerings.size()); i++){
             final FingeringThumbnail thumb = new FingeringThumbnail(this);
             thumb.setFingering(fingerings.get(i));
@@ -122,7 +116,6 @@ public class ChordActivity extends AppCompatActivity {
         if (currentFingering!=null) {
             currentFingeringView.setImageDrawable(guitarNeck.renderFingering(currentFingering, 300));
         } else currentFingeringView.setImageDrawable(null);
-        //Log.i("Drawing took",Double.toString((System.nanoTime()-start)/1000000.0));
     }
 
     private void updateContent(){
@@ -131,10 +124,10 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-     * A method called by the root choosing dialog which changes the root tone.
+     * A method called by the baseName choosing dialog which changes the baseName tone.
      * @param v The View component (RadioButton in this case) which triggered the change*/
     private void setRoot(View v){
-        root = (String) v.getTag();
+        root = toneUtils.getTones().get((int) v.getTag());
         updateContent();
     }
 
@@ -169,19 +162,20 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * A method to construct a dialog window in which the user can choose the root tone of the chord.
-    * @return A dialog window for choosing the root tone*/
+    * A method to construct a dialog window in which the user can choose the baseName tone of the chord.
+    * @return A dialog window for choosing the baseName tone*/
     private Dialog constructRootDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.root_dialog);
-        ArrayList<SemiTone>semiTones = toneUtils.getSemiTones();
+        ArrayList<Tone> tones = toneUtils.getTones();
         for (int i = 0; i < 3; i++){
             for (int j = 0; j < 4; j++){
                 Button btn = (Button) dialog.findViewById(getResources().getIdentifier(String.format("rootDialogBtn%d",i*4+j),"id",getPackageName()));
-                String tone = semiTones.get(i*4+j).getNames().get(0);
+                ToneName name = tones.get(i*4+j).getPrimaryName();
+                String tone =  name.baseName + name.accidental;
                 btn.setText(tone);
-                btn.setTag(tone);
+                btn.setTag(i*4+j);
                 btn.setTransformationMethod(null);
                 btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -203,7 +197,7 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     /**
-    * Method triggered when the user clicks on the rootChooserButton radio button. Fires up the root choosing dialog
+    * Method triggered when the user clicks on the rootChooserButton radio button. Fires up the baseName choosing dialog
     * @param v The View component that has been clicked
     */
     public void chooseRoot(View v){
@@ -227,18 +221,23 @@ public class ChordActivity extends AppCompatActivity {
     }
 
     private void initModel(){
-        root = getResources().getString(R.string.default_root);
         toneUtils = new ToneUtils(getResources());
+        root = toneUtils.getTones().get(0);
         currentChord = new Chord(toneUtils);
         currentChord.assignFlagMeaning(getResources());
         buttonMapping = getButtonMapping((ViewGroup) (findViewById(R.id.chordModifierContainer)));
         scheme = new DependencyScheme(getResources());
         scheme.setModifierButtons(buttonMapping);
         guitarNeck = new GuitarNeck(this);
-        ArrayList<SemiTone>tuning = new ArrayList<>();
-        String[] defaultTuning = getResources().getStringArray(R.array.default_tuning);
-        for (String aDefaultTuning : defaultTuning) {
-            tuning.add(toneUtils.getSemiTones().get(toneUtils.getSemiTonePosition(aDefaultTuning)));
+        ArrayList<Tone>tuning = new ArrayList<>();
+        String[] defaultTuningTemp = getResources().getStringArray(R.array.default_tuning);
+        ArrayList<ToneName> defaultTuning = new ArrayList<>();
+        for (String s : defaultTuningTemp){
+            defaultTuning.add(new ToneName(s.charAt(0),"",0));
+        }
+        for (ToneName stringTuning : defaultTuning) {
+            System.out.println(stringTuning.baseName);
+            tuning.add(toneUtils.getTones().get(toneUtils.getSemiTonePosition(stringTuning)));
         }
         guitarNeck.setTuning(tuning);
     }
@@ -255,7 +254,7 @@ public class ChordActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("root",root);
+        //savedInstanceState.putString("baseName",baseName);
         for (String s : currentChord.getFlags()){
             savedInstanceState.putBoolean(s,buttonMapping.get(s).isChecked());
         }
@@ -274,7 +273,7 @@ public class ChordActivity extends AppCompatActivity {
             });
             if (savedInstanceState.getBoolean(e.getKey())) currentChord.setFlag(e.getKey());
         }
-        root = savedInstanceState.getString("root");
+        //baseName = savedInstanceState.getString("baseName");
         updateContent();
     }
 }

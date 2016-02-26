@@ -11,9 +11,9 @@ class GuitarString{
     private Context context;
     private int stringIndex;
     private int pressedFret;
-    private SemiTone openTone;
+    private Tone openTone;
     private int fretCount;
-    private ArrayList<SemiTone>semiTones = new ArrayList<>();
+    private ArrayList<Tone> tones = new ArrayList<>();
     private MediaPlayer player = new MediaPlayer();
     public GuitarString(Context context, int index, int fretCount){
         this.context = context;
@@ -40,13 +40,13 @@ class GuitarString{
         });
     }
 
-    public void setOpenTone(SemiTone tone){
+    public void setOpenTone(Tone tone){
         this.openTone = tone;
-        SemiTone addedTone = tone;
-        semiTones = new ArrayList<>();
+        Tone addedTone = tone;
+        tones = new ArrayList<>();
         for (int i = 0; i < fretCount; i++){
-            semiTones.add(addedTone);
-            addedTone = addedTone.getHigherSemitone();
+            tones.add(addedTone);
+            addedTone = addedTone.getHigherTone();
         }
     }
 
@@ -55,12 +55,12 @@ class GuitarString{
         pressedFret = fretIndex;
     }
 
-    public SemiTone getTone(){
-        if (semiTones == null) return null;
-        return semiTones.get(pressedFret);
+    public Tone getTone(){
+        if (tones == null) return null;
+        return tones.get(pressedFret);
     }
 
-    public SemiTone getOpenTone(){
+    public Tone getOpenTone(){
         return openTone;
     }
 

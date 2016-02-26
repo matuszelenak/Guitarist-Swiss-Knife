@@ -1,12 +1,14 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.res.Resources;
+import android.graphics.PointF;
 import android.util.JsonReader;
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -14,53 +16,45 @@ import java.util.TreeMap;
  */
 
 public class ToneUtils {
-    /**
-     * This balanced tree contains the full range of tones from C0 to B8
-     * as values with their frequencies as keys
-     */
-    private TreeMap<Double,String> allSemiTones = new TreeMap<>();
-    /**
-     * For each frequency found in allSemiTones, this HashMap contains an interval
-     * with bounds lowerSemitone and higherSemitone than said frequency.
-     * If another frequency falls into this interval, it is considered to be the
-     * tone with the frequency the interval was derived from.
-     */
-    private HashMap<Double,Tuple<Double,Double>>precisionIntervals = new HashMap<>();
+    private String TAG = "TONEUTILS";
+    private TreeMap<Double,Tone> frequencyMapping = new TreeMap<>();
     /**
      * Contains the full range of semitones found in one octave (From "C" to "B")
      */
-    private ArrayList<SemiTone> semiTones = new ArrayList<>();
+    private ArrayList<Tone> tones = new ArrayList<>();
     /**
      * Contains the progression of SemiTones that form the current scale.
      */
-    private ArrayList<SemiTone> currentScale = new ArrayList<>();
+    private ArrayList<Tone> currentScale = new ArrayList<>();
     /**
      * Describes the same scale as the currentScale variable but is a string instead.
      */
     private String currentScaleAsString;
 
     /**
-    * Constructor reads a list containing the semiTones
+    * Constructor reads a list containing the tones
     * @param res Resources to be read from*/
     public ToneUtils(Resources res){
         InputStream io = res.openRawResource(R.raw.base_tones);
         try {
-            readJsonStream(io);
+            tones = readJsonStream(io);
+            Log.i(TAG, Integer.toString(tones.size()));
         }
         catch (IOException e){
             e.printStackTrace();
         }
+        System.out.println(tones);
         generateAlternativeNames();
-        generateAllSemiTones();
+        generateAllTones();
         bindTones();
     }
 
     /**
     * @param in InputStream from which to read the JSON file*/
-    public void readJsonStream(InputStream in) throws IOException {
+    public ArrayList<Tone> readJsonStream(InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
         try {
-            readTonesArray(reader);
+            return readTonesArray(reader);
         }
         finally {
             reader.close();
@@ -70,35 +64,66 @@ public class ToneUtils {
     /**
     * A method to read a semitone array
     * @param reader The JsonReader to use for reading*/
-    private void readTonesArray(JsonReader reader) throws IOException{
+    private ArrayList<Tone> readTonesArray(JsonReader reader) throws IOException{
+        ArrayList<Tone>tones = new ArrayList<>();
         reader.beginArray();
-        String name;
-        int positionInOctave = 0;
         while (reader.hasNext()) {
-            name = reader.nextString();
-            semiTones.add(new SemiTone(name, positionInOctave));
-            positionInOctave++;
+            tones.add(readTone(reader));
         }
         reader.endArray();
+        return tones;
+    }
+
+    private Tone readTone(JsonReader reader) throws IOException{
+        reader.beginObject();
+        Tone tone = new Tone();
+        char baseName='C';
+        String accident="";
+        int octave=0;
+        while (reader.hasNext()){
+            String varName = reader.nextName();
+            Log.i(TAG,varName);
+            switch (varName){
+                case "baseName":
+                    baseName = reader.nextString().charAt(0);
+                    break;
+                case "accident":
+                    accident = reader.nextString();
+                    break;
+                case "octave":
+                    octave = reader.nextInt();
+                    break;
+                default: reader.skipValue();
+                    break;
+            }
+        }
+        reader.endObject();
+        tone.addName(baseName,accident,octave);
+        return tone;
     }
 
     /**
-    * A procedure to expand the basic semiTones into full range of 8 octaves.
+    * A procedure to expand the basic tones into full range of 8 octaves.
     * Fills the balanced binary tree whose keys are frequencies and values are scientifical names of the tones.
     * In addition, it calculates the maximum precision margins (ranges in which the frequency is associated with the tone itself)
     * both for undertuned and overtuned frequency.*/
-    private void generateAllSemiTones(){
+    private void generateAllTones(){
         double previousFrequency = 0;
-        for (int semitone = 0; semitone<108; semitone++){
-            double frequency = Math.pow((double)2, ((double)(semitone - 57) / (double) semiTones.size()))*440;
-            double nextFrequency = Math.pow((double)2, ((double)(semitone - 56) / (double) semiTones.size()))*440;
+        for (int i = 0; i<108; i++){
+            double frequency = Math.pow((double)2, ((double)(i - 57) / (double) tones.size()))*440;
+            double nextFrequency = Math.pow((double)2, ((double)(i - 56) / (double) tones.size()))*440;
 
-            String name = semiTones.get(semitone% semiTones.size()).getNames().get(0)+"_"+semitone/ semiTones.size();
-            allSemiTones.put(frequency, name);
-            double lowerMargin = (frequency - previousFrequency)/4;
-            double upperMargin = (nextFrequency- frequency)/4;
-            Tuple<Double,Double> margins = new Tuple<>(lowerMargin,upperMargin);
-            precisionIntervals.put(frequency,margins);
+            double lowerBound = (frequency + previousFrequency)/2;
+            double upperBound = (frequency + nextFrequency)/2;
+            Tone tone = new Tone();
+            ToneName template = tones.get(i%tones.size()).getPrimaryName();
+            tone.addName(template.baseName,template.accidental,i/tones.size());
+            tone.setOctave(i / tones.size());
+            tone.setFrequency(frequency);
+            tone.setPositionInOctave(i % tones.size());
+            tone.setFrequencyInterval(new PointF((float) lowerBound, (float) upperBound));
+            System.out.printf("%s %f\n", tone, frequency);
+            frequencyMapping.put(frequency, tone);
             previousFrequency = frequency;
         }
     }
@@ -107,133 +132,120 @@ public class ToneUtils {
     * It does so by either lifting the lowerSemitone semitones with # flag[s]
     * or by lowering the higherSemitone semitones with b flag[s]*/
     private void generateAlternativeNames(){
-        String[] suffix = new String[] {"##","#","","b","bb"};
-        for (int i = 0; i < semiTones.size(); i++) {
+        String[] suffix = new String[] {"♯♯","♯","","♭","♭♭"};
+        for (int i = 0; i < tones.size(); i++) {
             for (int offset = -2; offset <=2; offset++){
-                semiTones.get(i).addName(
-                        semiTones.get(
-                                ((i + offset) % semiTones.size() + semiTones.size())%semiTones.size()
-                        ).getNames().get(0).concat(suffix[offset+2])
-                );
+                char baseName = tones.get(
+                                ((i + offset) % tones.size() + tones.size())%tones.size()
+                        ).getPrimaryName().baseName;
+                String accident = tones.get(
+                        ((i + offset) % tones.size() + tones.size())%tones.size()
+                ).getPrimaryName().accidental;
+                tones.get(i).addName(baseName,accident.concat(suffix[offset+2]),4);
             }
         }
     }
 
     /**
-     * * Binds the semiTones in the semiTone array together: each semitone will know,
+     * * Binds the tones in the semiTone array together: each semitone will know,
      * which semitone is higherSemitone and lowerSemitone than itself*/
     private void bindTones(){
-        for (int i = 0; i < semiTones.size(); i++){
-            semiTones.get(i).setHigherSemitone(semiTones.get(((i + 1) % 12 + 12) % 12));
-            semiTones.get(i).setLowerSemitone(semiTones.get(((i - 1) % 12 + 12) % 12));
+        for (int i = 0; i < tones.size(); i++){
+            tones.get(i).setHigherTone(tones.get(((i + 1) % 12 + 12) % 12));
+            tones.get(i).setLowerTone(tones.get(((i - 1) % 12 + 12) % 12));
         }
-
     }
 
-    /**Given a frequency, it tries to determine which valid tone is closest to it and whether the supplied frequency is undertuned or overtuned.
-    * @param frequency A frequency to be analysed.
-    * @return A tuple in which the first element is the found tone and the second element is the direction.*/
-    public Tuple<String, String> extractToneFromFrequency(double frequency){
-        double lowerDiff=Double.MAX_VALUE;
-        double upperDiff=Double.MAX_VALUE;
-        double lower=-1;
-        if (allSemiTones.floorKey(frequency) != null){
-            lower = allSemiTones.floorKey(frequency);
-            lowerDiff = frequency-lower;
+    private boolean isInInterval(float f,PointF p){
+        return (f<p.y && f >=p.x);
+    }
+
+    public Tone analyseFrequency(double frequency){
+        Tone higher = new Tone();
+        higher.setFrequencyInterval(new PointF(-1,-1));
+        Tone lower = new Tone();
+        lower.setFrequencyInterval(new PointF(-1, -1));
+        if (frequencyMapping.ceilingKey(frequency) != null){
+            higher = frequencyMapping.get(frequencyMapping.ceilingKey(frequency));
         }
-        double upper=-1;
-        if (allSemiTones.ceilingKey(frequency) != null){
-            upper = allSemiTones.ceilingKey(frequency);
-            upperDiff = upper-frequency;
+        if (frequencyMapping.floorKey(frequency) != null){
+            lower = frequencyMapping.get(frequencyMapping.floorKey(frequency));
         }
-        Tuple<String, String>result = new Tuple<>("","");
-        if (lowerDiff < upperDiff){
-            if (lowerDiff < precisionIntervals.get(lower).y){
-                result.setX(allSemiTones.get(lower));
-                result.setY("Precisely at");
-            }
-            else
-            {
-                result.setX(allSemiTones.get(lower));
-                result.setY("Above");
-            }
-        }
-        else
-        {
-            if (upperDiff < precisionIntervals.get(upper).x){
-                result.setX(allSemiTones.get(upper));
-                result.setY("Precisely at");
-            }
-            else
-            {
-                result.setX(allSemiTones.get(upper));
-                result.setY("Below");
-            }
-        }
-        return result;
+        if (isInInterval((float)frequency,lower.getFrequencyInterval())){
+            return lower;
+        } else
+        if (isInInterval((float)frequency,higher.getFrequencyInterval())){
+            return higher;
+        } else return higher;
     }
 
     /**
     * @return An ArrayList of SemiTones in octave*/
-    public ArrayList<SemiTone> getSemiTones() {
-        return semiTones;
+    public ArrayList<Tone> getTones() {
+        return tones;
     }
 
     /**
-    * This method constructs the harmonic scale starting from the root note.
+    * This method constructs the harmonic scale starting from the baseName note.
     * The semitones in the scale obey the standard naming conventions (e.g. No letter is used more than once)
-    * It stores the scale both as a list of SemiTone classes and as
+    * It stores the scale both as a list of Tone classes and as
     * a string representation.
-    * @param root The root tone from which to build up the scale
+    * @param root The baseName tone from which to build up the scale
     * */
-    private void constructScale(String root){
+    private void constructScale(ToneName root){
         StringBuilder scaleBuilder = new StringBuilder();
         currentScale = new ArrayList<>();
-        currentScale.add(semiTones.get(getSemiTonePosition(root)));
-        scaleBuilder.append(root).append(" ");
+        currentScale.add(tones.get(getSemiTonePosition(root)));
+        scaleBuilder.append(root.format("%b%a")).append(" ");
         int[] steps = new int[] {2,2,1,2,2,2,1};
         int pos = getSemiTonePosition(root);
-        for (int i = 0, j="CDEFGAB".indexOf(root.charAt(0))+1; i < 6; i++, j++) {
-            SemiTone nextSemiTone = semiTones.get(((pos + steps[i])%12+12)%12);
-            for (String nextToneName : nextSemiTone.getNames()){
-                if (nextToneName.contains(Character.toString("CDEFGAB".charAt(j % "CDEFGAB".length())))){
-                    scaleBuilder.append(nextToneName).append(" ");
-                    currentScale.add(nextSemiTone);
+        for (int i = 0, j="CDEFGAB".indexOf(root.baseName)+1; i < 6; i++, j++) {
+            Tone nextTone = tones.get(((pos + steps[i])%12+12)%12);
+            for (ToneName nextToneName : nextTone.getNames()){
+                if (nextToneName.baseName == "CDEFGAB".charAt(j % "CDEFGAB".length())){
+                    scaleBuilder.append(nextToneName.format("%b%a")).append(" ");
+                    currentScale.add(nextTone);
                     break;
                 }
             }
             pos += steps[i];
         }
-        scaleBuilder.append(root);
+        scaleBuilder.append(root.format("%b%a"));
         currentScaleAsString = scaleBuilder.toString();
     }
 
     /**
-    * Given the root note (String) it constructs the scale and returns its string representation.
-    * @param root The root note of the scale*/
-    public String getScaleText(String root){
+    * Given the baseName note (String) it constructs the scale and returns its string representation.
+    * @param root The baseName note of the scale*/
+    public String getScaleText(ToneName root){
         constructScale(root);
         return currentScaleAsString;
     }
 
     /**
-    * Given the root note (String) it constructs the scale and returns it as an Array of SemiTones.
-    * @param root The root note of the scale*/
-    public ArrayList<SemiTone> getScaleTones(String root){
+    * Given the baseName note (String) it constructs the scale and returns it as an Array of SemiTones.
+    * @param root The baseName note of the scale*/
+    public ArrayList<Tone> getScaleTones(ToneName root){
         constructScale(root);
         return currentScale;
     }
 
     /**
     * Method resolves the String representation of a tone into its position in the octave.
-    * @param tone The tone to be analysed
+    * @param toneName The toneName to be analysed
     * @return The position of the supplied tone in the semitTone array*/
-    public int getSemiTonePosition(String tone){
+    public int getSemiTonePosition(ToneName toneName){
         int i = 0;
-        for (SemiTone semiTone : semiTones){
-            if (semiTone.getNames().contains(tone)) break;
+        System.out.printf("Starting lookup for %c,%s,%d;\n",toneName.baseName,toneName.accidental,toneName.octave);
+        for (Tone t : tones){
+            System.out.println(i);
+            for (ToneName tn : t.getNames()){
+                System.out.printf("%c,%s,%d;", tn.baseName, tn.accidental, tn.octave);
+                if (tn.baseName == toneName.baseName && tn.accidental.equals(toneName.accidental)) return i;
+            }
+            System.out.println();
             i++;
         }
-        return i;
+        return 0;
     }
 }

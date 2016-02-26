@@ -200,7 +200,7 @@ extends android.support.v7.app.AppCompatActivity</pre>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>(package private) java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ChordActivity.html#root">root</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ChordActivity.html#baseName">baseName</a></span></code>&nbsp;</td>
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>(package private) android.widget.RadioButton</code></td>
@@ -306,7 +306,7 @@ extends android.support.v7.app.AppCompatActivity</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>private android.app.Dialog</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ChordActivity.html#constructRootDialog--">constructRootDialog</a></span>()</code>
-<div class="block">A method to construct a dialog window in which the user can choose the root tone of the chord.</div>
+<div class="block">A method to construct a dialog window in which the user can choose the baseName tone of the chord.</div>
 </td>
 </tr>
 <tr id="i2" class="altColor">
@@ -385,7 +385,7 @@ of modifiers.</div>
 <tr id="i14" class="altColor">
 <td class="colFirst"><code>private void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../sk/matus/ksp/guitarist_swiss_knife/ChordActivity.html#setRoot-android.view.View-">setRoot</a></span>(android.view.View&nbsp;v)</code>
-<div class="block">A method called by the root choosing dialog which changes the root tone.</div>
+<div class="block">A method called by the baseName choosing dialog which changes the baseName tone.</div>
 </td>
 </tr>
 <tr id="i15" class="rowColor">
@@ -646,13 +646,13 @@ of modifiers.</div>
 <div class="block">An instance of ToneUtils class for resolving tone related queries.</div>
 </li>
 </ul>
-<a name="root">
+<a name="baseName">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>root</h4>
-<pre>java.lang.String root</pre>
+<h4>baseName</h4>
+<pre>java.lang.String baseName</pre>
 </li>
 </ul>
 <a name="scheme">
@@ -781,7 +781,7 @@ of modifiers.</div>
 <li class="blockList">
 <h4>setRoot</h4>
 <pre>private&nbsp;void&nbsp;setRoot(android.view.View&nbsp;v)</pre>
-<div class="block">A method called by the root choosing dialog which changes the root tone.</div>
+<div class="block">A method called by the baseName choosing dialog which changes the baseName tone.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - The View component (RadioButton in this case) which triggered the change</dd>
@@ -926,10 +926,10 @@ of modifiers. Will be replaced once the DependencyScheme works properly.</div>
 <li class="blockList">
 <h4>constructRootDialog</h4>
 <pre>private&nbsp;android.app.Dialog&nbsp;constructRootDialog()</pre>
-<div class="block">A method to construct a dialog window in which the user can choose the root tone of the chord.</div>
+<div class="block">A method to construct a dialog window in which the user can choose the baseName tone of the chord.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>A dialog window for choosing the root tone</dd>
+<dd>A dialog window for choosing the baseName tone</dd>
 </dl>
 </li>
 </ul>
@@ -940,7 +940,7 @@ of modifiers. Will be replaced once the DependencyScheme works properly.</div>
 <li class="blockList">
 <h4>chooseRoot</h4>
 <pre>public&nbsp;void&nbsp;chooseRoot(android.view.View&nbsp;v)</pre>
-<div class="block">Method triggered when the user clicks on the rootChooser radio button. Fires up the root choosing dialog</div>
+<div class="block">Method triggered when the user clicks on the rootChooser radio button. Fires up the baseName choosing dialog</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>v</code> - The View component that has been clicked</dd>

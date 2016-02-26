@@ -2,6 +2,7 @@ package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.support.annotation.NonNull;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -16,7 +17,7 @@ class Fingering implements Comparable{
 
     private ArrayList<Integer> fingering = new ArrayList<>();
     private int rating = 0;
-    ArrayList<String>tones = new ArrayList<>();
+    ArrayList<Tone>tones = new ArrayList<>();
     String hashString;
     public Fingering(ArrayList<Integer>fingering) {
         this.fingering = fingering;
@@ -32,11 +33,20 @@ class Fingering implements Comparable{
         rate();
     }
 
-    public ArrayList<String> getTones() {
+    public ArrayList<Tone> getTones() {
         return tones;
     }
 
-    public void setTones(ArrayList<String> tones) {
+    public ArrayList<String> getHeaderData(){
+        ArrayList<String>result = new ArrayList<>();
+        for (Tone t : tones){
+            if (t == null) result.add("✕"); else
+            result.add(t.getPrimaryName().format("%b%a"));
+        }
+        return result;
+    }
+
+    public void setTones(ArrayList<Tone> tones) {
         this.tones = tones;
     }
 
