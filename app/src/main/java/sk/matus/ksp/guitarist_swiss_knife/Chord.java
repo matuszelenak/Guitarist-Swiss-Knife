@@ -112,7 +112,6 @@ public class Chord {
         reader.beginArray();
         String flag = reader.nextString();
         double index = reader.nextDouble();
-        System.out.println(Double.toString(index)+flag);
         flagMeaning.put(flag, index);
         reader.endArray();
     }

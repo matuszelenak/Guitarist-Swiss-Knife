@@ -19,7 +19,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/button_start_metronome"
-                android:background="@android:drawable/sym_def_app_icon"
+                android:background="@mipmap/launcher_icon"
                 android:onClick="startMetronome" />
             <TextView
                 android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tunerButton"
-                android:background="@android:mipmap/sym_def_app_icon"
+                android:background="@mipmap/launcher_icon"
                 android:onClick="startTunerActivity" />
             <TextView
                 android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/chordButton"
-                android:background="@android:mipmap/sym_def_app_icon"
+                android:background="@mipmap/launcher_icon"
                 android:onClick="startChordActivity" />
 
             <TextView

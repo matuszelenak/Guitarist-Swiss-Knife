@@ -174,14 +174,12 @@ public class TunerActivity extends AppCompatActivity {
         started = false;
         if (audioRecord!=null) audioRecord.stop();
         if (processTask!=null) processTask.cancel(true);
-        Log.i("TEST_STOP", "STOPPING");
     }
 
     @Override
     public void onResume(){
         super.onResume();
         started = true;
-        Log.i("TEST_RESUME", "Resuming");
         processTask = new ProcessAudio();
         processTask.execute();
     }

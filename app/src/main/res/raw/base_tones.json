@@ -1,62 +1,62 @@
 [
 	{
 		"baseName":"C",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	},
 	{
 		"baseName":"C",
-		"accident":"♯",
+		"accidental":"♯",
 		"octave":4
 	},
 	{
 		"baseName":"D",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	},
 	{
 		"baseName":"E",
-		"accident":"♭",
+		"accidental":"♭",
 		"octave":4
 	},
 	{
 		"baseName":"E",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	},
 	{
 		"baseName":"F",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	},
 	{
 		"baseName":"F",
-		"accident":"♯",
+		"accidental":"♯",
 		"octave":4
 	},
 	{
 		"baseName":"G",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	},
 	{
 		"baseName":"A",
-		"accident":"♭",
+		"accidental":"♭",
 		"octave":4
 	},
 	{
 		"baseName":"A",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	},
 	{
 		"baseName":"B",
-		"accident":"♭",
+		"accidental":"♭",
 		"octave":4
 	},
 	{
 		"baseName":"B",
-		"accident":"",
+		"accidental":"",
 		"octave":4
 	}
 ]

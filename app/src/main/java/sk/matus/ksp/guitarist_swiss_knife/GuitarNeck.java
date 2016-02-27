@@ -101,12 +101,9 @@ public class GuitarNeck {
 
     public ArrayList<Fingering> findFingerings(HashSet<Tone>chord){
         HashSet<Fingering> result = new HashSet<>();
-        long startTime = System.nanoTime();
         bruteFingerings(chord, result, 0, new ArrayList<Integer>(), new ArrayList<Tone>());
-        long difference = System.nanoTime() - startTime;
         ArrayList<Fingering>sorted = new ArrayList<>(result);
         sortFingerings(sorted);
-        Log.i("Fingerings took", Double.toString(difference / 1000000.0));
         return sorted;
     }
 

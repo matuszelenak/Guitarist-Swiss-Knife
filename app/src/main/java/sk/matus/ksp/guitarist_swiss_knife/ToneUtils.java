@@ -38,12 +38,10 @@ public class ToneUtils {
         InputStream io = res.openRawResource(R.raw.base_tones);
         try {
             tones = readJsonStream(io);
-            Log.i(TAG, Integer.toString(tones.size()));
         }
         catch (IOException e){
             e.printStackTrace();
         }
-        System.out.println(tones);
         generateAlternativeNames();
         generateAllTones();
         bindTones();
@@ -78,17 +76,16 @@ public class ToneUtils {
         reader.beginObject();
         Tone tone = new Tone();
         char baseName='C';
-        String accident="";
+        String accidental="";
         int octave=0;
         while (reader.hasNext()){
             String varName = reader.nextName();
-            Log.i(TAG,varName);
             switch (varName){
                 case "baseName":
                     baseName = reader.nextString().charAt(0);
                     break;
-                case "accident":
-                    accident = reader.nextString();
+                case "accidental":
+                    accidental = reader.nextString();
                     break;
                 case "octave":
                     octave = reader.nextInt();
@@ -98,7 +95,7 @@ public class ToneUtils {
             }
         }
         reader.endObject();
-        tone.addName(baseName,accident,octave);
+        tone.addName(baseName,accidental,octave);
         return tone;
     }
 
@@ -122,7 +119,6 @@ public class ToneUtils {
             tone.setFrequency(frequency);
             tone.setPositionInOctave(i % tones.size());
             tone.setFrequencyInterval(new PointF((float) lowerBound, (float) upperBound));
-            System.out.printf("%s %f\n", tone, frequency);
             frequencyMapping.put(frequency, tone);
             previousFrequency = frequency;
         }
@@ -138,10 +134,10 @@ public class ToneUtils {
                 char baseName = tones.get(
                                 ((i + offset) % tones.size() + tones.size())%tones.size()
                         ).getPrimaryName().baseName;
-                String accident = tones.get(
+                String accidental = tones.get(
                         ((i + offset) % tones.size() + tones.size())%tones.size()
                 ).getPrimaryName().accidental;
-                tones.get(i).addName(baseName,accident.concat(suffix[offset+2]),4);
+                tones.get(i).addName(baseName,accidental.concat(suffix[offset+2]),4);
             }
         }
     }
@@ -236,14 +232,10 @@ public class ToneUtils {
     * @return The position of the supplied tone in the semitTone array*/
     public int getSemiTonePosition(ToneName toneName){
         int i = 0;
-        System.out.printf("Starting lookup for %c,%s,%d;\n",toneName.baseName,toneName.accidental,toneName.octave);
         for (Tone t : tones){
-            System.out.println(i);
             for (ToneName tn : t.getNames()){
-                System.out.printf("%c,%s,%d;", tn.baseName, tn.accidental, tn.octave);
                 if (tn.baseName == toneName.baseName && tn.accidental.equals(toneName.accidental)) return i;
             }
-            System.out.println();
             i++;
         }
         return 0;
