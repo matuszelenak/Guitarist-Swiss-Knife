@@ -16,4 +16,5 @@
     <string name="frequency_below">Nad</string>
     <string name="frequency_above">Pod</string>
     <string name="frequency_precise">Přesně</string>
+    <string name="time_signature_text">Takt</string>
 </resources>

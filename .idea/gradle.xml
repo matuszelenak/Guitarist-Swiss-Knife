@@ -5,11 +5,16 @@
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="1.8" />
         <option name="modules">
           <set>
-            <option value="/media/whiskas/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife" />
-            <option value="/media/whiskas/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+          </set>
+        </option>
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
       </GradleProjectSettings>

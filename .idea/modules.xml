@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file:///media/whiskas/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/Guitarist-Swiss-Knife.iml" filepath="/media/whiskas/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/Guitarist-Swiss-Knife.iml" />
-      <module fileurl="file:///media/whiskas/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app/app.iml" filepath="/media/whiskas/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Guitarist-Swiss-Knife.iml" filepath="$PROJECT_DIR$/Guitarist-Swiss-Knife.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
