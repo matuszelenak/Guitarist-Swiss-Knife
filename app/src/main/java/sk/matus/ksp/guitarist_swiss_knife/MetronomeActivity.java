@@ -69,9 +69,7 @@ public class MetronomeActivity extends AppCompatActivity {
         }
     }
 
-    private int MAXBPM = 250;
 
-    private boolean isRunning = false;
     private ToggleButton toggleMetronome;
     private Spinner noteCountSpinner;
     private Spinner noteFractionSpinner;
@@ -82,10 +80,12 @@ public class MetronomeActivity extends AppCompatActivity {
     private RadioGroup metronomeVisualization;
     private MediaPlayer player = new MediaPlayer();
 
-    private int currentBpm = 60;
-    private double currentBeatDuration = 1;
-    private int currentNoteFraction = 4;
-    private int currentNoteQuantity = 4;
+    private boolean isRunning = false;
+    private int maxBpm;
+    private int currentBpm;
+    private int currentNoteFraction;
+    private int currentNoteQuantity;
+    private double currentBeatDuration;
     private int nextBeatPosition = 0;
 
     private Metronome metronome = new Metronome();
@@ -172,18 +172,23 @@ public class MetronomeActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Log.i("HERE?", "HERE");
                     startTimer();
                 }
 
             }
         });
 
+        currentBpm = getResources().getInteger(R.integer.init_bpm);
+        maxBpm = getResources().getInteger(R.integer.max_bpm);
+        currentNoteFraction = getResources().getInteger(R.integer.init_note_fraction);
+        currentNoteQuantity =  getResources().getInteger(R.integer.init_note_quantity);
+        currentBeatDuration = (4.0 / currentNoteFraction) * (60.0 / currentBpm);
+
         metronomeVisualization = (RadioGroup) findViewById(R.id.metronome_radio_group);
 
         noteCountSpinner = (Spinner)findViewById(R.id.noteCountSpinner);
         ArrayList<Integer> noteCounts = new ArrayList<>();
-        for (int i = 1; i < 64; i++) noteCounts.add(i);
+        for (int i = 1; i < 32; i++) noteCounts.add(i);
         ArrayAdapter<Integer> spinnerArrayAdapter = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_item, noteCounts); //selected item will look like a spinner set from XML
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         noteCountSpinner.setAdapter(spinnerArrayAdapter);
@@ -193,7 +198,6 @@ public class MetronomeActivity extends AppCompatActivity {
                 noteCountSpinner.setSelection(3);
             }
         });
-        Log.i("ITEM", Integer.toString((int)noteCountSpinner.getItemAtPosition(15)));
         noteCountSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -227,7 +231,6 @@ public class MetronomeActivity extends AppCompatActivity {
                 stopTimer();
                 currentNoteFraction = (int)parent.getItemAtPosition(position);
                 currentBeatDuration = (4.0 / currentNoteFraction) * (60.0 / currentBpm);
-                Log.i("OR MAYBE HERE?", "MAYBE");
                 if (temp) startTimer();
             }
 
@@ -238,7 +241,7 @@ public class MetronomeActivity extends AppCompatActivity {
         });
 
         tempoSeekBar = (SeekBar)findViewById(R.id.bpmSlider);
-        tempoSeekBar.setMax(250);
+        tempoSeekBar.setMax(maxBpm);
         tempoSeekBar.setProgress(currentBpm);
 
         currentBpmTextView = (TextView) findViewById(R.id.currentBpmText);
@@ -312,13 +315,10 @@ public class MetronomeActivity extends AppCompatActivity {
     }
 
     void startTimer(){
-        Log.i("WUT", "?");
         nextBeatPosition = 0;
         if (metronome != null){
             metronome.running = false;
         }
-        /*metronomeTimer = new Timer();
-        metronomeTimer.schedule(new MetronomeTask(),0,(int)(currentBeatDuration*1000.0));*/
         metronome = new Metronome();
         metronome.running = true;
         isRunning = true;
@@ -326,7 +326,7 @@ public class MetronomeActivity extends AppCompatActivity {
     }
 
     void setBpm(int bpm){
-        if (bpm > MAXBPM || bpm <=0 ) return;
+        if (bpm > maxBpm || bpm <=0 ) return;
         currentBpm = bpm;
         currentBpmTextView.setText(String.format("%d bpm (%s)", currentBpm, lookupTempoName(currentBpm)));
         tempoSeekBar.setProgress(currentBpm);
@@ -364,7 +364,6 @@ public class MetronomeActivity extends AppCompatActivity {
         toggleMetronome = (ToggleButton) findViewById(R.id.metronome_toggle_button);
         if (isRunning) {
             stopTimer();
-            toggleMetronome.toggle();
             isRunning = true;
         }
     }
@@ -373,7 +372,9 @@ public class MetronomeActivity extends AppCompatActivity {
     public void onResume(){
         Log.i("LIFECYCLE","RESUMING");
         super.onResume();
-        if (isRunning) startTimer();
+        if (isRunning){
+            startTimer();
+        }
     }
 
     @Override
@@ -384,7 +385,6 @@ public class MetronomeActivity extends AppCompatActivity {
         savedInstanceState.putInt("NoteFraction", noteFractionSpinner.getSelectedItemPosition());
         savedInstanceState.putInt("nextBeat", nextBeatPosition);
         savedInstanceState.putBoolean("Running", isRunning);
-        Log.i("RUNNING",Boolean.toString(isRunning));
         savedInstanceState.putInt("BPM", currentBpm);
     }
 
@@ -396,5 +396,8 @@ public class MetronomeActivity extends AppCompatActivity {
         noteFractionSpinner.setSelection(savedInstanceState.getInt("NoteFraction"));
         nextBeatPosition = savedInstanceState.getInt("nextBeat");
         setBpm(savedInstanceState.getInt("BPM"));
+        if (isRunning){
+            toggleMetronome.toggle();
+        }
     }
 }

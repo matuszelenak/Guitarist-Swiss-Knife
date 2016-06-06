@@ -37,6 +37,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:textOff="Start"
+                    android:textOn="Stop"
                     android:id="@+id/metronome_toggle_button"/>
 
             </RelativeLayout>
@@ -49,20 +51,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/currentBpmText"
+                    android:textSize="20dp"
                     android:layout_weight="1"
                     android:text="0"/>
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
-                    android:layout_weight="1"
-                    android:id="@+id/bmpIncreaseButton"/>
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="-"
                     android:id="@+id/bpmDecreaseButton"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:layout_weight="1"
+                    android:id="@+id/bmpIncreaseButton"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,6 +85,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="20dp"
                     android:text="@string/time_signature_text"/>
                 <Spinner
                     android:layout_width="wrap_content"
@@ -91,7 +95,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="/"
-                    android:textSize="50dp"/>
+                    android:textSize="20dp"/>
                 <Spinner
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

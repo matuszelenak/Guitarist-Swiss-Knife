@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#6a831e</color>
     <color name="colorActivityBackground">#222</color>"
     <color name="colorKSPGreen">#6a831e</color>
 </resources>
