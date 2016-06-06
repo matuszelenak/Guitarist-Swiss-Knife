@@ -1,0 +1,37 @@
+[
+  {
+    "value":"5",
+    "position":0,
+    "condition":"((x5x)&&(NOT(Y)))"
+  },
+  {
+    "value":"^7",
+    "position":0,
+    "condition":"((x7x)&&(NOT((x9x)||(xADD9x)))&&(Y))"
+  },
+  {
+    "value":"^9",
+    "position":0,
+    "condition":"((x7x)&&((x9x)||(xADD9x))&&(NOT((x11x)||(xADD11x)))&&(Y))"
+  },
+  {
+    "value":"^11",
+    "position":0,
+    "condition":"((x7x)&&((x9x)||(xADD9x))&&((x11x)||(xADD11x))&&(NOT((x13x)||(xADD13x)))&&(Y))"
+  },
+  {
+    "value":"^13",
+    "position":0,
+    "condition":"((x7x)&&((x9x)||(xADD9x))&&((x11x)||(xADD11x))&&((x13x)||(xADD13x))&&(Y))"
+  },
+  {
+    "value":"sus^2",
+    "position":1,
+    "condition":"((xSUS2x)||(xADD2x)&&(Y))"
+  },
+  {
+    "value":"sus^4",
+    "position":1,
+    "condition":"((xSUS4x)||(xADD4x)&&(Y))"
+  }
+]

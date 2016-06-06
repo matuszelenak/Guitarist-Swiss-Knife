@@ -1,8 +1,10 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.app.Dialog;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.JsonReader;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -11,6 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -87,6 +93,7 @@ public class ChordActivity extends AppCompatActivity {
         rootChooserButton.setText(root.format("%b%a"));
         chordView.setText(currentChord.getTextProgression());
         scaleView.setText(toneUtils.getScaleText(root));
+        currentChordName.setText(currentChord.getName());
 
         fingeringsContainer.removeAllViews();
         currentFingeringView.setBackgroundColor(getResources().getColor(R.color.colorActivityBackground));
@@ -223,6 +230,7 @@ public class ChordActivity extends AppCompatActivity {
         root = toneUtils.getTones().get(0).getPrimaryName();
         currentChord = new Chord(toneUtils);
         currentChord.assignFlagMeaning(getResources());
+        currentChord.loadNameResolutionData(getResources());
         buttonMapping = getButtonMapping((ViewGroup) (findViewById(R.id.chordModifierContainer)));
         scheme = new DependencyScheme(getResources());
         scheme.setModifierButtons(buttonMapping);
@@ -274,4 +282,5 @@ public class ChordActivity extends AppCompatActivity {
         root = new ToneName(savedInstanceState.getChar("rootBaseName"),savedInstanceState.getString("rootAccidental"),4);
         updateContent();
     }
+
 }

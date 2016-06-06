@@ -2,17 +2,36 @@ package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.res.Resources;
 import android.util.JsonReader;
+import android.util.Log;
+
+import com.udojava.evalex.Expression;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.jar.Attributes;
+
 
 /**
  * This class is a representation of the musical chord.
  */
 public class Chord {
+
+    class NameComponent{
+        String value;
+        int position;
+        String condition;
+        NameComponent(String value, int position, String condition){
+            this.value = value;
+            this.position = position;
+            this.condition = condition;
+        }
+    }
+    private String name;
     /**
      * A list that holds the musical scale from which the chord progression is to be derived.
      */
@@ -36,6 +55,8 @@ public class Chord {
      * into complete progression of 12 semitones.
      */
     private HashMap<String,Double>flagMeaning = new HashMap<>();
+
+    private ArrayList<NameComponent>nameComponents;
 
     /**
     * @param toneUtils The ToneUtils class. The Chord uses this instance to
@@ -65,6 +86,10 @@ public class Chord {
     * @return The set of current flags.*/
     public HashSet<String> getFlags(){
         return flags;
+    }
+
+    public String getName() {
+        return name;
     }
 
     /**
@@ -174,5 +199,93 @@ public class Chord {
             count++;
         }
         stringProgression = sb.toString();
+        name = resolveName();
+    }
+
+    public boolean evaluateExpression(String exp){
+        String oldexp = exp;
+        int unused = 0;
+        for (String flag : flags){
+            StringBuilder sb = new StringBuilder();
+            sb.append('x');
+            sb.append(flag);
+            sb.append('x');
+            exp = oldexp.replaceAll(sb.toString(),"1");
+            if (exp.equals(oldexp)){
+                unused++;
+            }
+            oldexp = exp;
+        }
+        if (unused > 0){
+            exp = exp.replaceAll("Y","1");
+        }
+        else
+        {
+            exp = exp.replaceAll("Y","0");
+        }
+        exp = exp.replaceAll("x[^()]+x","0");
+        BigDecimal result = null;
+
+        Expression expression = new Expression(exp);
+        result = expression.eval();
+        return result.toString().equals("1");
+    }
+
+    public String resolveName(){
+        for (String s: flags){
+            Log.i("FLAG", s);
+        }
+        StringBuilder sb = new StringBuilder();
+        for (NameComponent nc : nameComponents){
+            if (evaluateExpression(nc.condition)) sb.append(nc.value);
+        }
+        return sb.toString();
+    }
+
+    public void loadNameResolutionData(Resources res){
+        InputStream io = res.openRawResource(R.raw.chord_name_resolution_conditions);
+        try {
+            JsonReader reader = new JsonReader(new InputStreamReader(io, "UTF-8"));
+            nameComponents = readNameComponentArray(reader);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<NameComponent> readNameComponentArray(JsonReader reader) throws IOException{
+        ArrayList<NameComponent>result = new ArrayList<>();
+        reader.beginArray();
+        while (reader.hasNext()) {
+            result.add(readNameComponent(reader));
+        }
+        reader.endArray();
+        return result;
+    }
+
+    private NameComponent readNameComponent(JsonReader reader) throws IOException{
+        reader.beginObject();
+        String value = "";
+        String condition = "";
+        int position = 0;
+        int octave=0;
+        while (reader.hasNext()){
+            String varName = reader.nextName();
+            switch (varName){
+                case "value":
+                    value = reader.nextString();
+                    break;
+                case "condition":
+                    condition = reader.nextString();
+                    break;
+                case "position":
+                    position = reader.nextInt();
+                    break;
+                default: reader.skipValue();
+                    break;
+            }
+        }
+        reader.endObject();
+        return new NameComponent(value,position,condition);
     }
 }
