@@ -2,6 +2,7 @@
     <string name="metronome">Metronóm</string>
     <string name="chords">Akordy</string>
     <string name="tuner">Ladička</string>
+    <string name="songs">Skladby</string>
     <string name="app_name">Guitarist-Swiss-Knife</string>
     <string name="base_tones">CDEFGAB</string>
     <color name="activity_background_color">#171717</color>
