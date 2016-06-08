@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/EvalEx-1.2/EvalEx-1.2.iml" filepath="$PROJECT_DIR$/EvalEx-1.2/EvalEx-1.2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Guitarist-Swiss-Knife.iml" filepath="$PROJECT_DIR$/Guitarist-Swiss-Knife.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/EvalEx-1.2/EvalEx-1.2.iml" filepath="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/EvalEx-1.2/EvalEx-1.2.iml" />
+      <module fileurl="file:///media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/Guitarist-Swiss-Knife.iml" filepath="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/Guitarist-Swiss-Knife.iml" />
+      <module fileurl="file:///media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app/app.iml" filepath="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app/app.iml" />
     </modules>
   </component>
 </project>

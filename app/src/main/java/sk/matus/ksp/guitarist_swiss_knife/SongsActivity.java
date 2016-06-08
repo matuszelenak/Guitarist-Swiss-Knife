@@ -1,6 +1,8 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,8 +20,8 @@ public class SongsActivity extends AppCompatActivity {
         final Context context;
         int level = 0;
         String filename;
-        ArrayList<String> columns = new ArrayList<>(Arrays.asList("artist", "album", "title", "content"));
-        ArrayList<String> regex = new ArrayList<>(Arrays.asList(".*", ".*", ".*", ".*"));
+        ArrayList<String> columns = new ArrayList<>(Arrays.asList("artist", "album", "title", "type", "content"));
+        ArrayList<String> regex = new ArrayList<>(Arrays.asList(".*", ".*", ".*", ".*", ".*"));
         public HierarchyCursor(final Context context){
             this.context = context;
         }
@@ -52,12 +54,20 @@ public class SongsActivity extends AppCompatActivity {
             super(context);
             this.context = context;
             entryValue = new TextView(context);
+            entryValue.setTextSize(30);
             this.addView(entryValue);
         }
 
         public void setCursor(HierarchyCursor cursor){
             this.cursor = cursor;
             entryValue.setText(cursor.filename);
+            LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+            params.setMargins(0,0,0,10);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                this.setElevation(10);
+            }
+            this.setBackgroundColor(context.getResources().getColor(R.color.colorListItem));
+            this.setLayoutParams(params);
             this.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -67,7 +77,16 @@ public class SongsActivity extends AppCompatActivity {
         }
 
         private void performClicking(){
-            reloadSelection(this.cursor);
+            if (cursor.level == 4){
+                Intent intent = new Intent(context, SongViewActivity.class);
+                intent.putExtra("artist", cursor.regex.get(0));
+                intent.putExtra("album", cursor.regex.get(1));
+                intent.putExtra("title", cursor.regex.get(2));
+                intent.putExtra("type", cursor.filename);
+                startActivity(intent);
+            }
+            else
+                reloadSelection(this.cursor);
         }
     }
 
@@ -124,6 +143,8 @@ public class SongsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songs);
+
+        this.deleteDatabase("song_database");
 
         songSelection = (LinearLayout) findViewById(R.id.songSelectionView);
         navigationBar = (LinearLayout) findViewById(R.id.navigationBar);

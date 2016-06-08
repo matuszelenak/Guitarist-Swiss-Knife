@@ -7,16 +7,16 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/EvalEx-1.2" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife" />
+            <option value="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/EvalEx-1.2" />
+            <option value="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app" />
           </set>
         </option>
         <option name="myModules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/EvalEx-1.2" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife" />
+            <option value="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/EvalEx-1.2" />
+            <option value="/media/whiskas/Data/Matúš Zeleňák/Documents/MEGAsync/FMFI/2. ročník bc/Zimný semester/Ročníkový projekt/Guitarist-Swiss-Knife/app" />
           </set>
         </option>
       </GradleProjectSettings>

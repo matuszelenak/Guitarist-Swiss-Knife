@@ -5,4 +5,5 @@
     <color name="colorAccent">#6a831e</color>
     <color name="colorActivityBackground">#222</color>"
     <color name="colorKSPGreen">#6a831e</color>
+    <color name="colorListItem">#111</color>
 </resources>

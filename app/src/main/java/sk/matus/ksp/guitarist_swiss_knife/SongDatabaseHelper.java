@@ -4,18 +4,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
 
 /**
  * Created by whiskas on 7.6.2016.
  */
-public class SongDatabaseHelper extends SQLiteOpenHelper {
+public class SongDatabaseHelper extends SQLiteAssetHelper {
 
     private static final int DATABASE_VERSION = 1;
 
     private static final String DATABASE_NAME = "song_database";
+
+    private final Context myContext;
 
     private static final String TABLE_SONGS = "songs";
 
@@ -28,21 +31,7 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
 
     public SongDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "("
-                +   KEY_ID + " INTEGER PRIMARY KEY," + KEY_ARTIST + " TEXT,"
-                +   KEY_ALBUM + " TEXT," + KEY_TITLE + " TEXT,"
-                +   KEY_TYPE + " TEXT," + CONTENT +" TEXT" + ")";
-        db.execSQL(CREATE_SONGS_TABLE);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SONGS);
-        onCreate(db);
+        this.myContext = context;
     }
 
     public void addSong(Song song){
@@ -61,7 +50,7 @@ public class SongDatabaseHelper extends SQLiteOpenHelper {
 
     public ArrayList<Song> getSongs(String artist, String album, String title, String type){
         String selectQuery = "SELECT * FROM \"" + TABLE_SONGS + "\" AS s WHERE s.artist REGEXP \"" + artist + "\" AND s.album REGEXP \"" + album
-                            + "\" AND s.title REGEXP \"" + title + "\" AND s.type = \"" + type + "\"";
+                + "\" AND s.title REGEXP \"" + title + "\" AND s.type = \"" + type + "\"";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

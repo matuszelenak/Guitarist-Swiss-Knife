@@ -24,5 +24,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.github.wendykierp:JTransforms:3.1'
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:+'
     compile project(':EvalEx-1.2')
 }
