@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,7 +20,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/navigationBar"
         android:id="@+id/songSelectionScrollView" >
 
         <LinearLayout
@@ -34,6 +35,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content"
@@ -43,26 +45,29 @@
             android:layout_height="wrap_content"
             android:id="@+id/mark_entries_button"
             android:clickable="true"
-            android:onClick="toggleMarking" />
+            android:onClick="toggleMarking"
+            android:background="@android:drawable/ic_menu_add" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/edit_entries_button"
-            android:onClick="editSelected" />
+            android:onClick="editSelected"
+            android:background="@android:drawable/ic_menu_edit" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/delete_entries_button"
-            android:onClick="eraseSelected" />
+            android:onClick="eraseSelected"
+            android:background="@android:drawable/ic_menu_delete" />
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/search_entries_button"
-            android:onClick="search" />
+            android:onClick="search"
+            android:background="@android:drawable/ic_menu_search" />
 
     </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>
