@@ -112,7 +112,7 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
 
     public ArrayList<String> getColumn(String column, String artist, String album, String title){
         String selectQuery = "SELECT DISTINCT "+ column + " FROM \"" + TABLE_SONGS + "\" AS s WHERE s.artist REGEXP \"" + artist + "\" AND s.album REGEXP \"" + album
-                + "\" AND s.title REGEXP \"" + title + "\"";
+                + "\" AND s.title REGEXP \"" + title + "\" ORDER BY " + column;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void startSongActivity(View view){
-        Intent chordIntent = new Intent(this, SongsActivity.class);
+        Intent chordIntent = new Intent(this, SongManagementActivity.class);
         startActivity(chordIntent);
     }
 }
