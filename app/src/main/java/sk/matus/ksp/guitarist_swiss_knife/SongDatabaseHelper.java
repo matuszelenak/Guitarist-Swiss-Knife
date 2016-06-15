@@ -4,10 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by whiskas on 7.6.2016.
@@ -73,10 +75,30 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         return result;
     }
 
-    public void deleteSong(Song song){
+    public void deleteSongs(String artist, String album, String title, String type){
+        Log.i("DELETE", artist+album+title+type);
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_SONGS, KEY_ID + " = ?",
-                new String[] { String.valueOf(song.getId()) });
+        db.execSQL("DELETE FROM " + TABLE_SONGS + " WHERE artist REGEXP \"" + artist + "\" AND album REGEXP \"" + album
+                + "\" AND title REGEXP \"" + title + "\" AND type REGEXP \"" + type + "\"");
+        db.close();
+    }
+
+    public void modifySongs(HashMap<String, String> modifyParams, HashMap<String, String> selectParams){
+        StringBuilder query = new StringBuilder();
+        query.append("UPDATE ").append(TABLE_SONGS).append(" SET ");
+        for (HashMap.Entry<String, String> entry : modifyParams.entrySet()) {
+            query.append(entry.getKey()).append("=\"").append(entry.getValue()).append("\", ");
+        }
+        query.delete(query.length()-2, query.length());
+        query.append(" WHERE ");
+        for (HashMap.Entry<String, String> entry : selectParams.entrySet()) {
+            query.append(entry.getKey()).append(" REGEXP \"").append(entry.getValue()).append("\" AND ");
+        }
+        query.delete(query.length()-5, query.length());
+        query.append(";");
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.i("MODIFY", query.toString());
+        db.execSQL(query.toString());
         db.close();
     }
 

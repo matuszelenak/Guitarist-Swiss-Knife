@@ -22,4 +22,9 @@
     <string name="frequency_above">Pod</string>
     <string name="frequency_precise">Přesně</string>
     <string name="time_signature_text">Takt</string>
+    <string name="album">Album</string>
+    <string name="artist">Interpret</string>
+    <string name="title">Název</string>
+    <string name="type">Typ</string>
+    <string name="dont_change">Neměnit</string>
 </resources>

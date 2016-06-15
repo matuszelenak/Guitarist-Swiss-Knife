@@ -13,6 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+
         android:id="@+id/navigationBar"
         android:orientation="horizontal">
 
@@ -22,7 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/navigationBar"
-        android:id="@+id/songSelectionScrollView" >
+        android:layout_above="@+id/song_list_controls"
+        android:id="@+id/songSelectionScrollView"
+        android:layout_alignParentStart="true">
 
         <LinearLayout
             android:orientation="vertical"

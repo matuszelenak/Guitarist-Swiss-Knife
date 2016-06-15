@@ -21,4 +21,8 @@
     <string name="frequency_above">Above</string>
     <string name="frequency_precise">Precisely</string>
     <string name="time_signature_text">Time Signature</string>
+    <string name="artist">Artist</string>
+    <string name="album">Album</string>
+    <string name="title">Title</string>
+    <string name="type">Type</string>
 </resources>

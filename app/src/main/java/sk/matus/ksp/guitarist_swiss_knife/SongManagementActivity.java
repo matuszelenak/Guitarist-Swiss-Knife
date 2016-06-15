@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.regex.Pattern;
 
 public class SongManagementActivity extends AppCompatActivity {
@@ -36,15 +37,9 @@ public class SongManagementActivity extends AppCompatActivity {
         public ArrayList<HierarchyCursor> getCursors(){
             ArrayList<HierarchyCursor> cursors = new ArrayList<>();
             SongDatabaseHelper db = new SongDatabaseHelper(context);
-            ArrayList<String>escapedRegex = new ArrayList<>();
-            for (String s : regex){
-                if (!s.equals(".*")) escapedRegex.add(Pattern.quote(s));
-                else escapedRegex.add(s);
-            }
+            ArrayList<String>escapedRegex = getEscapedRegex();
             ArrayList<String> queryResults = db.getColumn(columns.get(level),escapedRegex.get(0),escapedRegex.get(1),escapedRegex.get(2));
-            Log.i("GETTING CURSOR", columns.get(level)+escapedRegex.get(0)+escapedRegex.get(1)+escapedRegex.get(2));
             for (String s : queryResults){
-                Log.i("CURSOR",s);
                 HierarchyCursor newCursor = new HierarchyCursor(context);
                 newCursor.level = level + 1;
                 for (int i = 0; i < level; i++){
@@ -55,6 +50,15 @@ public class SongManagementActivity extends AppCompatActivity {
                 cursors.add(newCursor);
             }
             return cursors;
+        }
+
+        public ArrayList<String> getEscapedRegex(){
+            ArrayList<String>result = new ArrayList<>();
+            for (String s : regex){
+                if (!s.equals(".*")) result.add(Pattern.quote(s));
+                else result.add(s);
+            }
+            return result;
         }
     }
 
@@ -71,15 +75,20 @@ public class SongManagementActivity extends AppCompatActivity {
             entryValue.setTextSize(30);
             checkBox = new CheckBox(context);
             RadioButton temp = new RadioButton(context);
-            temp.setChecked(true);
+            temp.setChecked(false);
             temp.setClickable(false);
             int tempID = generateViewId();
             temp.setId(tempID);
+
             this.addView(temp);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)temp.getLayoutParams();
+            params.addRule(RelativeLayout.CENTER_VERTICAL, tempID);
+            temp.setLayoutParams(params);
 
             this.addView(entryValue);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)entryValue.getLayoutParams();
+            params = (RelativeLayout.LayoutParams)entryValue.getLayoutParams();
             params.addRule(RelativeLayout.RIGHT_OF, tempID);
+            entryValue.setLayoutParams(params);
 
             this.addView(checkBox);
             params = (RelativeLayout.LayoutParams)checkBox.getLayoutParams();
@@ -112,20 +121,18 @@ public class SongManagementActivity extends AppCompatActivity {
         private void performClicking(){
             if (cursor.level == 4){
                 Intent intent = new Intent(context, SongViewActivity.class);
-                ArrayList<String>escapedRegex = new ArrayList<>();
-                for (String s : cursor.regex){
-                    if (!s.equals(".*")) escapedRegex.add(Pattern.quote(s));
-                    else escapedRegex.add(s);
-                }
+                ArrayList<String>escapedRegex = cursor.getEscapedRegex();
                 intent.putExtra("artist", escapedRegex.get(0));
                 intent.putExtra("album", escapedRegex.get(1));
                 intent.putExtra("title", escapedRegex.get(2));
                 intent.putExtra("type", cursor.filename);
                 startActivity(intent);
             }
-            else
+            else{
                 addNavigationButton(this.cursor);
                 reloadSelection(this.cursor);
+            }
+
         }
     }
 
@@ -161,6 +168,7 @@ public class SongManagementActivity extends AppCompatActivity {
     LinearLayout navigationBar;
     ArrayList<NavigationButton> navigationButtons = new ArrayList<>();
     HierarchyCursor currentCursor;
+    Dialog editDialog;
     boolean marking = false;
 
     public void addNavigationButton(HierarchyCursor cursor){
@@ -183,12 +191,66 @@ public class SongManagementActivity extends AppCompatActivity {
         for (NavigationButton nb: navigationButtons) navigationBar.addView(nb);
     }
 
-    public void eraseSelected(View v){
+    private ArrayList<HierarchyCursor>gatherMarked(){
+        ArrayList<HierarchyCursor>result = new ArrayList<>();
+        for (int i = 0; i < songSelection.getChildCount(); i++){
+            SongListEntry sle = (SongListEntry) songSelection.getChildAt(i);
+            if (sle.checkBox.isChecked()) result.add(sle.cursor);
+        }
+        return result;
+    }
 
+    public void eraseSelected(View v){
+        SongDatabaseHelper db = new SongDatabaseHelper(this);
+        for (HierarchyCursor hc : gatherMarked()){
+            db.deleteSongs(hc.regex.get(0), hc.regex.get(1),hc.regex.get(2),hc.regex.get(3));
+        }
+        reloadSelection(currentCursor);
+    }
+
+    private Dialog constructEditDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.song_edit_dialog);
+        Button dialogButton = (Button) dialog.findViewById(R.id.edit_song_submit);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HashMap<String, String> modifyParams = new HashMap<>();
+                EditText edit_artist = (EditText)dialog.findViewById(R.id.edit_artist_text);
+                EditText edit_album = (EditText)dialog.findViewById(R.id.edit_album_text);
+                EditText edit_title = (EditText)dialog.findViewById(R.id.edit_title_text);
+                EditText edit_type = (EditText)dialog.findViewById(R.id.edit_type_text);
+                if (!edit_artist.getText().toString().equals("")) modifyParams.put("artist", edit_artist.getText().toString());
+                if (!edit_album.getText().toString().equals("")) modifyParams.put("album", edit_album.getText().toString());
+                if (!edit_title.getText().toString().equals("")) modifyParams.put("title", edit_title.getText().toString());
+                if (!edit_type.getText().toString().equals("")) modifyParams.put("type", edit_type.getText().toString());
+                dialog.dismiss();
+                if (!modifyParams.isEmpty()){
+                    submitEdit(modifyParams);
+                }
+
+            }
+        });
+        return dialog;
+    }
+
+    public void submitEdit(HashMap<String, String> modifyParams){
+        SongDatabaseHelper db = new SongDatabaseHelper(this);
+        for (HierarchyCursor hc : gatherMarked()){
+            HashMap<String, String> selectParams = new HashMap<>();
+            ArrayList<String>escapedRegex = hc.getEscapedRegex();
+            selectParams.put("artist", escapedRegex.get(0));
+            selectParams.put("album", escapedRegex.get(1));
+            selectParams.put("title", escapedRegex.get(2));
+            selectParams.put("type", escapedRegex.get(3));
+            db.modifySongs(modifyParams, selectParams);
+        }
+        reloadSelection(currentCursor);
     }
 
     public void editSelected(View v){
-
+        editDialog.show();
     }
 
     public void search(View v){
@@ -205,10 +267,11 @@ public class SongManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management_song);
 
-        this.deleteDatabase("song_database");
+        //this.deleteDatabase("song_database");
 
         songSelection = (LinearLayout) findViewById(R.id.songSelectionView);
         navigationBar = (LinearLayout) findViewById(R.id.navigationBar);
+        editDialog = constructEditDialog();
 
         HierarchyCursor currentCursor = new HierarchyCursor(this);
         currentCursor.filename = "Artists";
