@@ -232,9 +232,6 @@ public class Chord {
     }
 
     public String resolveName(){
-        for (String s: flags){
-            Log.i("FLAG", s);
-        }
         StringBuilder sb = new StringBuilder();
         for (NameComponent nc : nameComponents){
             if (evaluateExpression(nc.condition)) sb.append(nc.value);

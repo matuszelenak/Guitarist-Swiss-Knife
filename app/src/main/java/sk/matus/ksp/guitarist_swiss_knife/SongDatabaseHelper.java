@@ -20,11 +20,8 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
 
     private static final String DATABASE_NAME = "song_database";
 
-    private final Context myContext;
-
     private static final String TABLE_SONGS = "songs";
 
-    private static final String KEY_ID = "id";
     private static final String KEY_ARTIST = "artist";
     private static final String KEY_ALBUM = "album";
     private static final String KEY_TITLE = "title";
@@ -33,7 +30,6 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
 
     public SongDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.myContext = context;
     }
 
     public void addSong(Song song){
@@ -100,36 +96,6 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         Log.i("MODIFY", query.toString());
         db.execSQL(query.toString());
         db.close();
-    }
-
-    public ArrayList<String> getArtists(){
-        String selectQuery = "SELECT DISTINCT artist FROM " + TABLE_SONGS;
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        ArrayList<String>result = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                result.add(cursor.getString(0));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return result;
-    }
-
-    public ArrayList<String> getAlbums(String artist){
-        String selectQuery = "SELECT DISTINCT album FROM " + TABLE_SONGS + " WHERE artist REGEXP \"" + artist + "\"";
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        ArrayList<String>result = new ArrayList<>();
-        if (cursor.moveToFirst()) {
-            do {
-                result.add(cursor.getString(0));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return result;
     }
 
     public ArrayList<String> getColumn(String column, String artist, String album, String title){

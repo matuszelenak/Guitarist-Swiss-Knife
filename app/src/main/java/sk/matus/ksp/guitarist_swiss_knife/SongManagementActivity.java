@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -153,10 +152,6 @@ public class SongManagementActivity extends AppCompatActivity {
         }
 
         private void performClicking(){
-            Log.i("ERASING", String.format("From %d to %d", cursor.level, navigationButtons.size()));
-            for (NavigationButton nb : navigationButtons){
-                Log.i("BUTTON", nb.getText().toString());
-            }
             int toErase = navigationButtons.size() - cursor.level;
             for (int i = 0 ; i < toErase; i++) navigationButtons.remove(navigationButtons.size()-1);
             addNavigationButton(this.cursor);
@@ -266,8 +261,6 @@ public class SongManagementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_management_song);
-
-        //this.deleteDatabase("song_database");
 
         songSelection = (LinearLayout) findViewById(R.id.songSelectionView);
         navigationBar = (LinearLayout) findViewById(R.id.navigationBar);

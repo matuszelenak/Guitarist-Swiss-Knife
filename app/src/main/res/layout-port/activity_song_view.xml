@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sk.matus.ksp.guitarist_swiss_knife.SongViewActivity">
+
+    <RelativeLayout
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:id="@+id/song_view_controls">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent">
+                <SeekBar
+                    android:layout_centerVertical="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/auto_scroll_speed"
+                    android:max="250"
+                    android:progress="100" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:layout_centerVertical="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/play_song"
+                    android:background="@android:drawable/ic_media_play"
+                    android:onClick="toggleScrolling" />
+            </RelativeLayout>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:id="@+id/transpose_lower"
+                android:text="-"
+                android:onClick="transposeDown" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.25"
+                android:layout_height="wrap_content"
+                android:id="@+id/transpose_higher"
+                android:text="+"
+                android:onClick="transposeUp" />
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
+    <WebView
+        android:layout_below="@+id/song_view_controls"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/songWebView" />
+
+</RelativeLayout>

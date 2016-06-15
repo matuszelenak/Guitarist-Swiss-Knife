@@ -16,7 +16,6 @@ import java.util.TreeMap;
  */
 
 public class ToneUtils {
-    private String TAG = "TONEUTILS";
     private TreeMap<Double,Tone> frequencyMapping = new TreeMap<>();
     /**
      * Contains the full range of semitones found in one octave (From "C" to "B")
