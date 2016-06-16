@@ -3,6 +3,7 @@
     package="sk.matus.ksp.guitarist_swiss_knife">
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,9 @@
         <activity android:name=".TunerActivity" />
         <activity android:name=".ChordActivity" />
         <activity android:name=".SongManagementActivity" />
-        <activity android:name=".SongViewActivity"></activity>
+        <activity android:name=".SongViewActivity" />
+        <activity android:name=".SongEditorActivity" />
+        <activity android:name=".ScrapeUGActivity"></activity>
     </application>
 
 </manifest>

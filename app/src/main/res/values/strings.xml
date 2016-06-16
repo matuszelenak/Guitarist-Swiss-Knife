@@ -15,6 +15,13 @@
         <item>B</item>
         <item>E</item>
     </string-array>
+    <string-array name="song_types_ug">
+        <item>Tab</item>
+        <item>Bass Tab</item>
+        <item>Drum Tab</item>
+        <item>Chord</item>
+        <item>Ukulele Chord</item>
+    </string-array>
     <string name="root_chooser_dialog_title">Choose the baseName note</string>
     <string name="root_chooser_dialog_cancel">Cancel</string>
     <string name="frequency_below">Below</string>
@@ -25,4 +32,6 @@
     <string name="album">Album</string>
     <string name="title">Title</string>
     <string name="type">Type</string>
+    <string name="add_song">Add Own</string>
+    <string name="dont_change">Don\'t Change</string>
 </resources>

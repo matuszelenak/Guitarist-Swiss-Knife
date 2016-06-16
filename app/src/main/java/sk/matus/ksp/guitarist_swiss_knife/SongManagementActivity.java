@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.apache.commons.math3.geometry.euclidean.threed.Line;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,6 +77,7 @@ public class SongManagementActivity extends AppCompatActivity {
             entryValue = new TextView(context);
             entryValue.setTextSize(30);
             checkBox = new CheckBox(context);
+            checkBox.setClickable(false);
             RadioButton temp = new RadioButton(context);
             temp.setChecked(false);
             temp.setClickable(false);
@@ -93,6 +98,13 @@ public class SongManagementActivity extends AppCompatActivity {
             params = (RelativeLayout.LayoutParams)checkBox.getLayoutParams();
             params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             checkBox.setLayoutParams(params);
+            this.setOnLongClickListener(new OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    toggleMarking(v);
+                    return true;
+                }
+            });
         }
 
         public void setCursor(HierarchyCursor cursor){
@@ -108,9 +120,14 @@ public class SongManagementActivity extends AppCompatActivity {
             this.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    performClicking();
+                    if (marking) toggleMark();
+                    else performClicking();
                 }
             });
+        }
+
+        public void toggleMark(){
+            checkBox.setChecked(!checkBox.isChecked());
         }
 
         public void setMarking(boolean marking){
@@ -121,10 +138,13 @@ public class SongManagementActivity extends AppCompatActivity {
             if (cursor.level == 4){
                 Intent intent = new Intent(context, SongViewActivity.class);
                 ArrayList<String>escapedRegex = cursor.getEscapedRegex();
-                intent.putExtra("artist", escapedRegex.get(0));
-                intent.putExtra("album", escapedRegex.get(1));
-                intent.putExtra("title", escapedRegex.get(2));
-                intent.putExtra("type", cursor.filename);
+                SongDatabaseHelper db = new SongDatabaseHelper(context);
+                Song song =  db.getSongs(escapedRegex.get(0),escapedRegex.get(1),escapedRegex.get(2),cursor.filename).get(0);
+                intent.putExtra("artist", song.artist);
+                intent.putExtra("album", song.album);
+                intent.putExtra("title", song.title);
+                intent.putExtra("type", song.type);
+                intent.putExtra("content", song.content);
                 startActivity(intent);
             }
             else{
@@ -152,6 +172,7 @@ public class SongManagementActivity extends AppCompatActivity {
         }
 
         private void performClicking(){
+            marking = false;
             int toErase = navigationButtons.size() - cursor.level;
             for (int i = 0 ; i < toErase; i++) navigationButtons.remove(navigationButtons.size()-1);
             addNavigationButton(this.cursor);
@@ -164,6 +185,7 @@ public class SongManagementActivity extends AppCompatActivity {
     ArrayList<NavigationButton> navigationButtons = new ArrayList<>();
     HierarchyCursor currentCursor;
     Dialog editDialog;
+    Dialog addDialog;
     boolean marking = false;
 
     public void addNavigationButton(HierarchyCursor cursor){
@@ -230,6 +252,46 @@ public class SongManagementActivity extends AppCompatActivity {
         return dialog;
     }
 
+    private void startUGScraper(){
+        Intent intent = new Intent(this, ScrapeUGActivity.class);
+        startActivity(intent);
+    }
+
+    private void startSongEditor(){
+        Intent intent = new Intent(this, SongEditorActivity.class);
+        startActivity(intent);
+    }
+
+    private Dialog constructAddDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.song_add_dialog);
+        Button addOwn = (Button) dialog.findViewById(R.id.songEditorLauncher);
+        ImageButton addFromUG = (ImageButton) dialog.findViewById(R.id.songScraperUGLauncher);
+        addOwn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSongEditor();
+                dialog.dismiss();
+
+            }
+        });
+
+        addFromUG.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startUGScraper();
+                dialog.dismiss();
+            }
+        });
+
+        return dialog;
+    }
+
+    public void addSong(View v){
+        addDialog.show();
+    }
+
     public void submitEdit(HashMap<String, String> modifyParams){
         SongDatabaseHelper db = new SongDatabaseHelper(this);
         for (HierarchyCursor hc : gatherMarked()){
@@ -265,6 +327,7 @@ public class SongManagementActivity extends AppCompatActivity {
         songSelection = (LinearLayout) findViewById(R.id.songSelectionView);
         navigationBar = (LinearLayout) findViewById(R.id.navigationBar);
         editDialog = constructEditDialog();
+        addDialog = constructAddDialog();
 
         HierarchyCursor currentCursor = new HierarchyCursor(this);
         currentCursor.filename = "Artists";

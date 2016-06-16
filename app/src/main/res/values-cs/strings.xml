@@ -16,6 +16,13 @@
         <item>B</item>
         <item>E</item>
     </string-array>
+    <string-array name="song_types_ug">
+        <item>Tab</item>
+        <item>Bass Tab</item>
+        <item>Drum Tab</item>
+        <item>Chord</item>
+        <item>Ukulele Chord</item>
+    </string-array>
     <string name="root_chooser_dialog_title">Vyberte základní notu</string>
     <string name="root_chooser_dialog_cancel">Zrušit</string>
     <string name="frequency_below">Nad</string>
@@ -27,4 +34,5 @@
     <string name="title">Název</string>
     <string name="type">Typ</string>
     <string name="dont_change">Neměnit</string>
+    <string name="add_song">Přidat vlastní</string>
 </resources>

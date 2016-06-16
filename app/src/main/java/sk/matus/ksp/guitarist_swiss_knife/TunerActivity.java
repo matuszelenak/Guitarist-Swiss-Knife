@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
-* The activity that records audio from the microphone in real time
-* and presents the user with visualisations of this audio*/
+ * The activity that records audio from the microphone in real time
+ * and presents the user with visualisations of this audio*/
 public class TunerActivity extends AppCompatActivity {
     ViewPager viewPager;
     TunerPagerAdapter tunerPagerAdapter;
 
     //constants chosen so that the tradeoff between real-time performance and accuracy of FFT is optimal
-    int sampleRate = 11025;
+    int sampleRate = 22050;
     int channelConfiguration = AudioFormat.CHANNEL_IN_MONO;
     int audioEncoding = AudioFormat.ENCODING_PCM_16BIT;
     int blockSize = 8192;
@@ -56,9 +56,9 @@ public class TunerActivity extends AppCompatActivity {
     }
 
     /**
-    * A background task that reads blocks of @blockSize audio samples at specified @sampleRate from the microphone input and performs FFT in order to determine frequency.
-    * mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
-    */
+     * A background task that reads blocks of @blockSize audio samples at specified @sampleRate from the microphone input and performs FFT in order to determine frequency.
+     * mostly taken from http://stackoverflow.com/questions/5511250/capturing-sound-for-analysis-and-visualizing-frequencies-in-android
+     */
     private class ProcessAudio extends AsyncTask<Void, double[], Void> {
         @Override
         protected Void doInBackground(Void...params) {
@@ -67,7 +67,7 @@ public class TunerActivity extends AppCompatActivity {
                         channelConfiguration, audioEncoding);
                 audioRecord = new AudioRecord(
                         MediaRecorder.AudioSource.MIC, sampleRate,
-                        channelConfiguration, audioEncoding, bufferSize);
+                        channelConfiguration, audioEncoding, 2*bufferSize);
                 short[] buffer = new short[blockSize];
                 double[] toTransform = new double[blockSize];
 
@@ -92,38 +92,38 @@ public class TunerActivity extends AppCompatActivity {
         }
 
         /**
-        * Method called after each block of samples has been read and processed by FFT. Updates the data and UI with current values.
-        * The update to the UI is executed every measurementCount-th the procedure is run - updating it every time results in fast
-        * flickering of the UI elements and inconvenience of reading data out of it.
-        * @param waves An array of doubles containing the block of FFT-processed samples*/
+         * Method called after each block of samples has been read and processed by FFT. Updates the data and UI with current values.
+         * The update to the UI is executed every measurementCount-th the procedure is run - updating it every time results in fast
+         * flickering of the UI elements and inconvenience of reading data out of it.
+         * @param waves An array of doubles containing the block of FFT-processed samples*/
         @Override
         protected void onProgressUpdate(double[]... waves) {
             for (TunerVisualisation tunerVisualisation : visualisations){
                 tunerVisualisation.updateSamples(waves[0]);
             }
             double currentMax = findStrongestFreq(waves[0]);
-            int measurementCount = 5;
+            int measurementCount = 0;
             if (measurementNo != measurementCount){
                 gatheredMaxFreq.add(currentMax);
                 measurementNo++;
             }
             else
             {
-                double overallMax = findPrevalentFreq(gatheredMaxFreq);
-                Tone tone = toneUtils.analyseFrequency(overallMax);
+                //double overallMax = findPrevalentFreq(gatheredMaxFreq);
+                Tone tone = toneUtils.analyseFrequency(currentMax);
                 for (TunerVisualisation tv : visualisations){
-                    tv.updateMaxFrequency(overallMax);
+                    tv.updateMaxFrequency(currentMax);
                     tv.updateTone(tone);
                 }
                 gatheredMaxFreq = new ArrayList<>();
-                measurementNo = 1;
+                measurementNo = 0;
             }
         }
 
         /**Naive but reliable way of figuring out current frequency from the spectrum
-        * @param freqList An array of sampleRate amplitudes
-        * @return The frequency with the highest amplitude
-        * */
+         * @param freqList An array of sampleRate amplitudes
+         * @return The frequency with the highest amplitude
+         * */
         private double findStrongestFreq(double[] freqList){
             double maximum = -1;
             int index= -1;
@@ -137,10 +137,10 @@ public class TunerActivity extends AppCompatActivity {
         }
 
         /**
-        * Finds the largest group of frequencies that are close to each other and returns their average.
-        * The practical effect is, that occasional high-amplitude noises don't affect the result of the measurement.
-        * @param frequencies ArrayList of gathered frequencies to filter
-        * @return The average from the largest group of similar frequencies*/
+         * Finds the largest group of frequencies that are close to each other and returns their average.
+         * The practical effect is, that occasional high-amplitude noises don't affect the result of the measurement.
+         * @param frequencies ArrayList of gathered frequencies to filter
+         * @return The average from the largest group of similar frequencies*/
         private double findPrevalentFreq(ArrayList<Double> frequencies){
             Collections.sort(frequencies);
             ArrayList<ArrayList<Double>>groups = new ArrayList<>();

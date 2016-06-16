@@ -49,8 +49,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/mark_entries_button"
             android:clickable="true"
-            android:onClick="toggleMarking"
-            android:background="@android:drawable/ic_menu_add" />
+            android:onClick="addSong"
+            android:background="@android:drawable/ic_menu_save" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -59,12 +65,24 @@
             android:onClick="editSelected"
             android:background="@android:drawable/ic_menu_edit" />
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
+
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/delete_entries_button"
             android:onClick="eraseSelected"
             android:background="@android:drawable/ic_menu_delete" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" >
+        </Space>
 
         <ImageButton
             android:layout_width="wrap_content"

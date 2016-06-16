@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -102,7 +103,7 @@ public class SongViewActivity extends AppCompatActivity {
                     transposed = tone.getLowerTone();
                 }
                 ToneName transposedName = transposed.getPrimaryName();
-                String result = transposedName.baseName + transposedName.accidental;
+                String result = transposedName.baseName + transposedName.accidental + chord.substring(s.length());
                 result = result.replaceAll("♭","b");
                 result = result.replaceAll("♯","#");
                 return result;
@@ -142,6 +143,7 @@ public class SongViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song_view);
 
@@ -192,11 +194,15 @@ public class SongViewActivity extends AppCompatActivity {
 
             }
         });
-
-        SongDatabaseHelper db = new SongDatabaseHelper(this);
         Intent intent = getIntent();
-        currentSong = db.getSongs(intent.getStringExtra("artist"),intent.getStringExtra("album"),intent.getStringExtra("title"),intent.getStringExtra("type")).get(0);
+        currentSong = new Song();
+        currentSong.artist = intent.getStringExtra("artist");
+        currentSong.album = intent.getStringExtra("album");
+        currentSong.title = intent.getStringExtra("title");
+        currentSong.type = intent.getStringExtra("type");
+        currentSong.content = intent.getStringExtra("content");
         String toShow = currentSong.content;
+        Log.i("CONTENT", toShow);
         toShow = toShow.replaceAll("\n", "<br>");
         toShow = toShow.replaceAll("''", "'");
         StringBuilder sb = new StringBuilder();
@@ -206,4 +212,6 @@ public class SongViewActivity extends AppCompatActivity {
         currentSong.content = sb.toString();
         displaySong(currentSong);
     }
+
+
 }
