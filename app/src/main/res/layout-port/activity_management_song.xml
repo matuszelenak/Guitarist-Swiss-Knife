@@ -50,7 +50,7 @@
             android:id="@+id/mark_entries_button"
             android:clickable="true"
             android:onClick="addSong"
-            android:background="@android:drawable/ic_menu_save" />
+            android:background="@android:drawable/ic_menu_add" />
 
         <Space
             android:layout_width="0dp"
@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/edit_entries_button"
             android:onClick="editSelected"
+            android:clickable="true"
             android:background="@android:drawable/ic_menu_edit" />
 
         <Space
@@ -76,6 +77,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/delete_entries_button"
             android:onClick="eraseSelected"
+            android:clickable="true"
             android:background="@android:drawable/ic_menu_delete" />
 
         <Space
@@ -89,6 +91,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/search_entries_button"
             android:onClick="search"
+            android:clickable="true"
             android:background="@android:drawable/ic_menu_search" />
 
     </LinearLayout>

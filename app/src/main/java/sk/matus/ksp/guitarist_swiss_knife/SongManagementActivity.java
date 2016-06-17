@@ -155,6 +155,40 @@ public class SongManagementActivity extends AppCompatActivity {
         }
     }
 
+    class ChordSearchEntry extends RelativeLayout{
+        TextView entryValue;
+        Context context;
+        CheckBox checkBox;
+        int chord_id;
+
+        ChordSearchEntry(Context context, int id, String name){
+            super(context);
+            this.context = context;
+            this.chord_id = id;
+            entryValue = new TextView(context);
+            entryValue.setTextSize(25);
+            entryValue.setText(name);
+            checkBox = new CheckBox(context);
+            checkBox.setClickable(false);
+
+            this.addView(entryValue);
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)entryValue.getLayoutParams();
+            entryValue.setLayoutParams(params);
+
+            this.addView(checkBox);
+            params = (RelativeLayout.LayoutParams)checkBox.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            checkBox.setLayoutParams(params);
+
+            this.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkBox.setChecked(!checkBox.isChecked());
+                }
+            });
+        }
+    }
+
     class NavigationButton extends Button{
         HierarchyCursor cursor;
         NavigationButton(Context context){
@@ -288,6 +322,55 @@ public class SongManagementActivity extends AppCompatActivity {
         return dialog;
     }
 
+    private void clearFilter(){
+        Log.i("CLEARING","FILTER");
+        SongDatabaseHelper db = new SongDatabaseHelper(this);
+        final ArrayList<Integer>allChordsIds = new ArrayList<>();
+        for (SongDatabaseHelper.ChordEntry e : db.getChords()){
+            allChordsIds.add(e.id);
+        }
+        db.setFilter(allChordsIds);
+    }
+
+    private Dialog constructSearchDialog(){
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.song_search_dialog);
+        final LinearLayout layout = (LinearLayout) dialog.findViewById(R.id.search_chord_list_view);
+        final SongDatabaseHelper db = new SongDatabaseHelper(this);
+        for (SongDatabaseHelper.ChordEntry e : db.getChords()){
+            ChordSearchEntry se = new ChordSearchEntry(this, e.id, e.name);
+            layout.addView(se);
+        }
+        Button submit = (Button) dialog.findViewById(R.id.search_chord_button_submit);
+        Button cancel = (Button) dialog.findViewById(R.id.search_chord_button_cancel);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Integer>chordIds = new ArrayList<>();
+                for (int i = 0; i < layout.getChildCount(); i++){
+                    ChordSearchEntry se = (ChordSearchEntry)layout.getChildAt(i);
+                    if (se.checkBox.isChecked()){
+                        chordIds.add(se.chord_id);
+                        Log.i("FILTER ADD", Integer.toString(se.chord_id));
+                    }
+                }
+                db.setFilter(chordIds);
+                reloadSelection(currentCursor);
+                dialog.dismiss();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearFilter();
+                reloadSelection(currentCursor);
+                dialog.dismiss();
+            }
+        });
+        return dialog;
+    }
+
     public void addSong(View v){
         addDialog.show();
     }
@@ -311,7 +394,8 @@ public class SongManagementActivity extends AppCompatActivity {
     }
 
     public void search(View v){
-
+        Dialog searchDialog = constructSearchDialog();
+        searchDialog.show();
     }
 
     public void toggleMarking(View v){
@@ -332,6 +416,7 @@ public class SongManagementActivity extends AppCompatActivity {
         HierarchyCursor currentCursor = new HierarchyCursor(this);
         currentCursor.filename = "Artists";
         addNavigationButton(currentCursor);
+        clearFilter();
         reloadSelection(currentCursor);
     }
 }

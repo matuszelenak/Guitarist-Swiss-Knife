@@ -35,4 +35,6 @@
     <string name="type">Typ</string>
     <string name="dont_change">Neměnit</string>
     <string name="add_song">Přidat vlastní</string>
+    <string name="downloading">Stahování...</string>
+    <string name="search">Hledat</string>
 </resources>

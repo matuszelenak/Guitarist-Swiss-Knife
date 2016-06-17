@@ -113,11 +113,9 @@ public class SongViewActivity extends AppCompatActivity {
     }
 
     public void transposeUp(View v){
-        Log.i("HTML", currentSong.content);
         Document doc = Jsoup.parse(currentSong.content, "UTF-8");
         Elements chords = doc.select("span");
         for (Element e : chords){
-            Log.i("CHORD", e.text());
             e.text(transposeChord(e.text(), UP));
         }
         currentSong.content = doc.toString();
@@ -125,11 +123,9 @@ public class SongViewActivity extends AppCompatActivity {
     }
 
     public void transposeDown(View v){
-        Log.i("HTML", currentSong.content);
         Document doc = Jsoup.parse(currentSong.content, "UTF-8");
         Elements chords = doc.select("span");
         for (Element e : chords){
-            Log.i("CHORD", e.text());
             e.text(transposeChord(e.text(), DOWN));
         }
         currentSong.content = doc.toString();
@@ -202,7 +198,6 @@ public class SongViewActivity extends AppCompatActivity {
         currentSong.type = intent.getStringExtra("type");
         currentSong.content = intent.getStringExtra("content");
         String toShow = currentSong.content;
-        Log.i("CONTENT", toShow);
         toShow = toShow.replaceAll("\n", "<br>");
         toShow = toShow.replaceAll("''", "'");
         StringBuilder sb = new StringBuilder();
@@ -211,6 +206,17 @@ public class SongViewActivity extends AppCompatActivity {
         sb.append("</body></HTML>");
         currentSong.content = sb.toString();
         displaySong(currentSong);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (scrolling) toggleScrolling(null);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
     }
 
 

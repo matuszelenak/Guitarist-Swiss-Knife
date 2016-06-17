@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -23,15 +22,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.transform.Result;
 
 public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse, AsyncSongResponse{
 
@@ -106,7 +102,7 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
                     }
                     else {
                         viewExtracted = true;
-                        extractSongs(new ArrayList<>(Arrays.asList(self)));
+                        extractSongs(new ArrayList<>(Collections.singletonList(self)));
                     }
                 }
             });
@@ -130,7 +126,8 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
     class RetrieveSongContent extends AsyncTask<ArrayList<ResultEntryView>, Void, ArrayList<Song>>{
         public AsyncSongResponse delegate = null;
 
-        protected ArrayList<Song> doInBackground(ArrayList<ResultEntryView>... passing) {
+        @SafeVarargs
+        protected final ArrayList<Song> doInBackground(ArrayList<ResultEntryView>... passing) {
             ArrayList<Song>result = new ArrayList<>();
             for (ResultEntryView v : passing[0]){
                 try{
@@ -169,6 +166,7 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         RetrieveSearchResults(Context context){
             super();
             pd = new ProgressDialog(context);
+            pd.setMessage(context.getResources().getString(R.string.downloading));
         }
 
         @Override
@@ -213,7 +211,8 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
             return results;
         }
 
-        protected ArrayList<ResultEntry> doInBackground(ArrayList<String>... passing) {
+        @SafeVarargs
+        protected final ArrayList<ResultEntry> doInBackground(ArrayList<String>... passing) {
             ArrayList<ResultEntry>totalResults = new ArrayList<>();
             try{
                 String artist = passing[0].get(0);
@@ -237,7 +236,6 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            pd.setMessage("Loading...");
             pd.show();
         }
     }
@@ -246,7 +244,6 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         marking = !marking;
         for (int i = 0; i < resultSelection.getChildCount(); i++){
             ResultEntryView entry = (ResultEntryView) resultSelection.getChildAt(i);
-            //entry.toggleMark();
             if (marking) entry.checkBox.setVisibility(View.VISIBLE); else entry.checkBox.setVisibility(View.GONE);
         }
     }
@@ -290,7 +287,6 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
     }
 
     public void downloadSelected(View v){
-        SongDatabaseHelper db = new SongDatabaseHelper(this);
         ArrayList<ResultEntryView>marked = gatherMarked();
         saveExtracted = true;
         extractSongs(marked);
