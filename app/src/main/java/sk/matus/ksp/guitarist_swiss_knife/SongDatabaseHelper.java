@@ -12,7 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 /**
  * Class that extracts the database on the first run and manipulates it later.
@@ -56,10 +58,23 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    public ArrayList<String> getEscapedRegex(ArrayList<String>raw){
+        ArrayList<String>result = new ArrayList<>();
+        for (String s : raw){
+            if (!s.equals(".*")) result.add(Pattern.quote(s));
+            else result.add(s);
+        }
+        return result;
+    }
+
     private int getSongId(SQLiteDatabase db, String artist, String album, String title, String type){
+        Log.i("DB", artist);
+        Log.i("DB", album);
+        Log.i("DB", title);
+        Log.i("DB", type);
         int result = -1;
         String selectQuery = "SELECT id FROM \"" + TABLE_SONGS + "\" AS s WHERE s.artist REGEXP \"" + artist + "\" AND s.album REGEXP \"" + album
-                + "\" AND s.title REGEXP \"" + title + "\" AND s.type = \"" + type + "\"";
+                + "\" AND s.title REGEXP \"" + title + "\" AND s.type=\"" + type + "\"";
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
             result = cursor.getInt(0);
@@ -120,8 +135,24 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         values.put(KEY_TITLE, song.getTitle());
         values.put(CONTENT, song.getContent());
         db.insert(TABLE_SONGS, null, values);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.beginTransaction();
 
-        int song_id = getSongId(db, song.getArtist(), song.getAlbum(), song.getTitle(), song.getType());
+        ArrayList<String>escaped = getEscapedRegex(new ArrayList<>(Arrays.asList(
+                song.getArtist(),
+                song.getAlbum(),
+                song.getTitle(),
+                song.getType()
+        )));
+        int song_id = getSongId(db, escaped.get(0), escaped.get(1), escaped.get(2), song.type);
+        //int song_id = getSongId(db, song.artist, song.album, song.title, song.type);
+        if (song_id == -1){
+            db.setTransactionSuccessful();
+            db.endTransaction();
+            Log.i("DB", "DAFUQ");
+            return;
+        }
         Document doc = Jsoup.parse(song.content);
         Elements chords = doc.select("span");
         for (Element e : chords){
@@ -259,6 +290,9 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
      * @return An ArrayList of strings containing the requested tag column
      */
     public ArrayList<String> getColumn(String column, String artist, String album, String title){
+        Log.i("DB", artist);
+        Log.i("DB", album);
+        Log.i("DB", title);
         String selectQuery = "SELECT DISTINCT "+ column + " FROM \"" + TABLE_SONGS + "\" AS s WHERE s.artist REGEXP \"" + artist + "\" AND s.album REGEXP \"" + album
                 + "\" AND s.title REGEXP \"" + title + "\""
                 + " AND NOT EXISTS(" +
