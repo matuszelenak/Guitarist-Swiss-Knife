@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by whiskas on 24.2.2016.
+ * Adapter that enables several visualization of the tuner to be displayed in the same activity
  */
 public class TunerPagerAdapter extends PagerAdapter {
     int numberOfPages = 0;

@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(metronome_intent);
     }
 
-
     public void startTunerActivity(View view){
         Intent tunerIntent = new Intent(this, TunerActivity.class);
         startActivity(tunerIntent);

@@ -6,18 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Class that extracts the database on the first run and manipulates it later.
+ */
 public class SongDatabaseHelper extends SQLiteAssetHelper {
 
     class ChordEntry{
@@ -86,6 +85,13 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         db.insert(TABLE_CHORDS, null, values);
     }
 
+    /**
+     * Adds a binding between a song and a chord.
+     * Binding means that the song used the chord.
+     * @param db Initialized database object
+     * @param song_id The ID of the song as found in the songs table
+     * @param chord_id The ID of the chord as found in the chords table
+     */
     private void addSongChordBinding(SQLiteDatabase db, int song_id, int chord_id){
         ContentValues values = new ContentValues();
         values.put(KEY_SONG_ID, song_id);
@@ -94,11 +100,16 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
             db.insert(TABLE_SONG_CHORDS, null, values);
         }
         catch (SQLiteConstraintException e){
-            Log.i("SQL", "Binding already present");
+            e.printStackTrace();
         }
-
     }
 
+    /**
+     * Adds a song to the database along with all the metadata connected with doing so.
+     * (In case the song used a chord not previously seen, it saves it; adds binding of the song
+     * to the chords it uses)
+     * @param song The song to be added to the database
+     */
     public void addSong(Song song){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();
@@ -127,6 +138,11 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         db.close();
     }
 
+    /**
+     * Method that obtains a list of all chords currently used by the songs
+     * in the database
+     * @return An ArrayList of ChordEntry records
+     */
     public ArrayList<ChordEntry> getChords(){
         ArrayList<ChordEntry> result = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
@@ -148,6 +164,15 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         return result;
     }
 
+    /**
+     * Method that returns a list of songs from the database
+     * according to the filtering parameters (regex)
+     * @param artist Regex string that should match the songs artist field
+     * @param album Regex string that should match the songs album field
+     * @param title Regex string that should match the songs title field
+     * @param type Regex string that should match the songs type field
+     * @return An ArrayList of Song instances that satisfy the parameters filtering and are in the database
+     */
     public ArrayList<Song> getSongs(String artist, String album, String title, String type){
         String selectQuery = "SELECT * FROM \"" + TABLE_SONGS + "\" AS s WHERE s.artist REGEXP \"" + artist + "\" AND s.album REGEXP \"" + album
                 + "\" AND s.title REGEXP \"" + title + "\" AND s.type = \"" + type + "\"";
@@ -177,6 +202,13 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         return result;
     }
 
+    /**
+     * Deletes songs that match the filtering parameters from the database
+     * @param artist Regex string that should match the songs artist field
+     * @param album Regex string that should match the songs album field
+     * @param title Regex string that should match the songs title field
+     * @param type Regex string that should match the songs type field
+     */
     public void deleteSongs(String artist, String album, String title, String type){
         Log.i("DELETE", artist+album+title+type);
         SQLiteDatabase db = this.getWritableDatabase();
@@ -188,6 +220,11 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         db.close();
     }
 
+    /**
+     * Modifies the tags of the songs that satisfy the regex search pattern specified by parameters
+     * @param modifyParams Tag parameters values that should replace the current values
+     * @param selectParams Regex search patterns that specify the set of songs to be modified
+     */
     public void modifySongs(HashMap<String, String> modifyParams, HashMap<String, String> selectParams){
         StringBuilder query = new StringBuilder();
         query.append("UPDATE ").append(TABLE_SONGS).append(" SET ");
@@ -211,6 +248,17 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
     }
 
 
+    /**
+     * Method that obtains only a single tag column from the songs in the database.
+     * In addition to filtering parameters of the method, the content of the
+     * 'filter' table is taken into account, which filters songs according to the set
+     * of chords that they contain (obviously only matters for the Chord type of a song)
+     * @param artist Regex string that should match the songs artist field
+     * @param album Regex string that should match the songs album field
+     * @param title Regex string that should match the songs title field
+     * @param column Column to be extracted from the song tags
+     * @return An ArrayList of strings containing the requested tag column
+     */
     public ArrayList<String> getColumn(String column, String artist, String album, String title){
         String selectQuery = "SELECT DISTINCT "+ column + " FROM \"" + TABLE_SONGS + "\" AS s WHERE s.artist REGEXP \"" + artist + "\" AND s.album REGEXP \"" + album
                 + "\" AND s.title REGEXP \"" + title + "\""
@@ -238,6 +286,10 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         return result;
     }
 
+    /**
+     * Sets the content of the 'filter' table
+     * @param chordFilter An Array containing the chord_ids as found in the 'chords' table
+     */
     public void setFilter(ArrayList<Integer> chordFilter){
         SQLiteDatabase db = this.getWritableDatabase();
         db.beginTransaction();

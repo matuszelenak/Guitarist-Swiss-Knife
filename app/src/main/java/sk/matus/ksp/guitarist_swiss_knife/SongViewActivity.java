@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
@@ -23,6 +22,10 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Activity that displays the song and enables the user to manipulate its content to limited extent
+ * (without changing the data in the database that holds the song)
+ */
 public class SongViewActivity extends AppCompatActivity {
 
     private final static int UP = 1;
@@ -40,7 +43,7 @@ public class SongViewActivity extends AppCompatActivity {
     ImageButton playButton;
     Button transposeUp;
     Button transposeDown;
-    SeekBar autoscroll_control;
+    SeekBar autoScrollControl;
     int currentYposition = 0;
     private final static int MSG_SCROLL = 1;
     boolean scrolling = false;
@@ -48,6 +51,9 @@ public class SongViewActivity extends AppCompatActivity {
     String baseNotes = "CDEFGABH";
     ArrayList<String> rootTones = new ArrayList<>();
 
+    /**
+     * Thread that auto-scrolls down the song text at speed given by user
+     */
     class Scroller extends Thread{
         boolean isRunning = false;
         @Override
@@ -56,7 +62,7 @@ public class SongViewActivity extends AppCompatActivity {
                 if (Thread.interrupted()) break;
                 viewHandler.sendEmptyMessage(MSG_SCROLL);
                 try{
-                    Thread.sleep(2500/autoscroll_control.getProgress());
+                    Thread.sleep(3000/ autoScrollControl.getProgress());
                 }
                 catch(InterruptedException e){
                     e.printStackTrace();
@@ -69,6 +75,10 @@ public class SongViewActivity extends AppCompatActivity {
         webView.loadDataWithBaseURL("file:///android_asset/", song.content, "text/html", "utf-8", null);
     }
 
+    /**
+     * Turns auto-scrolling on and off
+     * @param v
+     */
     public void toggleScrolling(View v){
         scrolling = !scrolling;
         if (scrolling){
@@ -84,6 +94,13 @@ public class SongViewActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Given a chord and a direction, the method transposes the chord either
+     * half-tone up or down.
+     * @param chord Name of the chord
+     * @param direction Direction in which to transpose
+     * @return String representation of the transposed chord
+     */
     private String transposeChord(String chord, int direction){
         chord = chord.replaceAll("b", "♭");
         chord = chord.replaceAll("#","♯");
@@ -112,6 +129,9 @@ public class SongViewActivity extends AppCompatActivity {
         return chord;
     }
 
+    /**
+     * Method which transposes the entire song half-tone up.
+     */
     public void transposeUp(View v){
         Document doc = Jsoup.parse(currentSong.content, "UTF-8");
         Elements chords = doc.select("span");
@@ -122,6 +142,9 @@ public class SongViewActivity extends AppCompatActivity {
         displaySong(currentSong);
     }
 
+    /**
+     * Method which transposes the entire song half-tone down.
+     */
     public void transposeDown(View v){
         Document doc = Jsoup.parse(currentSong.content, "UTF-8");
         Elements chords = doc.select("span");
@@ -173,8 +196,8 @@ public class SongViewActivity extends AppCompatActivity {
         playButton = (ImageButton) findViewById(R.id.play_song);
         transposeUp = (Button) findViewById(R.id.transpose_higher);
         transposeDown = (Button) findViewById(R.id.transpose_lower);
-        autoscroll_control = (SeekBar) findViewById(R.id.auto_scroll_speed);
-        autoscroll_control.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        autoScrollControl = (SeekBar) findViewById(R.id.auto_scroll_speed);
+        autoScrollControl.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 

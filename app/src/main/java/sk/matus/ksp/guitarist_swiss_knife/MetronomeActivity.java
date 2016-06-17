@@ -22,13 +22,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
-* An activity that will act like a metronome.
-* This activity will be rebuilt from the ground up since it contains almost nothing
-* useful now*/
+ * An activity that provides the functionality of a music metronome:
+ * Scheduled audio beats.
+ */
 public class MetronomeActivity extends AppCompatActivity {
 
+    /**
+     * The thread class that takes care of the correct timing of the beats
+     */
     class Metronome extends Thread{
 
         boolean running = false;
@@ -50,7 +54,6 @@ public class MetronomeActivity extends AppCompatActivity {
                     Thread.sleep((int)(currentBeatDuration*1000.0));
                 }
                 catch (InterruptedException e){
-                    Log.i("WHY", "WHYYYY");
                     e.printStackTrace();
                 }
 
@@ -58,6 +61,10 @@ public class MetronomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Class that associates the tempo in beats per minute (or rather, the interval of tempos)
+     * with the classical italian name for the tempo.
+     */
     class Tempo{
         String name;
         int lower_bound;
@@ -75,8 +82,6 @@ public class MetronomeActivity extends AppCompatActivity {
     private Spinner noteFractionSpinner;
     private SeekBar tempoSeekBar;
     private TextView currentBpmTextView;
-    private Button bpmIncreaseButton;
-    private Button bpmDecreaseButton;
     private RadioGroup metronomeVisualization;
     private MediaPlayer player = new MediaPlayer();
 
@@ -92,6 +97,11 @@ public class MetronomeActivity extends AppCompatActivity {
 
     private ArrayList<Tempo> tempos;
 
+    /**
+     * Given a beat per minute speed, returns the conventional name used in music notation.
+     * @param bpm Tempo in beats per minute which is to be named
+     * @return String name of supplied tempo
+     */
     String lookupTempoName(int bpm){
         for (Tempo t : tempos){
             if (t.lower_bound <= bpm && t.upper_bound >= bpm) return t.name;
@@ -119,9 +129,6 @@ public class MetronomeActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * A method to read a semitone array
-     * @param reader The JsonReader to use for reading*/
     private ArrayList<Tempo> readTonesArray(JsonReader reader) throws IOException{
         ArrayList<Tempo>temp = new ArrayList<>();
         reader.beginArray();
@@ -167,12 +174,12 @@ public class MetronomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isRunning){
-                    stopTimer();
+                    stopMetronome();
                     nextBeatPosition = 0;
                 }
                 else
                 {
-                    startTimer();
+                    startMetronome();
                 }
 
             }
@@ -202,10 +209,10 @@ public class MetronomeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolean temp = isRunning;
-                stopTimer();
+                stopMetronome();
                 currentNoteQuantity = (int)parent.getItemAtPosition(position);
                 renderVisualisation();
-                if (temp) startTimer();
+                if (temp) startMetronome();
             }
 
             @Override
@@ -228,10 +235,10 @@ public class MetronomeActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 boolean temp = isRunning;
-                stopTimer();
+                stopMetronome();
                 currentNoteFraction = (int)parent.getItemAtPosition(position);
                 currentBeatDuration = (4.0 / currentNoteFraction) * (60.0 / currentBpm);
-                if (temp) startTimer();
+                if (temp) startMetronome();
             }
 
             @Override
@@ -246,8 +253,8 @@ public class MetronomeActivity extends AppCompatActivity {
 
         currentBpmTextView = (TextView) findViewById(R.id.currentBpmText);
 
-        bpmIncreaseButton = (Button) findViewById(R.id.bmpIncreaseButton);
-        bpmDecreaseButton = (Button) findViewById(R.id.bpmDecreaseButton);
+        Button bpmIncreaseButton = (Button) findViewById(R.id.bmpIncreaseButton);
+        Button bpmDecreaseButton = (Button) findViewById(R.id.bpmDecreaseButton);
 
         bpmIncreaseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -283,7 +290,7 @@ public class MetronomeActivity extends AppCompatActivity {
 
         setBpm(currentBpm);
 
-        stopTimer();
+        stopMetronome();
 
         player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
             @Override
@@ -307,14 +314,14 @@ public class MetronomeActivity extends AppCompatActivity {
 
     }
 
-    void stopTimer(){
+    void stopMetronome(){
         isRunning = false;
         if (metronome != null){
             metronome.running = false;
         }
     }
 
-    void startTimer(){
+    void startMetronome(){
         nextBeatPosition = 0;
         if (metronome != null){
             metronome.running = false;
@@ -325,14 +332,21 @@ public class MetronomeActivity extends AppCompatActivity {
         metronome.start();
     }
 
+    /**
+     * @param bpm bpm to be used by the metronome
+     */
     void setBpm(int bpm){
         if (bpm > maxBpm || bpm <=0 ) return;
         currentBpm = bpm;
-        currentBpmTextView.setText(String.format("%d bpm (%s)", currentBpm, lookupTempoName(currentBpm)));
+        currentBpmTextView.setText(String.format(Locale.US, "%d bpm (%s)", currentBpm, lookupTempoName(currentBpm)));
         tempoSeekBar.setProgress(currentBpm);
         currentBeatDuration = (4.0 / currentNoteFraction) * (60.0 / currentBpm);
     }
 
+    /**
+     * Renders the visualization of the metronome, drawing each beat as a radio button
+     * which is checked when its time comes and unchecked otherwise.
+     */
     void renderVisualisation(){
         metronomeVisualization.removeAllViews();
         for (int i = 0; i < currentNoteQuantity; i++) {
@@ -341,6 +355,11 @@ public class MetronomeActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method that supplies the audio output for the metronome
+     * @param type Type of the beat sound to be played, can be either accentuated or normal
+     * @return true if the audio playback was successful, false otherwise
+     */
     public boolean tick(String type){
         int id = getResources().getIdentifier(String.format("metronome_%s", type), "raw", getPackageName());
         if (id == 0) return false;
@@ -359,27 +378,24 @@ public class MetronomeActivity extends AppCompatActivity {
 
     @Override
     public void onPause() {
-        Log.i("LIFECYCLE","PAUSING");
         super.onPause();
         toggleMetronome = (ToggleButton) findViewById(R.id.metronome_toggle_button);
         if (isRunning) {
-            stopTimer();
+            stopMetronome();
             isRunning = true;
         }
     }
 
     @Override
     public void onResume(){
-        Log.i("LIFECYCLE","RESUMING");
         super.onResume();
         if (isRunning){
-            startTimer();
+            startMetronome();
         }
     }
 
     @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        Log.i("LIFECYCLE","SAVINGINSTANCE");
+    public void onSaveInstanceState(Bundle savedInstanceState) {;
         super.onSaveInstanceState(savedInstanceState);
         savedInstanceState.putInt("NoteCount",noteCountSpinner.getSelectedItemPosition());
         savedInstanceState.putInt("NoteFraction", noteFractionSpinner.getSelectedItemPosition());
@@ -390,7 +406,6 @@ public class MetronomeActivity extends AppCompatActivity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        Log.i("LIFECYCLE","RESTORINGINSTANCE");
         isRunning = savedInstanceState.getBoolean("Running");
         noteCountSpinner.setSelection(savedInstanceState.getInt("NoteCount"));
         noteFractionSpinner.setSelection(savedInstanceState.getInt("NoteFraction"));

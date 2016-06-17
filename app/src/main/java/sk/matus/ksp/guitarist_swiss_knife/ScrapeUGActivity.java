@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -26,10 +25,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse, AsyncSongResponse{
+/**
+ * Activity that manages the data scraping from the ultimate-guitar.com portal
+ */
+public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse {
 
     EditText artistSelection;
     EditText titleSelection;
@@ -45,6 +48,9 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
     boolean viewExtracted = false;
     boolean saveExtracted = false;
 
+    /**
+     * Helper class used for representing the found songs
+     */
     class ResultEntry{
         String text, url;
         ResultEntry(String text, String url){
@@ -53,6 +59,10 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
+    /**
+     * Extension of the layout that visually represents a found entry on the page
+     *
+     */
     class ResultEntryView extends RelativeLayout{
         String targetURL;
         String text;
@@ -123,8 +133,27 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
 
     }
 
+    /**
+     * Background process class which extracts the songs from the supplied array of URLs.
+     */
     class RetrieveSongContent extends AsyncTask<ArrayList<ResultEntryView>, Void, ArrayList<Song>>{
-        public AsyncSongResponse delegate = null;
+        public AsyncResponse delegate = null;
+        Context context;
+
+        private ProgressDialog pd;
+
+        RetrieveSongContent(Context context){
+            super();
+            this.context = context;
+            pd = new ProgressDialog(context);
+            pd.setMessage(context.getResources().getString(R.string.downloading));
+        }
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            pd.show();
+        }
 
         @SafeVarargs
         protected final ArrayList<Song> doInBackground(ArrayList<ResultEntryView>... passing) {
@@ -133,14 +162,12 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
                 try{
                     Song song = new Song();
                     song.artist = currentArtist;
-                    song.album = "Unknown Album";
+                    song.album = context.getResources().getString(R.string.unknown_album);
                     song.type = currentType;
                     song.title = v.text;
                     Document page = Jsoup.connect(v.targetURL).get();
                     page.outputSettings(new Document.OutputSettings().prettyPrint(false));
-                    Log.i("RAWPAGE", page.html());
                     Element songContainer = page.select("pre.js-tab-content").first();
-                    Log.i("PAGEHTML", songContainer.html());
                     song.content = "<pre class=\"js-tab-content\">" + songContainer.html() + "</pre>";
                     result.add(song);
                 }
@@ -155,6 +182,7 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         @Override
         protected void onPostExecute(ArrayList<Song> result) {
             delegate.finishSongExtraction(result);
+            pd.dismiss();
         }
     }
 
@@ -183,7 +211,6 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
             }
             Pattern r = Pattern.compile("(.*Next.*)|(.*Prev.*)");
             for (Element e : paging.getAllElements()){
-                Log.i("PAGING",e.text());
                 Matcher m = r.matcher(e.text());
                 if (!m.find()) result++;
             }
@@ -196,13 +223,17 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
                 Matcher m = r.matcher(URL);
                 if (m.find()) return true;
             }
-            return false;
+            Pattern r = Pattern.compile(".*/tab/[0-9]+");
+            Matcher m = r.matcher(URL);
+            return m.find();
         }
 
         private ArrayList<ResultEntry> extractResults(Document resultPage){
             ArrayList<ResultEntry>results = new ArrayList<>();
             Element resultTable = resultPage.getElementsByClass("tresults").first();
-            if (resultTable == null) return results;
+            if (resultTable == null){
+                return results;
+            }
             for (Element column : resultTable.select(".tresults td:eq(1)")){
                 Element link = column.getElementsByTag("a").first();
                 if (!verifyURL(link.attr("href"))) continue;
@@ -218,11 +249,10 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
                 String artist = passing[0].get(0);
                 String title = passing[0].get(1);
                 String type = passing[0].get(2);
-                Log.i("LINK", String.format("https://www.ultimate-guitar.com/search.php?view_state=advanced&band_name=%s&song_name=%s&type=%s", artist, title, type));
                 Document resultPage = Jsoup.connect(String.format("https://www.ultimate-guitar.com/search.php?view_state=advanced&band_name=%s&song_name=%s&type=%s", artist, title, type)).get();
                 int pages = getNumberOfPages(resultPage);
                 for (int i = 1; i <= pages; i++){
-                    resultPage = Jsoup.connect(String.format("https://www.ultimate-guitar.com/search.php?view_state=advanced&band_name=%s&song_name=%s&type=%s&page=%d", artist, title, type, i)).get();
+                    resultPage = Jsoup.connect(String.format(Locale.US, "https://www.ultimate-guitar.com/search.php?view_state=advanced&band_name=%s&song_name=%s&type=%s&page=%d", artist, title, type, i)).get();
                     totalResults.addAll(extractResults(resultPage));
                 }
 
@@ -240,6 +270,10 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
+    /**
+     * Method that toggles marking.
+     * Involves toggling the visibility of checkboxes on the result rows on and off.
+     */
     public void toggleMarking(){
         marking = !marking;
         for (int i = 0; i < resultSelection.getChildCount(); i++){
@@ -248,6 +282,10 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
+    /**
+     * Gathers marked result rows
+     * @return ArrayList of marked rows
+     */
     private ArrayList<ResultEntryView>gatherMarked(){
         ArrayList<ResultEntryView> result = new ArrayList<>();
         for (int i = 0; i < resultSelection.getChildCount(); i++){
@@ -257,12 +295,21 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         return result;
     }
 
-    private void extractSongs(ArrayList<ResultEntryView> URLs){
-        RetrieveSongContent retriever = new RetrieveSongContent();
+    /**
+     * Given an array of result rows, extracts the content of their targets using a background task class.
+     * @param resultRows result entries that are to be queried
+     */
+    private void extractSongs(ArrayList<ResultEntryView> resultRows){
+        RetrieveSongContent retriever = new RetrieveSongContent(this);
         retriever.delegate = this;
-        retriever.execute(URLs);
+        retriever.execute(resultRows);
     }
 
+    /**
+     * Given an array of ResultEntry objects, it creates the views representing them
+     * visually and attaches them to the result list view.
+     * @param resultEntries results to be shown
+     */
     private void populateResultList(ArrayList<ResultEntry> resultEntries){
         resultSelection.removeAllViews();
         for (ResultEntry re : resultEntries){
@@ -271,6 +318,11 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         }
     }
 
+    /**
+     * Method that performs the search on the site
+     * using the search parameters from the user
+     * @param v
+     */
     public void searchUG(View v){
         String artist = artistSelection.getText().toString();
         currentArtist = artist;
@@ -286,6 +338,11 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         retriever.execute(args);
     }
 
+    /**
+     * Method that launches the extraction of the marked results
+     * with the intention to save them into database later.
+     * @param v
+     */
     public void downloadSelected(View v){
         ArrayList<ResultEntryView>marked = gatherMarked();
         saveExtracted = true;
@@ -308,6 +365,7 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
         typeMapping.put("Bass Tab",400);
         typeMapping.put("Drum Tab",700);
     }
+
     public void processFinish(ArrayList<ResultEntry> result){
         populateResultList(result);
     }
@@ -329,7 +387,7 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
             for (Song s : songs){
                    db.addSong(s);
             }
-            Toast toast = Toast.makeText(this, String.format("%d entries saved", songs.size()), Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, String.format("%d %s", songs.size(), getResources().getString(R.string.entries_downloaded)), Toast.LENGTH_SHORT);
             toast.show();
             saveExtracted = false;
         }

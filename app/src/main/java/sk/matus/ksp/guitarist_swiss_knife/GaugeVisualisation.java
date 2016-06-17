@@ -12,6 +12,11 @@ import android.widget.LinearLayout;
 
 import java.util.Arrays;
 
+/**
+ * A kind of tuner visualization that shows the frequency on the gauge
+ * where the gauge arm deviation describes the frequency deviation from the nearest
+ * clear tone.
+ */
 public class GaugeVisualisation extends LinearLayout implements TunerVisualisation{
     private TextureView mTextureView;
     private RenderThread mThread;
@@ -157,9 +162,6 @@ public class GaugeVisualisation extends LinearLayout implements TunerVisualisati
         {
             angleError = (-error /(lowerLimit*2))*50;
         }
-        /*
-      Method that updates the currentTone and currentDirection with up-to-date data.
-      */
         double newAngle = Math.min(Math.max(90 + angleError, 40), 140);
         steps = Math.max(2, (int) Math.ceil(Math.log(Math.pow(Math.abs(newAngle - oldAngle), 3))));
         correctionStep = (newAngle - oldAngle) / steps;

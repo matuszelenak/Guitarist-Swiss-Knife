@@ -7,6 +7,9 @@ import android.media.MediaPlayer;
 
 import java.util.ArrayList;
 
+/**
+ * Class that represents a single string on a guitar neck.
+ */
 class GuitarString{
     private Context context;
     private int stringIndex;
@@ -40,6 +43,10 @@ class GuitarString{
         });
     }
 
+    /**
+     * Sets the tone that should be played when there is no finger placed on the string
+     * @param tone Tone on the open string
+     */
     public void setOpenTone(Tone tone){
         this.openTone = tone;
         Tone addedTone = tone;
@@ -50,6 +57,10 @@ class GuitarString{
         }
     }
 
+    /**
+     * Sets the finger on the string
+     * @param fretIndex the fret onto which the finger should be placed (indexing from the nut)
+     */
     public void setFret(int fretIndex){
         if (fretIndex >= fretCount) return;
         pressedFret = fretIndex;
@@ -60,10 +71,11 @@ class GuitarString{
         return tones.get(pressedFret);
     }
 
-    public Tone getOpenTone(){
-        return openTone;
-    }
-
+    /**
+     * Plays the string.
+     * The Tone of the string depends on the position on which the finger is set.
+     * @return true if the playback was successful, false otherwise
+     */
     public boolean pick(){
         int id = context.getResources().getIdentifier(String.format("guitar_%d_%d", stringIndex, pressedFret), "raw", context.getPackageName());
         if (id == 0) return false;

@@ -1,7 +1,7 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 /**
- * Created by whiskas on 25.2.2016.
+ * Interface that defines methods for a tuner visualization class
  */
 public interface TunerVisualisation {
     void updateSamples(double[] data);

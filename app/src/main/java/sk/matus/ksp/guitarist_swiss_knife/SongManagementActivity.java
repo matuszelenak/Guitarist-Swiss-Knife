@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -17,16 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Line;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.regex.Pattern;
 
+/**
+ * Activity that is responsible for the viewing and manipulation of the
+ * in-memory database of the songs
+ */
 public class SongManagementActivity extends AppCompatActivity {
 
+    /**
+     * Class that points to the list of links in the current layer of the organisational subtree
+     * of the song database
+     */
     class HierarchyCursor{
         final Context context;
         int level = 0;
@@ -37,6 +41,10 @@ public class SongManagementActivity extends AppCompatActivity {
             this.context = context;
         }
 
+        /**
+         * Obtains the list of links for its current layer
+         * @return ArrayList of HierarchyCursors for the next layer
+         */
         public ArrayList<HierarchyCursor> getCursors(){
             ArrayList<HierarchyCursor> cursors = new ArrayList<>();
             SongDatabaseHelper db = new SongDatabaseHelper(context);
@@ -65,6 +73,10 @@ public class SongManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Class that visualizes the 'folders' of the organisational tree
+     * that describes the database content
+     */
     class SongListEntry extends RelativeLayout {
         HierarchyCursor cursor;
         TextView entryValue;
@@ -107,6 +119,10 @@ public class SongManagementActivity extends AppCompatActivity {
             });
         }
 
+        /**
+         * Attaches a cursor to the view, which enables it to jump into subdirectory
+         * @param cursor The cursor to be bound with the view
+         */
         public void setCursor(HierarchyCursor cursor){
             this.cursor = cursor;
             entryValue.setText(cursor.filename);
@@ -134,6 +150,11 @@ public class SongManagementActivity extends AppCompatActivity {
             if (marking) checkBox.setVisibility(VISIBLE); else checkBox.setVisibility(GONE);
         }
 
+        /**
+         * If the current view is sufficiently deep in the hierarchy, clicking on it
+         * launches the song viewer for the song it pointed to, otherwise it simply
+         * jumps into deeper level of the directory tree
+         */
         private void performClicking(){
             if (cursor.level == 4){
                 Intent intent = new Intent(context, SongViewActivity.class);
@@ -155,6 +176,11 @@ public class SongManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * View class that represents a chord when the user
+     * wishes to filter the contents of the database by
+     * used chords.Used in the search dialog.
+     */
     class ChordSearchEntry extends RelativeLayout{
         TextView entryValue;
         Context context;
@@ -189,6 +215,11 @@ public class SongManagementActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Button that enables the user to navigate to any layer of the
+     * directory tree that has already been visited.
+     * Clicking such button is currently the only way of traversing the tree upwards.
+     */
     class NavigationButton extends Button{
         HierarchyCursor cursor;
         NavigationButton(Context context){
@@ -228,6 +259,10 @@ public class SongManagementActivity extends AppCompatActivity {
         navigationButtons.add(navButton);
     }
 
+    /**
+     * Given a cursor, the method reloads the list of entries in the current 'directory'
+     * @param cursor The cursor which defines the current directory level
+     */
     public void reloadSelection(HierarchyCursor cursor){
         currentCursor = cursor;
         navigationBar.removeAllViews();
@@ -259,6 +294,11 @@ public class SongManagementActivity extends AppCompatActivity {
         reloadSelection(currentCursor);
     }
 
+    /**
+     * Constructs a dialog using which the user can modify the tags
+     * of the song subset that is equal to the content of the marked subfolders
+     * @return Constructed edit dialog
+     */
     private Dialog constructEditDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -296,6 +336,12 @@ public class SongManagementActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Constructs a dialog which allows the user to add
+     * new song(s) to the database: shows the list of options to do so
+     * (built in editor and supported sites from which the content cant be downloaded)
+     * @return Dialog for adding songs.
+     */
     private Dialog constructAddDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -322,8 +368,10 @@ public class SongManagementActivity extends AppCompatActivity {
         return dialog;
     }
 
+    /**
+     * Clears the filtering based on chords (allows all chords)
+     */
     private void clearFilter(){
-        Log.i("CLEARING","FILTER");
         SongDatabaseHelper db = new SongDatabaseHelper(this);
         final ArrayList<Integer>allChordsIds = new ArrayList<>();
         for (SongDatabaseHelper.ChordEntry e : db.getChords()){
@@ -332,6 +380,12 @@ public class SongManagementActivity extends AppCompatActivity {
         db.setFilter(allChordsIds);
     }
 
+    /**
+     * Constructs a dialog using which the user can specify the subset
+     * of chords that are allowed in the resulting list of songs he/
+     * she wishes to search for.
+     * @return Dialog for searching songs
+     */
     private Dialog constructSearchDialog(){
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -352,7 +406,6 @@ public class SongManagementActivity extends AppCompatActivity {
                     ChordSearchEntry se = (ChordSearchEntry)layout.getChildAt(i);
                     if (se.checkBox.isChecked()){
                         chordIds.add(se.chord_id);
-                        Log.i("FILTER ADD", Integer.toString(se.chord_id));
                     }
                 }
                 db.setFilter(chordIds);
@@ -375,6 +428,12 @@ public class SongManagementActivity extends AppCompatActivity {
         addDialog.show();
     }
 
+    /**
+     * Method that receives the new tag values
+     * and updates the content of the database, then refreshes the the list
+     * of current directory entries.
+     * @param modifyParams The new tag values for the song subset
+     */
     public void submitEdit(HashMap<String, String> modifyParams){
         SongDatabaseHelper db = new SongDatabaseHelper(this);
         for (HierarchyCursor hc : gatherMarked()){
@@ -398,6 +457,9 @@ public class SongManagementActivity extends AppCompatActivity {
         searchDialog.show();
     }
 
+    /**
+     * Toggles the marking of the directory entries on and off.
+     */
     public void toggleMarking(View v){
         marking = !marking;
         reloadSelection(currentCursor);
@@ -414,7 +476,7 @@ public class SongManagementActivity extends AppCompatActivity {
         addDialog = constructAddDialog();
 
         HierarchyCursor currentCursor = new HierarchyCursor(this);
-        currentCursor.filename = "Artists";
+        currentCursor.filename = getResources().getString(R.string.artist);
         addNavigationButton(currentCursor);
         clearFilter();
         reloadSelection(currentCursor);

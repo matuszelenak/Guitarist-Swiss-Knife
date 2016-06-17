@@ -16,10 +16,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+/**
+ * Class that represents the physical neck of the guitar and its behaviour
+ */
 public class GuitarNeck {
 
 	private static final int fretSpan = 3;
 
+    /**
+     * Thread that asynchronously strums the strings on the parent GuitarNeck instance
+     * according to the currently chosen fingering.
+     */
     class StrumThread extends Thread{
         ArrayList<GuitarString>strings;
         int time = 40;
@@ -47,7 +54,6 @@ public class GuitarNeck {
         }
     }
 
-    private Context context;
     private ArrayList<GuitarString>strings = new ArrayList<>();
     private StrumThread strumThread;
     private ArrayList<ShapeDrawable>fretLines = new ArrayList<>();
@@ -55,7 +61,6 @@ public class GuitarNeck {
     private ArrayList<ShapeDrawable>fingerMarkers = new ArrayList<>();
 
     public GuitarNeck(Context context){
-        this.context = context;
         for (int i = 0; i < 6; i++){
             strings.add(new GuitarString(context, i, 19));
         }
@@ -81,12 +86,21 @@ public class GuitarNeck {
         }
     }
 
+    /**
+     * Method that enables the Neck to be tuned with arbitrary tones.
+     * @param tuning A list that contains the Tone instances for the strings to be tuned to
+     */
     public void setTuning(ArrayList<Tone>tuning){
         for (int i = 0; i < 6; i++){
             strings.get(i).setOpenTone(tuning.get(i));
         }
     }
 
+    /**
+     * Method that sets a new fingering layout to the Neck and
+     * executes the StrumThread to play it.
+     * @param fingering instance of Fingering defining the fingering to set and play
+     */
     public void strum(Fingering fingering){
         if (fingering == null) return;
         for (int i = 0; i < fingering.getFingering().size(); i++){
@@ -99,6 +113,12 @@ public class GuitarNeck {
         strumThread.start();
     }
 
+    /**
+     * Method that attempts to find possible finger layouts for the supplied chord
+     * on the currently tuned GuitarNeck
+     * @param chord The chord we want to play
+     * @return ArrayList of instances of Fingering, sorted by the difficulty
+     */
     public ArrayList<Fingering> findFingerings(HashSet<Tone>chord){
         HashSet<Fingering> result = new HashSet<>();
         bruteFingerings(chord, result, 0, new ArrayList<Integer>(), new ArrayList<Tone>());
@@ -107,10 +127,19 @@ public class GuitarNeck {
         return sorted;
     }
 
+
     private void sortFingerings(ArrayList<Fingering>fingerings){
         Collections.sort(fingerings);
     }
 
+    /**
+     * Method that bruteforces possible fingerings for given chord via backtracking, going from lowest to highest string.
+     * @param chord Chord which we want to bruteforce
+     * @param found Set of already found fingerings
+     * @param stringIndex Index of the currently processed string
+     * @param currentFingers Finger layout for the previously processed strings
+     * @param currentTones Tones that are currently selected on the processed strings
+     */
     private void bruteFingerings(HashSet<Tone> chord,
                                  HashSet<Fingering>found,
                                  int stringIndex,
@@ -171,6 +200,12 @@ public class GuitarNeck {
         currentFingers.remove(currentFingers.size()-1);
     }
 
+    /**
+     * Method that renders a visualization of the Fingering into a drawable object
+     * @param fingering Fingering to render
+     * @param width Required width of the Drawable
+     * @return Drawable containing the rendered Fingering
+     */
     public Drawable renderFingering(Fingering fingering, int width){
         Bitmap bitmap = Bitmap.createBitmap(width, width*8, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -224,6 +259,13 @@ public class GuitarNeck {
         return new BitmapDrawable(combined);
     }
 
+    /**
+     * Similar to the renderFingering method, but this method renders a more simplified visualization
+     * for thumbnail use
+     * @param fingering Fingering to render
+     * @param width Requested width
+     * @return Drawable with rendered Fingering thumbnail
+     */
     public Drawable renderFingeringThumbnail(Fingering fingering, int width){
         Bitmap bitmap = Bitmap.createBitmap(width, width*7, Bitmap.Config.ARGB_8888);
         Canvas myCanvas = new Canvas(bitmap);

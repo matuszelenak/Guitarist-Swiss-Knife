@@ -2,10 +2,7 @@ package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.content.res.Resources;
 import android.util.JsonReader;
-import android.util.Log;
-
 import com.udojava.evalex.Expression;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.jar.Attributes;
 
 
 /**
@@ -202,6 +198,12 @@ public class Chord {
         name = resolveName();
     }
 
+    /**
+     * Method to evaluate logical expression which represents the condition
+     * for the presence of a certain chord name component
+     * @param exp Logical expression to be evaluated
+     * @return true if the expression holds, false otherwise
+     */
     public boolean evaluateExpression(String exp){
         String oldexp = exp;
         int unused = 0;
@@ -224,13 +226,18 @@ public class Chord {
             exp = exp.replaceAll("Y","0");
         }
         exp = exp.replaceAll("x[^()]+x","0");
-        BigDecimal result = null;
+        BigDecimal result;
 
         Expression expression = new Expression(exp);
         result = expression.eval();
         return result.toString().equals("1");
     }
 
+    /**
+     * Method to resolve the current chord into the correct
+     * string representation.
+     * @return String representation of the chord
+     */
     public String resolveName(){
         StringBuilder sb = new StringBuilder();
         for (NameComponent nc : nameComponents){
@@ -239,6 +246,11 @@ public class Chord {
         return sb.toString();
     }
 
+    /**
+     * Name resolving is done by resolving expressions that need to be loaded.
+     * This method does just that
+     * @param res Resource object
+     */
     public void loadNameResolutionData(Resources res){
         InputStream io = res.openRawResource(R.raw.chord_name_resolution_conditions);
         try {
@@ -265,7 +277,6 @@ public class Chord {
         String value = "";
         String condition = "";
         int position = 0;
-        int octave=0;
         while (reader.hasNext()){
             String varName = reader.nextName();
             switch (varName){

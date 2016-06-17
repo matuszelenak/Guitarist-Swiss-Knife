@@ -1,5 +1,9 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
+/**
+ * Class that should represent a song
+ * including it's content and metadata
+ */
 public class Song {
     int id;
     String artist;

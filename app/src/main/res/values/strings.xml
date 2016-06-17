@@ -36,4 +36,6 @@
     <string name="dont_change">Don\'t Change</string>
     <string name="downloading">Downloading...</string>
     <string name="search">Search</string>
+    <string name="entries_downloaded">entries downloaded</string>
+    <string name="unknown_album">Unknown album</string>
 </resources>

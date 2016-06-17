@@ -1,7 +1,7 @@
 package sk.matus.ksp.guitarist_swiss_knife;
 
 /**
- * Created by whiskas on 26.2.2016.
+ * Simple class that describes name(s) that a tone can have.
  */
 class ToneName {
     char baseName;

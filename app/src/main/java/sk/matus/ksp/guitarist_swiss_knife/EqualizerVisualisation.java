@@ -11,6 +11,10 @@ import android.widget.LinearLayout;
 
 import java.util.Arrays;
 
+/**
+ * A kind of tuner visualization that shows the spread of frequencies and their intensity
+ * on a 2-dimensional plane
+ */
 public class EqualizerVisualisation extends LinearLayout implements TunerVisualisation{
     Context context;
     private TextureView mTextureView;
