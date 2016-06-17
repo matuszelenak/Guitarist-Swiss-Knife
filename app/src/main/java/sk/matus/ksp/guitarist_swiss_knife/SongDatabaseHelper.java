@@ -121,7 +121,6 @@ public class SongDatabaseHelper extends SQLiteAssetHelper {
         values.put(CONTENT, song.getContent());
         db.insert(TABLE_SONGS, null, values);
 
-
         int song_id = getSongId(db, song.getArtist(), song.getAlbum(), song.getTitle(), song.getType());
         Document doc = Jsoup.parse(song.content);
         Elements chords = doc.select("span");

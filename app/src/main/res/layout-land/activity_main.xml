@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/songButton"
-                android:background="@mipmap/chord_launcher"
+                android:background="@mipmap/songlist"
                 android:onClick="startSongActivity" />
 
             <RelativeLayout

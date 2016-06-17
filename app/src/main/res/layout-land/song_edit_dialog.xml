@@ -6,57 +6,140 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/artist"/>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="25sp"
+                android:layout_marginEnd="15dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempID1"
+                android:text="@string/artist"/>
+            <EditText
+                android:textSize="25sp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_toEndOf="@+id/tempID1"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_artist_text" />
+        </RelativeLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_artist_text" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/album"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_album_text" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="25sp"
+                android:layout_marginEnd="15dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempID2"
+                android:text="@string/album"/>
+            <EditText
+                android:textSize="25sp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_toEndOf="@+id/tempID2"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_album_text" />
+        </RelativeLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/title"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_title_text" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="25sp"
+                android:layout_marginEnd="15dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempID3"
+                android:text="@string/title"/>
+            <EditText
+                android:textSize="25sp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_toEndOf="@+id/tempID3"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_title_text" />
+        </RelativeLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/type"/>
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/edit_type_text" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="25sp"
+                android:layout_marginEnd="15dp"
+                android:layout_centerVertical="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tempID4"
+                android:text="@string/type"/>
+            <EditText
+                android:textSize="25sp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:layout_toEndOf="@+id/tempID4"
+                android:layout_height="wrap_content"
+                android:id="@+id/edit_type_text" />
+        </RelativeLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 
@@ -72,7 +155,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/edit_song_submit"
             android:layout_weight="0.5"
-            android:text="Edit" />
+            android:text="@string/edit" />
         <Space
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

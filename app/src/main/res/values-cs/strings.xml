@@ -39,4 +39,10 @@
     <string name="search">Hledat</string>
     <string name="entries_downloaded">položek staženo</string>
     <string name="unknown_album">Neznámý album</string>
+    <string name="search_chord_clear">Jakíkoli</string>
+    <string name="edit">Upravit</string>
+    <string name="delete_confirm_question">Vymazání písní</string>
+    <string name="delete_confirm_title">Vymazání písní</string>
+    <string name="yes">Ano</string>
+    <string name="no">Ne</string>
 </resources>

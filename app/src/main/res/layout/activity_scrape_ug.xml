@@ -9,82 +9,113 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="sk.matus.ksp.guitarist_swiss_knife.ScrapeUGActivity">
 
-    <RelativeLayout
-        android:layout_alignParentTop="true"
+    <LinearLayout
+        android:layout_alignParentStart="true"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
         android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:background="@color/colorListItem"
         android:id="@+id/searchControlsUG">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:background="@color/colorListItem"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textSize="20sp"
+                android:id="@+id/searchArtistUG"
+                android:background="@color/colorListItem"
+                android:text="@string/artist"/>
+            <EditText
+                android:layout_toEndOf="@+id/searchArtistUG"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:background="@color/colorListItem"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchArtistUGField" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.3"
+            android:background="@color/colorListItem"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:textSize="20sp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@color/colorListItem"
+                android:id="@+id/searchTitleUG"
+                android:text="@string/title"/>
+            <EditText
+                android:layout_toEndOf="@+id/searchTitleUG"
+                android:layout_centerVertical="true"
+                android:layout_width="match_parent"
+                android:textSize="20sp"
+                android:background="@color/colorListItem"
+                android:layout_height="wrap_content"
+                android:id="@+id/searchTitleUGField" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:layout_width="wrap_content"
+                android:textSize="20sp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true"
+                android:id="@+id/searchTypesUG"
+                android:entries="@array/song_types_ug"/>
+        </RelativeLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
             android:layout_height="wrap_content">
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
-                android:layout_height="match_parent">
-                <TextView
+                android:layout_height="wrap_content">
+                <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
-                    android:id="@+id/searchArtistUG"
-                    android:text="@string/artist"/>
-                <EditText
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/searchArtistUG"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/searchArtistUGField" />
-
+                    android:id="@+id/searchButtonUG"
+                    android:background="@android:drawable/ic_menu_search"
+                    android:onClick="searchUG" />
             </RelativeLayout>
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent" />
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_weight="0.3"
-                android:layout_height="match_parent">
-                <TextView
+                android:layout_height="wrap_content">
+                <ImageButton
                     android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_height="wrap_content"
-                    android:id="@+id/searchTitleUG"
-                    android:text="@string/title"/>
-                <EditText
-                    android:layout_centerVertical="true"
-                    android:layout_toEndOf="@+id/searchTitleUG"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/searchTitleUGField" />
+                    android:background="@android:drawable/ic_menu_save"
+                    android:onClick="downloadSelected"/>
             </RelativeLayout>
 
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="match_parent">
-                <Spinner
-                    android:layout_width="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_height="wrap_content"
-                    android:drawSelectorOnTop="true"
-                    android:id="@+id/searchTypesUG"
-                    android:entries="@array/song_types_ug"/>
-            </RelativeLayout>
 
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/searchButtonUG"
-                android:background="@android:drawable/ic_menu_search"
-                android:onClick="searchUG" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:drawable/ic_menu_save"
-                android:onClick="downloadSelected"/>
         </LinearLayout>
 
 
-
-    </RelativeLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"

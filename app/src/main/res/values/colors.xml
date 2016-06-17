@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#6a831e</color>
         <color name="colorActivityBackground">#222</color>"
-    <color name="colorKSPGreen">#3456c6</color>
-    <color name="colorListItem">#111</color>
+    <color name="colorKSPGreen">#6a831e</color>
+    <color name="colorListItem">#272727</color>
 </resources>

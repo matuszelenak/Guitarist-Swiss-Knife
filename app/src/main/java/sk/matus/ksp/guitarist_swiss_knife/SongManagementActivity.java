@@ -2,8 +2,10 @@ package sk.matus.ksp.guitarist_swiss_knife;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -114,6 +116,7 @@ public class SongManagementActivity extends AppCompatActivity {
                 @Override
                 public boolean onLongClick(View v) {
                     toggleMarking(v);
+                    checkBox.setChecked(true);
                     return true;
                 }
             });
@@ -127,7 +130,7 @@ public class SongManagementActivity extends AppCompatActivity {
             this.cursor = cursor;
             entryValue.setText(cursor.filename);
             LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-            params.setMargins(0,0,0,10);
+            params.setMargins(0,5,0,10);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 this.setElevation(10);
             }
@@ -196,9 +199,18 @@ public class SongManagementActivity extends AppCompatActivity {
             entryValue.setText(name);
             checkBox = new CheckBox(context);
             checkBox.setClickable(false);
+            LayoutParams params = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0,5,0,5);
+            this.setLayoutParams(params);
+            this.setBackgroundColor(context.getResources().getColor(R.color.colorListItem));
+
 
             this.addView(entryValue);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)entryValue.getLayoutParams();
+            params = (RelativeLayout.LayoutParams)entryValue.getLayoutParams();
+            params.setMargins(5,0,5,0);
             entryValue.setLayoutParams(params);
 
             this.addView(checkBox);
@@ -248,6 +260,7 @@ public class SongManagementActivity extends AppCompatActivity {
     LinearLayout songSelection;
     LinearLayout navigationBar;
     ArrayList<NavigationButton> navigationButtons = new ArrayList<>();
+    ArrayList<Integer>currentAllowedChords = new ArrayList<>();
     HierarchyCursor currentCursor;
     Dialog editDialog;
     Dialog addDialog;
@@ -287,6 +300,24 @@ public class SongManagementActivity extends AppCompatActivity {
     }
 
     public void eraseSelected(View v){
+        if (gatherMarked().isEmpty()) return;
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle(getResources().getString(R.string.delete_confirm_title))
+                .setMessage(getResources().getString(R.string.delete_confirm_question))
+                .setPositiveButton(getResources().getString(R.string.yes), new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        eraseSelected();
+                    }
+
+                })
+                .setNegativeButton(getResources().getString(R.string.no), null)
+                .show();
+    }
+
+    public void eraseSelected(){
         SongDatabaseHelper db = new SongDatabaseHelper(this);
         for (HierarchyCursor hc : gatherMarked()){
             db.deleteSongs(hc.regex.get(0), hc.regex.get(1),hc.regex.get(2),hc.regex.get(3));
@@ -394,6 +425,7 @@ public class SongManagementActivity extends AppCompatActivity {
         final SongDatabaseHelper db = new SongDatabaseHelper(this);
         for (SongDatabaseHelper.ChordEntry e : db.getChords()){
             ChordSearchEntry se = new ChordSearchEntry(this, e.id, e.name);
+            if (currentAllowedChords.contains(e.id)) se.checkBox.setChecked(true);
             layout.addView(se);
         }
         Button submit = (Button) dialog.findViewById(R.id.search_chord_button_submit);
@@ -402,10 +434,12 @@ public class SongManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ArrayList<Integer>chordIds = new ArrayList<>();
+                currentAllowedChords = new ArrayList<>();
                 for (int i = 0; i < layout.getChildCount(); i++){
                     ChordSearchEntry se = (ChordSearchEntry)layout.getChildAt(i);
                     if (se.checkBox.isChecked()){
                         chordIds.add(se.chord_id);
+                        currentAllowedChords.add(se.chord_id);
                     }
                 }
                 db.setFilter(chordIds);
@@ -417,6 +451,7 @@ public class SongManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 clearFilter();
+                currentAllowedChords = new ArrayList<>();
                 reloadSelection(currentCursor);
                 dialog.dismiss();
             }
@@ -449,6 +484,7 @@ public class SongManagementActivity extends AppCompatActivity {
     }
 
     public void editSelected(View v){
+        if (gatherMarked().isEmpty()) return;
         editDialog.show();
     }
 

@@ -121,6 +121,7 @@ public class ScrapeUGActivity extends AppCompatActivity implements AsyncResponse
                 @Override
                 public boolean onLongClick(View v) {
                     toggleMarking();
+                    checkBox.setChecked(true);
                     return true;
                 }
             });

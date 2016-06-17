@@ -38,4 +38,10 @@
     <string name="search">Search</string>
     <string name="entries_downloaded">entries downloaded</string>
     <string name="unknown_album">Unknown album</string>
+    <string name="search_chord_clear">Any chord</string>
+    <string name="edit">Edit</string>
+    <string name="delete_confirm_question">Are you sure you wan\'t to delete the selected items?</string>
+    <string name="delete_confirm_title">Deleting songs</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

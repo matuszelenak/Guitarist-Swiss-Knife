@@ -7,13 +7,14 @@
         android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
         android:layout_above="@+id/dialogButtonContainer"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:id="@+id/chordSelectionScrollView">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
             android:id="@+id/search_chord_list_view">
 
         </LinearLayout>
@@ -26,13 +27,13 @@
         android:layout_height="wrap_content">
         <Button
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:layout_height="match_parent"
-            android:text="@string/root_chooser_dialog_cancel"
+            android:text="@string/search_chord_clear"
             android:id="@+id/search_chord_button_cancel"/>
         <Button
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:layout_height="match_parent"
             android:text="@string/search"
             android:id="@+id/search_chord_button_submit"/>
